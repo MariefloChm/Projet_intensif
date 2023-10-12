@@ -1,0 +1,37 @@
+{% load static %}
+<nav class="navbar">
+    <img src="{% static 'images/logo_white.png' %}" alt="Logo" class="navbar-logo">
+    <div class="wrapper">
+        <a href="{% url 'home' %}" class="navbar-brand">BeLinked</a>
+        <ul class="navbar-right">
+            <li><a href="{% url 'login' %}">Log In</a></li>
+            <li><a href="{% url 'sign_up' %}">Sign Up</a></li>
+            <li><a href="{% url 'contact' %}">Contact</a></li>
+            <li>
+                <form method="post" action="{% url 'change_language' %}">
+                    {% csrf_token %}
+                    <select name="language" id="language" onchange="this.form.submit()">
+                        <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>
+                        <option value="fr" {% if language == 'fr' %}selected{% endif %}>Français</option>
+                    </select>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<script>
+    const languageSelect = document.getElementById('language');
+    const languageButton = document.querySelector('.navbar-right button');
+
+    // Mettre à jour le bouton en fonction de la langue sélectionnée
+    languageSelect.addEventListener('change', () => {
+        const selectedOption = languageSelect.options[languageSelect.selectedIndex];
+        languageButton.textContent = selectedOption.textContent;
+    });
+
+    // Soumettre le formulaire lorsque le bouton est cliqué
+    languageButton.addEventListener('click', () => {
+        document.querySelector('form').submit();
+    });
+</script>

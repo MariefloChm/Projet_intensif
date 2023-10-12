@@ -1,0 +1,53 @@
+/* Ajoutez ces styles à votre fichier CSS */
+
+/* Style pour le formulaire de contact */
+.contact-form {
+    background-color: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="email"],
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Style pour les titres */
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+h2 {
+    font-size: 18px;
+    color: #666;
+}
+
+/* Assurez-vous d'ajouter des polices, des marges, des espacements et des couleurs qui correspondent au style général de votre site. */
