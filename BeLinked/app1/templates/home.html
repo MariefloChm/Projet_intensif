@@ -1,0 +1,26 @@
+{% extends "base_site.html" %}
+{% load static %}
+<head>
+    <title>{% block title %}Home page{% endblock %}</title>
+</head>
+
+{% block content %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+
+    <h1>Welcome to the home page</h1>
+    <div class="features">
+        <div class="feature">
+            <h2>Feature 1</h2>
+            <p>Description of Feature 1 goes here. You can provide details and information about what this feature does.</p>
+        </div>
+        <div class="feature">
+            <h2>Feature 2</h2>
+            <p>Description of Feature 2 goes here. Explain how this feature benefits users or enhances your application.</p>
+        </div>
+        <div class="feature">
+            <h2>Feature 3</h2>
+            <p>Description of Feature 3 goes here. Highlight the key aspects of this feature for your users.</p>
+        </div>
+    </div>
+
+{% endblock %}
