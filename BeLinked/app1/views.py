@@ -1,9 +1,10 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.http import HttpResponseRedirect
+
+from .models import Account
 from django.shortcuts import render, redirect
 
-from .models import InscriptionForm
+from .forms import InscriptionForm
 
 
 # Create your views here.
@@ -13,38 +14,25 @@ def base_view(request):
 def inscription_view(request):
     if request.method == 'POST':
         form = InscriptionForm(request.POST)
+
         if form.is_valid():
-            # Récupérer les données du formulaire
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            first_name = form.cleaned_data['first_name']
-            last_name = form.cleaned_data['last_name']
-            email = form.cleaned_data['email']
-            telephone = form.cleaned_data['telephone']
+            user = form.save()  # Enregistrez l'utilisateur en utilisant la méthode save() du formulaire
 
-            # Créer un nouvel utilisateur dans la base de données
-            user = User.objects.create_user(
-                username=username,
-                password=password,
-                first_name=first_name,
-                last_name=last_name,
-                email=email,
-            )
+            # Connectez l'utilisateur après l'inscription
+            login(request, user)
 
-            # Enregistrer le numéro de téléphone de l'utilisateur
-            user.profile.telephone = telephone
-            user.profile.save()
+            # Effectuez d'autres opérations ou redirigez vers une page de succès
+            return redirect('login')  # Redirigez vers la page d'accueil après l'inscription
 
-            # Effectuer d'autres opérations ou rediriger vers une page de succès
-            return redirect('login')  # Rediriger vers la page d'accueil après l'inscription
     else:
         form = InscriptionForm()
+
     return render(request, 'sign_up.html', {'form': form})
 
 def login_view(request):
     if request.method == 'POST':
         username = request.POST['username']
-        password = request.POST['password']
+        password = request.POST['password1']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
@@ -54,6 +42,7 @@ def login_view(request):
             return render(request, 'login.html', {'error_message': error_message})
     else:
         return render(request, 'login.html')
+    
 def home(request):
     return render(request, 'home.html')
 
