@@ -1,11 +1,16 @@
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}">
 <nav class="navbar">
     <img src="{% static 'images/logo_white.png' %}" alt="Logo" class="navbar-logo">
     <div class="wrapper">
-        <a href="{% url 'home' %}" class="navbar-brand">Be linked</a>
+        <a href="{% url 'home' %}" class="navbar-brand">Belinked</a>
         <ul class="navbar-right">
-            <li><a href="{% url 'login' %}">Log In</a></li>
-            <li><a href="{% url 'sign_up' %}">Sign Up</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Sign Up</a></li>
+            {% endif %}
             <li><a href="{% url 'contact' %}">Contact</a></li>
             <li>
                 <form method="post" action="{% url 'change_language' %}">
@@ -19,19 +24,3 @@
         </ul>
     </div>
 </nav>
-
-<script>
-    const languageSelect = document.getElementById('language');
-    const languageButton = document.querySelector('.navbar-right button');
-
-    // Mettre à jour le bouton en fonction de la langue sélectionnée
-    languageSelect.addEventListener('change', () => {
-        const selectedOption = languageSelect.options[languageSelect.selectedIndex];
-        languageButton.textContent = selectedOption.textContent;
-    });
-
-    // Soumettre le formulaire lorsque le bouton est cliqué
-    languageButton.addEventListener('click', () => {
-        document.querySelector('form').submit();
-    });
-</script>

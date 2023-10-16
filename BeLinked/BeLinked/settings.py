@@ -36,8 +36,11 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "crispy_forms",
+    "crispy_bootstrap4",
     "django.contrib.staticfiles",
     "app1",
+    "register",
 ]
 
 MIDDLEWARE = [
@@ -134,3 +137,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Utilisez le modèle Bootstrap 4
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
+LOGIN_REDIRECT_URL='/'
+LOGOUT_REDIRECT_URL='/login'

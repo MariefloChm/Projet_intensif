@@ -29,20 +29,6 @@ def inscription_view(request):
 
     return render(request, 'sign_up.html', {'form': form})
 
-def login_view(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password1']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            return redirect('home')  # Remplacez 'accueil' par l'URL de la page d'accueil après la connexion
-        else:
-            error_message = 'Nom d\'utilisateur ou mot de passe incorrect.'
-            return render(request, 'login.html', {'error_message': error_message})
-    else:
-        return render(request, 'login.html')
-    
 def home(request):
     return render(request, 'home.html')
 
@@ -74,7 +60,7 @@ def contact_view(request):
 
 from django.http import HttpResponse
 from django.utils import translation
-def change_language(request, LANGUAGE_SESSION_KEY=None):
+def change_language(request, LANGUAGE_SESSION_KEY='en-us'):
     if request.method == 'POST':
         new_language = request.POST.get('language')
         if new_language:

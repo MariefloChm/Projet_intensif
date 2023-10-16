@@ -1,0 +1,77 @@
+
+/* Style pour la barre de navigation */
+.navbar {
+    background-color: #000; /* Couleur de fond noire */
+    color: #fff; /* Couleur du texte (blanc) */
+    display: flex; /* Pour aligner les éléments horizontalement */
+    justify-content: space-between; /* Pour aligner le logo à gauche et les éléments à droite */
+    align-items: center; /* Pour aligner verticalement le logo et le texte */
+    padding: 10px; /* Marge intérieure pour un peu d'espace */
+}
+
+/* Style pour le logo */
+.navbar img {
+    width: 100px; /* Largeur souhaitée en pixels */
+    height: auto; /* Cela maintiendra les proportions originales */
+    margin-right: 10px; /* Marge à droite pour l'espace entre le logo et le texte */
+}
+
+.navbar .navbar-brand {
+    font-size: 1.5em;
+    color: #4ac1f7;
+    text-decoration: none;
+}
+
+/* Style pour les liens de navigation */
+.navbar a {
+    color: #fff; /* Couleur du texte (blanc) pour les liens */
+    text-decoration: none; /* Supprimer la soulignement des liens */
+    margin-right: 20px; /* Marge à droite pour l'espace entre les liens */
+}
+
+/* Style pour la liste déroulante de langue */
+.navbar select {
+    color: #fff; /* Couleur du texte (blanc) pour la liste déroulante */
+    background-color: #000; /* Couleur de fond noire pour la liste déroulante */
+    border: none; /* Supprimer la bordure */
+}
+
+/* Style pour le bouton de langue */
+.navbar button {
+    color: #fff; /* Couleur du texte (blanc) pour le bouton */
+    background-color: transparent; /* Fond transparent pour le bouton */
+    border: none; /* Supprimer la bordure */
+    cursor: pointer; /* Curseur indiquant que c'est un bouton */
+    padding: 0; /* Supprimer la marge intérieure par défaut du bouton */
+}
+
+/* Style pour la liste de droite */
+.navbar-right {
+    list-style: none;
+    display: flex; /* Pour aligner les éléments horizontalement */
+    margin: 0; /* Supprimer les marges par défaut de la liste */
+    padding: 0; /* Supprimer le rembourrage par défaut de la liste */
+    float: right;
+}
+
+.navbar-right li a:hover {
+    background-color: #4ac1f7;
+}
+
+.navbar-right li {
+    margin-left: auto; /* Cela alignera les éléments à droite */
+    display: inline-block;
+    list-style: none;
+    margin-top: 0em;
+    margin-right: 5px; /* Vous pouvez ajuster cette valeur selon vos préférences */
+}
+
+.navbar-right li:last-child {
+    margin-right: 0;
+}
+
+.wrapper {
+    width: 1440px;
+    max-width: 90%;
+    margin: 0 auto;
+}
