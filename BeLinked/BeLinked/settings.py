@@ -36,8 +36,11 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
+    "crispy_forms",
+    "crispy_bootstrap4",
     "django.contrib.staticfiles",
     "app1",
+    "register",
 ]
 
 MIDDLEWARE = [
@@ -114,8 +117,10 @@ LANGUAGES = [
     ('en', _('English')),
     ('fr', _('French')),
 ]
-
-LANGUAGE_CODE = "en-us"
+LOCALE_PATHS= (
+    BASE_DIR / 'locale',
+)
+LANGUAGE_CODE = "en"
 
 TIME_ZONE = "UTC"
 
@@ -134,3 +139,7 @@ STATIC_ROOT = BASE_DIR / 'static'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Utilisez le modèle Bootstrap 4
+CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
+LOGIN_REDIRECT_URL='/user_page'
+LOGOUT_REDIRECT_URL='/login'
