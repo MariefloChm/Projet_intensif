@@ -1,26 +1,38 @@
 {% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}">
+{% load i18n %}
+{% get_available_languages as LANGUAGES %}
+{% get_language_info_list for LANGUAGES as languages %}
 <nav class="navbar">
-    <img src="{% static 'images/logo_white.png' %}" alt="Logo" class="navbar-logo">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/nav.css' %}">
+    <img src="{% static 'images/logo_bleu.ico' %}" alt="Logo" class="navbar-logo">
     <div class="wrapper">
         <a href="{% url 'home' %}" class="navbar-brand">Belinked</a>
         <ul class="navbar-right">
             {% if user.is_authenticated %}
-                <li><a href="{% url 'logout' %}">Logout</a></li>
+                <li><a href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
             {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Sign Up</a></li>
+                <li><a href="{% url 'login' %}">{% trans "Login" %}</a></li>
+                <li><a href="{% url 'register' %}">{% trans "Sign Up"%}</a></li>
             {% endif %}
             <li><a href="{% url 'contact' %}">Contact</a></li>
-            <li>
-                <form method="post" action="{% url 'change_language' %}">
-                    {% csrf_token %}
-                    <select name="language" id="language" onchange="this.form.submit()">
-                        <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>
-                        <option value="fr" {% if language == 'fr' %}selected{% endif %}>Français</option>
-                    </select>
-                </form>
-            </li>
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                    {% trans 'Langages' %}
+                </button>
+                <div class="dropdown-menu">
+                    {% for language in languages %}
+                        <a class="dropdown-item" href="/{{ language.code }}">{{ language.name_local }}</a>
+                    {% endfor %}
+                </div>
+            </div>
         </ul>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 </nav>

@@ -1,0 +1,171 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-18 11:00+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\BeLinked\settings.py:117
+msgid "English"
+msgstr ""
+
+#: .\BeLinked\settings.py:118
+msgid "French"
+msgstr ""
+
+#: .\app1\templates\contact.html:5
+msgid "Contact Us"
+msgstr "Nous Contacter"
+
+#: .\app1\templates\contact.html:10
+msgid "How to contact us"
+msgstr "Comment nous contacter?"
+
+#: .\app1\templates\contact.html:12
+msgid "Get immediate information about BeLinked by filling in the form below."
+msgstr "Obtenez des informations immédiates sur BeLinked en remplissant le formulaire ci-dessous."
+
+#: .\app1\templates\contact.html:18
+msgid "Name:"
+msgstr "Nom:"
+
+#: .\app1\templates\contact.html:22
+msgid " Email:"
+msgstr " Email:"
+
+#: .\app1\templates\contact.html:26
+msgid " Phone Number:"
+msgstr " téléphone:"
+
+#: .\app1\templates\contact.html:30
+msgid " Company Name:"
+msgstr " Nom d'entreprise:"
+
+#: .\app1\templates\contact.html:34
+msgid " Position:"
+msgstr " Poste:"
+
+#: .\app1\templates\contact.html:41
+msgid " Submit"
+msgstr " Envoyer"
+
+#: .\app1\templates\contact.html:43
+msgid "Submitted with success!"
+msgstr "Soumis avec succès !"
+
+#: .\app1\templates\home.html:53
+msgid "Belinked Features"
+msgstr "Fonctionnalités de Belinked"
+
+#: .\app1\templates\home.html:54
+msgid "All the tools to find your optimal mentoring"
+msgstr "Tous les outils pour trouver votre mentorat optimal"
+
+#: .\app1\templates\home.html:57
+msgid "Personalized Coach/Mentor Search:"
+msgstr "Recherche personnalisée d'un coach ou d'un mentor :"
+
+#: .\app1\templates\home.html:59
+msgid ""
+"On Be Linked, we provide you with an advanced search function to find your "
+"ideal coach or mentor.As a mentee, you can refine your search according to "
+"your academic background, personality and professional goals.This allows you "
+"to find the perfect coaching partner to accompany you on your journey."
+msgstr ""
+"Sur Be Linked, nous mettons à votre disposition une fonctionnalité de "
+"recherche avancée pour trouver le coach ou mentor idéal. En tant que "
+"mentoré, vous pouvez affiner votre recherche en fonction de votre parcours "
+"académique, de votre personnalité et de vos objectifs professionnels. Cela "
+"vous permet de trouver le partenaire de coaching parfait pour vous "
+"accompagner dans votre parcours."
+
+#: .\app1\templates\home.html:62
+msgid "Session management:"
+msgstr "Gestion de Séances:"
+
+#: .\app1\templates\home.html:64
+msgid ""
+" As a mentor or coach, you have total control over the management of your "
+"coaching sessions. Our interface allows you to accept, decline or adjust "
+"coaching requests according to your availability and preferences. You have "
+"the flexibility to organize your sessions in a way that's efficient and "
+"satisfying for you and your mentees."
+msgstr ""
+"En tant que mentor ou coach, vous avez un contrôle total sur la gestion de "
+"vos séances de coaching. Notre interface vous permet d'accepter, refuser ou "
+"ajuster les demandes de coaching en fonction de vos disponibilités et "
+"préférences. Vous avez la flexibilité nécessaire pour organiser vos séances "
+"de manière efficace et satisfaisante pour vous et vos mentorés."
+
+#: .\app1\templates\home.html:68
+msgid "Access to Detailed Coach/Mentor Profiles:"
+msgstr "Accès aux Profils Détaillés des Coachs/Mentors:"
+
+#: .\app1\templates\home.html:70
+msgid ""
+"To help you make informed decisions when choosing a mentor or coach you have "
+"access to comprehensive, detailed profiles. As a mentee, you can explore in "
+"depth the background,expertise and skills of each coach or mentor listed on "
+"our platform. This enables you to choose the person who best matches your "
+"personal and professional development needs."
+msgstr ""
+"Pour prendre des décisions éclairées dans le choix d'un mentor ou d'un "
+"coach, vous avez accès à des profils complets et détaillés. En tant que "
+"mentoré, vous pouvez explorer en profondeur le parcours, l'expertise et les "
+"compétences de chaque coach ou mentor répertorié sur notre plateforme. Cela "
+"vous permet de choisir la personne qui correspond le mieux à vos besoins de "
+"développement personnel et professionnel."
+
+#: .\app1\templates\nav.html:17
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: .\app1\templates\nav.html:19 .\register\templates\registration\login.html:17
+msgid "Login"
+msgstr "Se connecter"
+
+#: .\app1\templates\nav.html:20
+msgid "Sign Up"
+msgstr "S'inscrire"
+
+#: .\app1\templates\nav.html:25
+msgid "Langages"
+msgstr "Langues"
+
+#: .\register\templates\register\signup.html:10
+#, fuzzy
+#| msgid "Sign Up"
+msgid "Sign Up Page"
+msgstr "Page d'inscription"
+
+#: .\register\templates\register\signup.html:15
+#, fuzzy
+#| msgid "Sign Up"
+msgid "Sign up"
+msgstr "S'inscrire"
+
+#: .\register\templates\register\signup.html:19
+#: .\register\templates\registration\login.html:20
+msgid "Subscribe"
+msgstr "S'inscrire"
+
+#: .\register\templates\registration\login.html:9
+msgid "Log In Page"
+msgstr "Page de connexion"
+
+#: .\register\templates\registration\login.html:20
+msgid "Do you have an account ?"
+msgstr "Créez un compte"

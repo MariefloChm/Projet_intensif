@@ -1,0 +1,106 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-10-17 15:34+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: .\BeLinked\settings.py:117
+msgid "English"
+msgstr ""
+
+#: .\BeLinked\settings.py:118
+msgid "French"
+msgstr ""
+
+msgid "Fonctionnalités de Belinked"
+msgstr "Belinked Features"
+
+msgid "Tous les outils pour trouver votre mentorat optimal"
+msgstr "All the tools to find your optimal mentoring"
+
+msgid "Recherche personnalisée d'un coach ou d'un mentor :"
+msgstr "Personalized Coach/Mentor Search:"
+
+msgid ""
+"Sur Be Linked, nous mettons à votre disposition une fonctionnalité de "
+"recherche avancée pour trouver le coach ou mentor idéal. En tant que "
+"mentoré, vous pouvez affiner votre recherche en fonction de votre "
+"parcours académique, de votre personnalité et de vos objectifs "
+"professionnels. Cela vous permet de trouver le partenaire de coaching "
+"parfait pour vous accompagner dans votre parcours."
+msgstr ""
+"On Be Linked, we provide you with an advanced search function to find "
+"your ideal coach or mentor.As a mentee, you can refine your search "
+"according to your academic background, personality and professional goals."
+"This allows you to find the perfect coaching partner to accompany you on "
+"your journey."
+
+msgid "Gestion de Séances:"
+msgstr "Session management:"
+
+msgid ""
+"En tant que mentor ou coach, vous avez un contrôle total sur la gestion "
+"de vos séances de coaching. Notre interface vous permet d'accepter, "
+"refuser ou ajuster les demandes de coaching en fonction de vos "
+"disponibilités et préférences. Vous avez la flexibilité nécessaire pour "
+"organiser vos séances de manière efficace et satisfaisante pour vous et "
+"vos mentorés."
+msgstr ""
+" As a mentor or coach, you have total control over the management of your "
+"coaching sessions. Our interface allows you to accept, decline or adjust "
+"coaching requests according to your availability and preferences. You "
+"have the flexibility to organize your sessions in a way that's efficient "
+"and satisfying for you and your mentees."
+
+msgid ""
+"Pour prendre des décisions éclairées dans le choix d'un mentor ou d'un "
+"coach, vous avez accès à des profils complets et détaillés. En tant que "
+"mentoré, vous pouvez explorer en profondeur le parcours, l'expertise et "
+"les compétences de chaque coach ou mentor répertorié sur notre "
+"plateforme. Cela vous permet de choisir la personne qui correspond le "
+"mieux à vos besoins de développement personnel et professionnel."
+msgstr ""
+"To help you make informed decisions when choosing a mentor or coach you "
+"have access to comprehensive, detailed profiles. As a mentee, you can "
+"explore in depth the background,expertise and skills of each coach or "
+"mentor listed on our platform. This enables you to choose the person who "
+"best matches your personal and professional development needs."
+
+msgid "Se déconnecter"
+msgstr "Logout"
+
+#: .\app1\templates\nav.html:20
+msgid "S'inscrire"
+msgstr "Sign Up"
+
+#: .\register\templates\register\signup.html:10
+msgid "Page d'inscription"
+msgstr "Sign Up Page"
+
+#: .\register\templates\registration\login.html:9
+msgid "Page de connexion"
+msgstr "Log In Page"
+
+#: .\register\templates\registration\login.html:20
+msgid "Créez un compte"
+msgstr "Do you have an account ?"
+
+msgid "Se connecter"
+msgstr "Login"
+
+msgid "Langues"
+msgstr "Langages"

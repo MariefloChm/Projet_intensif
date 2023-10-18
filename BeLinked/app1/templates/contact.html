@@ -1,45 +1,46 @@
 {% extends "base_site.html" %}
 {% load static %}
+{% load i18n %}
 <head>
-    <title>{% block title %}Contact Us{% endblock %}</title>
+    <title>{% block title %}{% trans "Contact Us" %}{% endblock %}</title>
 </head>
 
 {% block content %}
     <link rel="stylesheet" type="text/css" href="{% static 'css/contact.css' %}">
-    <h1>How to contact us</h1>
+    <h1>{% trans "How to contact us" %}</h1>
 
-    <p>Get immediate information about BeLinked by filling in the form below.</p>
+    <p>{% trans "Get immediate information about BeLinked by filling in the form below." %}</p>
 
     <div class="contact-form">
         <form method="post" action="{% url 'contact' %}">
             {% csrf_token %}
             <div class="form-group">
-                <label for="name">Name:</label>
+                <label for="name">{% trans "Name:" %}</label>
                 <input type="text" id="name" name="name" required>
             </div>
             <div class="form-group">
-                <label for="email">Email:</label>
+                <label for="email">{% trans " Email:" %}</label>
                 <input type="email" id="email" name="email" required>
             </div>
             <div class="form-group">
-                <label for="phone">Phone Number:</label>
+                <label for="phone">{% trans " Phone Number:" %}</label>
                 <input type="text" id="phone" name="phone" required>
             </div>
             <div class="form-group">
-                <label for="company">Company Name:</label>
+                <label for="company">{% trans " Company Name:" %}</label>
                 <input type="text" id="company" name="company" required>
             </div>
             <div class="form-group">
-                <label for="position">Position:</label>
+                <label for="position">{% trans " Position:" %}</label>
                 <input type="text" id="position" name="position" required>
             </div>
             <div class="form-group">
                 <label for="message">Message:</label>
                 <textarea id="message" name="message" rows="4" required></textarea>
             </div>
-            <button type="submit">Submit</button>
+            <button type="submit">{% trans " Submit" %}</button>
         </form>
-        <div id="success-message" style="display: none; color: green; margin-top: 10px;">Submitted with success!</div>
+        <div id="success-message" style="display: none; color: green; margin-top: 10px;">{% trans "Submitted with success!" %}</div>
     </div>
 
     <script>

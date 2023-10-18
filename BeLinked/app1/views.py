@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.utils import translation
 
 from .models import Account
 from django.shortcuts import render, redirect
@@ -58,18 +59,24 @@ def contact_view(request):
 
     return render(request, 'contact.html')
 
-from django.http import HttpResponse
 from django.utils import translation
-def change_language(request, LANGUAGE_SESSION_KEY='en-us'):
-    if request.method == 'POST':
-        new_language = request.POST.get('language')
-        if new_language:
-            translation.activate(new_language)
-            request.session[LANGUAGE_SESSION_KEY] = new_language  # Mise à jour ici
-            request.session.modified = True  # Assurez-vous que la session est marquée comme modifiée
-            return HttpResponse(status=204)  # Réponse HTTP 204 pour indiquer le succès
+from django.shortcuts import redirect
 
-    return HttpResponse(status=400)  # Réponse HTTP 400 pour une mauvaise requête
+def change_language(request):
+    if request.method == 'POST':
+        language = request.POST.get('language')
+
+        if language:
+            request.session["django_language"] = language
+            translation.activate(language)
+
+    # Redirigez l'utilisateur vers la page actuelle
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+
+
+
+
 
 
 

@@ -1,26 +1,76 @@
-{% extends "base_site.html" %}
+{% include 'nav.html' %}
 {% load static %}
+{% load i18n %}
+
 <head>
     <title>{% block title %}Belinked home page{% endblock %}</title>
 </head>
 
 {% block content %}
-    <link rel="stylesheet" type="text/css" href="{% static 'css/home.css' %}">
+    <style>
+        .features {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px;
+        }
 
-    <h1>Welcome to the home page of Belinked website</h1>
+        .feature {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+
+        .feature:hover {
+            transform: scale(1.05);
+        }
+
+        .feature h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: darkslategrey;
+        }
+
+        .feature p {
+            font-size: 16px;
+            color: darkolivegreen;
+        }
+
+        h1{
+            color: blue;
+        }
+
+        h2{
+            color: #4ac1f7;
+        }
+
+    </style>
+
+    <h1>{% trans "Belinked Features" %}</h1>
+    <h2>{% trans "All the tools to find your optimal mentoring" %}</h2>
     <div class="features">
         <div class="feature">
-            <h2>Feature 1</h2>
-            <p>Description of Feature 1 goes here. You can provide details and information about what this feature does.</p>
+            <h1>{%  trans "Personalized Coach/Mentor Search:" %}</h1>
+            <p>
+                {% trans "On Be Linked, we provide you with an advanced search function to find your ideal coach or mentor.As a mentee, you can refine your search according to your academic background, personality and professional goals.This allows you to find the perfect coaching partner to accompany you on your journey." %}</p>
         </div>
         <div class="feature">
-            <h2>Feature 2</h2>
-            <p>Description of Feature 2 goes here. Explain how this feature benefits users or enhances your application.</p>
+            <h1>{%  trans "Session management:" %}</h1>
+            <p>
+                {% trans " As a mentor or coach, you have total control over the management of your coaching sessions. Our interface allows you to accept, decline or adjust coaching requests according to your availability and preferences. You have the flexibility to organize your sessions in a way that's efficient and satisfying for you and your mentees."%}
+            </p>
         </div>
         <div class="feature">
-            <h2>Feature 3</h2>
-            <p>Description of Feature 3 goes here. Highlight the key aspects of this feature for your users.</p>
+            <h1>{%  trans "Access to Detailed Coach/Mentor Profiles:"%}</h1>
+            <p>
+                 {% trans "To help you make informed decisions when choosing a mentor or coach you have access to comprehensive, detailed profiles. As a mentee, you can explore in depth the background,expertise and skills of each coach or mentor listed on our platform. This enables you to choose the person who best matches your personal and professional development needs."%}
+            </p>
         </div>
     </div>
 
 {% endblock %}
+{% include 'footer.html' %}

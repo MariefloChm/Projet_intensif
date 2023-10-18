@@ -15,3 +15,9 @@ def login_view(request):
         form = InscriptionForm()
 
     return render(request,'register/signup.html',{'form':form})
+
+def user_settings(request):
+    pass
+
+def user_page(request):
+    return render(request, 'registration/user_page.html')
