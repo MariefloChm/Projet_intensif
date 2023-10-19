@@ -1,4 +1,9 @@
-
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/footer.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
 <footer class="footer text-center">
     <p>&copy; Copyright {% now 'Y' %}&middot; BeLinked &middot; All rights reserved!</p>
+    <p><i class="fab fa-facebook-f"></i> Be Linked</p>
+    <p style="margin-top: 5px;"><i class="fab fa-instagram"></i> BeLinked</p>
+    <p><i class="fas fa-envelope"></i> contact_us@belinked.com</p>
 </footer>

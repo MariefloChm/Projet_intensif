@@ -1,21 +1,34 @@
+
+from django.contrib.auth.models import AbstractUser, Permission, Group
 from django.db import models
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from django.shortcuts import redirect
-class InscriptionForm(UserCreationForm):
-    telephone = forms.CharField(max_length=15)
 
-    class Meta:
-        model = User
-        fields = ['username', 'password1', 'password2', 'first_name', 'last_name', 'email', 'telephone']
 
-# Create your models here.
-class Info(models.Model):
-    CIVILITY = models.CharField(max_length=40)
-    FIRST_NAME = models.CharField(max_length=40)
-    LAST_NAME = models.CharField(max_length=40)
-    EMAIL = models.CharField(max_length=40)
-    DRIVING_EXPERIENCE = models.IntegerField()
-    CAR_OWNERSHIP = models.BooleanField()
-    CLAIMS = models.BooleanField()
+class Account(AbstractUser):
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+        ('O', 'Other'),
+    )
+    # Vos autres champs
+    name = models.CharField(max_length=20)
+    birthday = models.DateField()
+    email = models.EmailField(unique=True)
+    gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    country = models.CharField(max_length=20)
+    phone = models.CharField(max_length=15)
+
+    # Utilisez les champs hérités de AbstractUser
+    groups = models.ManyToManyField(
+        Group,
+        verbose_name='Groups',
+        blank=True,
+        related_name='user_groups',
+        related_query_name='user_group',
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        verbose_name='User permissions',
+        blank=True,
+        related_name='user_permissions',
+        related_query_name='user_permission',
+    )
