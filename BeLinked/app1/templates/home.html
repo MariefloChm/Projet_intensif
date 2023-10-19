@@ -40,13 +40,24 @@
             color: darkolivegreen;
         }
 
-        h1{
-            color: blue;
+        h1, h2 {
+            text-align: center; /* Centre le texte horizontalement */
+            color: #0097B2; /* Définit la couleur du texte pour h1 */
         }
 
-        h2{
-            color: #4ac1f7;
+        h2 {
+            color: #4ac1f7; /* Définit la couleur du texte pour h2 */
         }
+
+        /* Pour centrer verticalement h1 et h2 */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Ajustez ceci en fonction de votre mise en page */
+        }
+
 
     </style>
 

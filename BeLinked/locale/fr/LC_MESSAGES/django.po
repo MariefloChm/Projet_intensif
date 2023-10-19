@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-18 11:00+0200\n"
+"POT-Creation-Date: 2023-10-19 15:08+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -36,7 +36,9 @@ msgstr "Comment nous contacter?"
 
 #: .\app1\templates\contact.html:12
 msgid "Get immediate information about BeLinked by filling in the form below."
-msgstr "Obtenez des informations immédiates sur BeLinked en remplissant le formulaire ci-dessous."
+msgstr ""
+"Obtenez des informations immédiates sur BeLinked en remplissant le "
+"formulaire ci-dessous."
 
 #: .\app1\templates\contact.html:18
 msgid "Name:"
@@ -66,19 +68,19 @@ msgstr " Envoyer"
 msgid "Submitted with success!"
 msgstr "Soumis avec succès !"
 
-#: .\app1\templates\home.html:53
+#: .\app1\templates\home.html:64
 msgid "Belinked Features"
 msgstr "Fonctionnalités de Belinked"
 
-#: .\app1\templates\home.html:54
+#: .\app1\templates\home.html:65
 msgid "All the tools to find your optimal mentoring"
 msgstr "Tous les outils pour trouver votre mentorat optimal"
 
-#: .\app1\templates\home.html:57
+#: .\app1\templates\home.html:68
 msgid "Personalized Coach/Mentor Search:"
 msgstr "Recherche personnalisée d'un coach ou d'un mentor :"
 
-#: .\app1\templates\home.html:59
+#: .\app1\templates\home.html:70
 msgid ""
 "On Be Linked, we provide you with an advanced search function to find your "
 "ideal coach or mentor.As a mentee, you can refine your search according to "
@@ -92,11 +94,11 @@ msgstr ""
 "vous permet de trouver le partenaire de coaching parfait pour vous "
 "accompagner dans votre parcours."
 
-#: .\app1\templates\home.html:62
+#: .\app1\templates\home.html:73
 msgid "Session management:"
 msgstr "Gestion de Séances:"
 
-#: .\app1\templates\home.html:64
+#: .\app1\templates\home.html:75
 msgid ""
 " As a mentor or coach, you have total control over the management of your "
 "coaching sessions. Our interface allows you to accept, decline or adjust "
@@ -110,11 +112,11 @@ msgstr ""
 "préférences. Vous avez la flexibilité nécessaire pour organiser vos séances "
 "de manière efficace et satisfaisante pour vous et vos mentorés."
 
-#: .\app1\templates\home.html:68
+#: .\app1\templates\home.html:79
 msgid "Access to Detailed Coach/Mentor Profiles:"
 msgstr "Accès aux Profils Détaillés des Coachs/Mentors:"
 
-#: .\app1\templates\home.html:70
+#: .\app1\templates\home.html:81
 msgid ""
 "To help you make informed decisions when choosing a mentor or coach you have "
 "access to comprehensive, detailed profiles. As a mentee, you can explore in "
@@ -129,19 +131,23 @@ msgstr ""
 "vous permet de choisir la personne qui correspond le mieux à vos besoins de "
 "développement personnel et professionnel."
 
-#: .\app1\templates\nav.html:17
+#: .\app1\templates\nav.html:25
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: .\app1\templates\nav.html:19 .\register\templates\registration\login.html:17
+#: .\app1\templates\nav.html:27 .\register\templates\registration\login.html:17
 msgid "Login"
 msgstr "Se connecter"
 
-#: .\app1\templates\nav.html:20
+#: .\app1\templates\nav.html:28
 msgid "Sign Up"
 msgstr "S'inscrire"
 
-#: .\app1\templates\nav.html:25
+#: .\app1\templates\nav.html:30
+msgid "Home"
+msgstr "Accueil"
+
+#: .\app1\templates\nav.html:33
 msgid "Langages"
 msgstr "Langues"
 
@@ -158,7 +164,7 @@ msgid "Sign up"
 msgstr "S'inscrire"
 
 #: .\register\templates\register\signup.html:19
-#: .\register\templates\registration\login.html:20
+#: .\register\templates\registration\login.html:22
 msgid "Subscribe"
 msgstr "S'inscrire"
 
@@ -167,5 +173,9 @@ msgid "Log In Page"
 msgstr "Page de connexion"
 
 #: .\register\templates\registration\login.html:20
+msgid "Forgot your password?"
+msgstr "Mot de passe oublié?"
+
+#: .\register\templates\registration\login.html:22
 msgid "Do you have an account ?"
 msgstr "Créez un compte"
