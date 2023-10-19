@@ -1,10 +1,9 @@
 import pandas as pd
 import pickle
-from sklearn.datasets import load_diabetes
 from sklearn.model_selection import train_test_split
-from xgboost import XGBClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.preprocessing import OrdinalEncoder
 
 
 data = pd.read_csv('data.csv')
@@ -14,8 +13,6 @@ cols = ['MTE_Domaines','MTE_Diplôme','MTE_Compétences','MTE_Objectifs','MTE_M�
 
 X = data.drop(columns=["Score"])[cols]
 y = data["Score"]
-
-from sklearn.preprocessing import OrdinalEncoder
 
 
 ord = OrdinalEncoder()
