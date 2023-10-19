@@ -16,6 +16,7 @@
     <form method="post" action="/login/">
         {% csrf_token %}
         {{ form|crispy }}
+        {{ form.accept_terms }}
         <button class="btn btn-primary" type="submit" >{% trans "Subscribe" %}</button>
     </form>
 
