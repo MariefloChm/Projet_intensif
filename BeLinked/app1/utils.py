@@ -39,7 +39,8 @@ user_input_df
 
 model.predict(transform_data(user_input_df))
 
-pickle.dump(model, open('model.pkl', 'wb'))
+#/app1/models/model.pkl
+#pickle.dump(model, open('model.pkl', 'wb'))
 
 pickled_model = pickle.load(open('model.pkl', 'rb'))
 pickled_model.predict(X_test)
