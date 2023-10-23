@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import LogoutView
 
 from .models import Matching
+from .utils import predict_score, calculate_matching_score
 
 
 # Create your views here.
@@ -23,7 +24,6 @@ def login_view(request):
 def find_view(request):
     if request.method == 'POST':
         form = MatchingForm(request.POST)
-        print(form)
 
         if form.is_valid():
             # Access the cleaned data
@@ -33,20 +33,36 @@ def find_view(request):
             career = form.cleaned_data['Career_objectives']
             professions = form.cleaned_data['Professions']
             personality = form.cleaned_data['Personality']
-            # Access other form fields in a similar manner
+
+            user_input = {
+                'Domain': [domains],
+                'Diploma': [diplomas],
+                'Skills': [skills],
+                'Career_objectives': [career],
+                'Professions': [professions],
+                'Personality': [personality]
+            }
+            predicted_score = calculate_matching_score( user_input)
 
             # Create a new Matching object and save it
             matching = Matching(Domain=domains, Diplomas=diplomas, Skills=skills, Career_objectives=career, Professions=professions,Personality=personality)
             matching.save()
             # Message de succès
-            messages.success(request, 'Données enregistrées avec succès.')
+            messages.success(request, 'Here are the best mentors for you:')
+
+            # Stocker le score dans la session pour une utilisation ultérieure
+            request.session['predicted_score'] = predicted_score
 
             # Rediriger ou rendre la page comme souhaité
             return redirect('matching')
     else:
         form = MatchingForm()
 
-    return render(request,'registration/matching.html',{'form':form})
+    # Vérifier si le score est déjà stocké en session et l'utiliser s'il est disponible
+    predicted_score = request.session.get('predicted_score', None)
+
+    return render(request,'registration/matching.html',{'form':form, 'predicted_score': predicted_score})
+
 
 def user_settings(request):
     pass
