@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+{% for notification in all_notifications %}
+    <div class="notification-item {% if not notification.read %}font-weight-bold{% endif %}">
+        <a href="{% url 'user_request' notification.id %}">{{ notification.message }}</a>
+    </div>
+{% endfor %}
+
+
+</body>
+</html>

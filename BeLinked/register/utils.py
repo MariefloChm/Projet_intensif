@@ -1,15 +1,3 @@
-import pickle
-
-def predict_score(user_input):
-    # Charger le modèle à partir du fichier
-    with open('register/models/model.pkl', 'rb') as model_file:
-        pickled_model = pickle.load(model_file)
-
-    # Prédire en utilisant le modèle chargé
-    predicted_score = pickled_model.predict(user_input)
-
-    return predicted_score
-
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer

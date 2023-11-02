@@ -1,9 +1,10 @@
 {% load static %}
 {% load i18n %}
-{% get_available_languages as LANGUAGES %}
-{% get_language_info_list for LANGUAGES as languages %}
 
 <style>
+    .dropdown-toggle {
+        color: #0097B2; /* Remplacez la couleur par celle de votre choix */
+    }
     .custom-link {
         color: #0097B2; /* Remplacez la couleur par celle de votre choix */
     }
@@ -20,24 +21,23 @@
 {#    <a href="{% url 'home' %}" class="navbar-brand">Belinked</a>#}
     <div class="wrapper">
         <ul class="nav justify-content-end">
-            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'home' %}">{% trans "Home" %}</a></li>
+            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'default' %}">{% trans "Home" %}</a></li>
             {% if user.is_authenticated %}
                 <li class="nav-item"><a class="nav-link custom-link" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
             {% else %}
-                <li class="nav-item"><a class="nav-link custom-link" href="{% url 'login' %} ">{% trans "Login" %}</a></li>
-                <li class="nav-item"><a class="nav-link custom-link" href="{% url 'register' %}">{% trans "Sign Up"%}</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% trans 'Login' %}
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="{% url 'login' %}">{%trans 'Mentee'%}</a>
+                        <a class="dropdown-item" href="{% url 'mentor_login' %}">{% trans 'Mentor' %}</a>
+                    </div>
+                </li>
+{#                <li class="nav-item"><a class="nav-link custom-link" href="{% url 'login' %} ">{% trans "Login" %}</a></li>#}
+{#                <li class="nav-item"><a class="nav-link custom-link" href="{% url 'signup' %}">{% trans "Sign Up"%}</a></li>#}
             {% endif %}
-{#            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'home' %}">{% trans "Home" %}</a></li>#}
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                    {% trans 'Langages' %}
-                </button>
-                <div class="dropdown-menu">
-                    {% for language in languages %}
-                        <a class="dropdown-item" href="/{{ language.code }}">{{ language.name_local }}</a>
-                    {% endfor %}
-                </div>
-            </div>
+
 
         </ul>
 

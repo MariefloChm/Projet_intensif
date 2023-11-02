@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-10-19 15:08+0200\n"
+"POT-Creation-Date: 2023-11-02 22:25+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -68,6 +68,66 @@ msgstr " Envoyer"
 msgid "Submitted with success!"
 msgstr "Soumis avec succès !"
 
+#: .\app1\templates\default_page.html:84
+#: .\register\templates\registration\user_nav.html:14
+msgid "Our Solutions"
+msgstr "Fonctionnalités"
+
+#: .\app1\templates\default_page.html:87
+msgid "User Space"
+msgstr "Espace Utilisateur"
+
+#: .\app1\templates\default_page.html:90 .\app1\templates\nav.html:33
+msgid "Mentee"
+msgstr "Mentoré"
+
+#: .\app1\templates\default_page.html:91 .\app1\templates\nav.html:34
+msgid "Mentor"
+msgstr "Mentor"
+
+#: .\app1\templates\default_page.html:96
+msgid "Langages"
+msgstr "Langues"
+
+#: .\app1\templates\default_page.html:109
+msgid "Welcome to Be linked!"
+msgstr "Bienvenue chez Be linked!"
+
+#: .\app1\templates\default_page.html:110
+msgid "Connect to the future with the power of mentoring."
+msgstr "Connectez-vous à l'avenir grâce au pouvoir du mentorat."
+
+#: .\app1\templates\default_page.html:111
+msgid "Please start by visiting the user space"
+msgstr "Commencez par visiter l'espace utilisateur"
+
+#: .\app1\templates\default_page.html:119
+msgid ""
+"On the \"Be linked\" platform, we believe that every individual holds unique "
+"potential. By connecting experienced mentors with passionate mentees, we "
+"create a collaborative learning space where sharing, growth and self-"
+"fulfilment are at the forefront."
+msgstr ""
+"Sur la plateforme \"Be linked\", nous pensons que chaque individu a un "
+"potentiel unique.En mettant en relation des mentors expérimentés avec des "
+"mentorés passionnés, nouscréons un espace d'apprentissage collaboratif où le "
+"partage, la croissance et l'innovation sont les maîtres mots."
+
+#: .\app1\templates\default_page.html:120
+msgid ""
+"Whether you're looking to acquire new skills, share your expertise or simply "
+"make meaningful connections in your field, Be linked is your gateway to a "
+"rewarding mentoring experience."
+msgstr ""
+"Que vous cherchiez à acquérir de nouvelles compétences, à partager votre "
+"expertise ou tout simplementde nouer des liens significatifs dans votre "
+"domaine, Be linked est votre porte d'entrée vers une expérience de mentorat "
+"enrichissante."
+
+#: .\app1\templates\default_page.html:125
+msgid "Create your world by weaving timely links"
+msgstr "Créez votre monde en tissant des liens opportuns"
+
 #: .\app1\templates\home.html:64
 msgid "Belinked Features"
 msgstr "Fonctionnalités de Belinked"
@@ -77,7 +137,7 @@ msgid "All the tools to find your optimal mentoring"
 msgstr "Tous les outils pour trouver votre mentorat optimal"
 
 #: .\app1\templates\home.html:68
-msgid "Personalized Coach/Mentor Search:"
+msgid "Personalized Mentor Search:"
 msgstr "Recherche personnalisée d'un coach ou d'un mentor :"
 
 #: .\app1\templates\home.html:70
@@ -95,34 +155,16 @@ msgstr ""
 "accompagner dans votre parcours."
 
 #: .\app1\templates\home.html:73
-msgid "Session management:"
-msgstr "Gestion de Séances:"
+msgid "Access to Detailed Mentor Profiles:"
+msgstr "Accès aux Profils Détaillés des Coachs/Mentors:"
 
 #: .\app1\templates\home.html:75
 msgid ""
-" As a mentor or coach, you have total control over the management of your "
-"coaching sessions. Our interface allows you to accept, decline or adjust "
-"coaching requests according to your availability and preferences. You have "
-"the flexibility to organize your sessions in a way that's efficient and "
-"satisfying for you and your mentees."
-msgstr ""
-"En tant que mentor ou coach, vous avez un contrôle total sur la gestion de "
-"vos séances de coaching. Notre interface vous permet d'accepter, refuser ou "
-"ajuster les demandes de coaching en fonction de vos disponibilités et "
-"préférences. Vous avez la flexibilité nécessaire pour organiser vos séances "
-"de manière efficace et satisfaisante pour vous et vos mentorés."
-
-#: .\app1\templates\home.html:79
-msgid "Access to Detailed Coach/Mentor Profiles:"
-msgstr "Accès aux Profils Détaillés des Coachs/Mentors:"
-
-#: .\app1\templates\home.html:81
-msgid ""
-"To help you make informed decisions when choosing a mentor or coach you have "
-"access to comprehensive, detailed profiles. As a mentee, you can explore in "
-"depth the background,expertise and skills of each coach or mentor listed on "
-"our platform. This enables you to choose the person who best matches your "
-"personal and professional development needs."
+"To help you make informed decisions when choosing a mentor you have access "
+"to comprehensive, detailed profiles. As a mentee, you can explore in depth "
+"the background,expertise and skills of each mentor listed on our platform. "
+"This enables you to choose the person who best matches your personal and "
+"professional development needs."
 msgstr ""
 "Pour prendre des décisions éclairées dans le choix d'un mentor ou d'un "
 "coach, vous avez accès à des profils complets et détaillés. En tant que "
@@ -131,41 +173,62 @@ msgstr ""
 "vous permet de choisir la personne qui correspond le mieux à vos besoins de "
 "développement personnel et professionnel."
 
-#: .\app1\templates\nav.html:25
-msgid "Logout"
-msgstr "Se déconnecter"
+#: .\app1\templates\home.html:79
+msgid "Session management:"
+msgstr "Gestion de Séances:"
 
-#: .\app1\templates\nav.html:27 .\register\templates\registration\login.html:17
-msgid "Login"
-msgstr "Se connecter"
+#: .\app1\templates\home.html:81
+msgid ""
+" As a mentor, you have total control over the management of your coaching "
+"sessions. Our interface allows you to accept, decline or adjust coaching "
+"requests according to your availability and preferences. You have the "
+"flexibility to organize your sessions in a way that's efficient and "
+"satisfying for you and your mentees."
+msgstr ""
+"En tant que mentor ou coach, vous avez un contrôle total sur la gestion de "
+"vos séances de coaching. Notre interface vous permet d'accepter, refuser ou "
+"ajuster les demandes de coaching en fonction de vos disponibilités et "
+"préférences. Vous avez la flexibilité nécessaire pour organiser vos séances "
+"de manière efficace et satisfaisante pour vous et vos mentorés."
 
-#: .\app1\templates\nav.html:28
-msgid "Sign Up"
-msgstr "S'inscrire"
-
-#: .\app1\templates\nav.html:30
+#: .\app1\templates\nav.html:24
+#: .\register\templates\register\mentor_signup.html:61
 msgid "Home"
 msgstr "Accueil"
 
-#: .\app1\templates\nav.html:33
-msgid "Langages"
-msgstr "Langues"
+#: .\app1\templates\nav.html:26
+#: .\register\templates\registration\mentor_page.html:75
+#: .\register\templates\registration\user_nav.html:29
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: .\app1\templates\nav.html:30 .\register\templates\registration\login.html:17
+#: .\register\templates\registration\mentor_login.html:17
+#: .\register\templates\registration\mentor_page.html:77
+#: .\register\templates\registration\user_nav.html:31
+msgid "Login"
+msgstr "Se connecter"
+
+#: .\register\templates\register\mentor_signup.html:67
+#, fuzzy
+#| msgid "Sign up"
+msgid "Sign up here!"
+msgstr "S'inscrire ici"
+
+#: .\register\templates\register\mentor_signup.html:71
+#: .\register\templates\register\signup.html:19
+#: .\register\templates\registration\login.html:22
+#: .\register\templates\registration\mentor_login.html:22
+#, fuzzy
+msgid "Subscribe"
+msgstr "S'inscrire"
 
 #: .\register\templates\register\signup.html:10
-#, fuzzy
-#| msgid "Sign Up"
 msgid "Sign Up Page"
 msgstr "Page d'inscription"
 
 #: .\register\templates\register\signup.html:15
-#, fuzzy
-#| msgid "Sign Up"
 msgid "Sign up"
-msgstr "S'inscrire"
-
-#: .\register\templates\register\signup.html:19
-#: .\register\templates\registration\login.html:22
-msgid "Subscribe"
 msgstr "S'inscrire"
 
 #: .\register\templates\registration\login.html:9
@@ -173,9 +236,146 @@ msgid "Log In Page"
 msgstr "Page de connexion"
 
 #: .\register\templates\registration\login.html:20
+#: .\register\templates\registration\mentor_login.html:20
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié?"
 
 #: .\register\templates\registration\login.html:22
+#: .\register\templates\registration\mentor_login.html:22
 msgid "Do you have an account ?"
 msgstr "Créez un compte"
+
+#: .\register\templates\registration\matching.html:8
+#, fuzzy
+#| msgid "Mentor"
+msgid "My Mentor"
+msgstr "Mentor"
+
+#: .\register\templates\registration\matching.html:19
+msgid "Predicted Score:"
+msgstr "Score prédit :"
+
+#: .\register\templates\registration\matching.html:31
+msgid "Send a request"
+msgstr "Envoyer une demande"
+
+#: .\register\templates\registration\mentor_login.html:9
+msgid "Log In"
+msgstr "Page de connexion"
+
+#: .\register\templates\registration\mentor_page.html:11
+#, fuzzy
+#| msgid "Mentor"
+msgid "Mentor Page"
+msgstr "Page du Mentor"
+
+#: .\register\templates\registration\mentor_page.html:52
+msgid "No notification"
+msgstr "Aucune notification"
+
+#: .\register\templates\registration\mentor_page.html:57
+msgid "Clear All Notifications"
+msgstr "Effacer toutes les notifications"
+
+#: .\register\templates\registration\mentor_page.html:58
+msgid "View All Notifications"
+msgstr "Voir toutes les notifications"
+
+#: .\register\templates\registration\mentor_page.html:68
+#: .\register\templates\registration\user_nav.html:22
+msgid "User"
+msgstr "Utilisateur"
+
+#: .\register\templates\registration\mentor_page.html:73
+#: .\register\templates\registration\user_nav.html:27
+msgid "Settings"
+msgstr "Paramètres"
+
+#: .\register\templates\registration\mentor_page.html:89
+msgid "Welcome to the mentor page!"
+msgstr "Bienvenue sur la page des mentors !"
+
+#: .\register\templates\registration\user_page.html:9
+#, fuzzy
+#| msgid "User Space"
+msgid "User Page"
+msgstr "Espace Utilisateur"
+
+#: .\register\templates\registration\user_page.html:15
+msgid "You can now search for your future mentor !"
+msgstr "Vous pouvez maintenant rechercher votre futur mentor !"
+
+#: .\register\templates\sessions\user_request.html:12
+msgid "User request"
+msgstr "Demande de l'utilisateur"
+
+#: .\register\templates\sessions\user_request.html:18
+msgid "Managing coaching sessions"
+msgstr "Gérer les sessions de coaching"
+
+#: .\register\templates\sessions\user_request.html:19
+msgid "You can accept or decline coaching requests here:"
+msgstr "Vous pouvez accepter ou refuser les demandes de coaching ici :"
+
+#: .\register\templates\sessions\user_request.html:24
+#, fuzzy
+#| msgid "Mentor"
+msgid "Mentore"
+msgstr "Mentor"
+
+#: .\register\templates\sessions\user_request.html:25
+msgid "Date"
+msgstr "Date"
+
+#: .\register\templates\sessions\user_request.html:26
+msgid "Time"
+msgstr "Temps"
+
+#: .\register\templates\sessions\user_request.html:27
+msgid "Status"
+msgstr "Statut"
+
+#: .\register\templates\sessions\user_request.html:28
+msgid "Actions"
+msgstr "Actions"
+
+#: .\register\templates\sessions\user_request.html:42
+#: .\register\templates\sessions\user_request.html:72
+msgid "Accept"
+msgstr "Accepter"
+
+#: .\register\templates\sessions\user_request.html:44
+#: .\register\templates\sessions\user_request.html:93
+msgid "Deny"
+msgstr "Refuser"
+
+#: .\register\templates\sessions\user_request.html:50
+msgid "No applications pending at the moment."
+msgstr "Aucune demande n'est en cours pour le moment."
+
+#: .\register\templates\sessions\user_request.html:62
+#, fuzzy
+#| msgid "Send a request"
+msgid "Accept the request"
+msgstr "Envoyer une demande"
+
+#: .\register\templates\sessions\user_request.html:68
+msgid "Are you sure you want to accept this request?"
+msgstr "Êtes-vous sûr de vouloir accepter cette demande ?"
+
+#: .\register\templates\sessions\user_request.html:71
+#: .\register\templates\sessions\user_request.html:92
+msgid "Cancel"
+msgstr "Annuler"
+
+#: .\register\templates\sessions\user_request.html:83
+#, fuzzy
+#| msgid "Send a request"
+msgid "Deny the request"
+msgstr "Envoyer une demande"
+
+#: .\register\templates\sessions\user_request.html:89
+#, fuzzy
+#| msgid "Are you sure you want to accept this request?"
+msgid "Are you sure you want to deny this request?"
+msgstr "Êtes-vous sûr de vouloir accepter cette demande ?"

@@ -1,8 +1,5 @@
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
-from django.utils import translation
+from django.contrib import messages
 
-from .models import Account
 from django.shortcuts import render, redirect
 
 from .forms import InscriptionForm
@@ -18,20 +15,18 @@ def inscription_view(request):
 
         if form.is_valid():
             user = form.save()  # Enregistrez l'utilisateur en utilisant la méthode save() du formulaire
-
-            # Connectez l'utilisateur après l'inscription
-            login(request, user)
-
-            # Effectuez d'autres opérations ou redirigez vers une page de succès
-            return redirect('login')  # Redirigez vers la page d'accueil après l'inscription
-
+        return redirect('/home')
     else:
         form = InscriptionForm()
 
-    return render(request, 'sign_up.html', {'form': form})
+
+    return render(request, 'register/signup.html', {'form': form})
 
 def home(request):
     return render(request, 'home.html')
+
+def default(request):
+    return render(request, 'default_page.html')
 
 from django.core.mail import send_mail
 def contact_view(request):
@@ -72,6 +67,24 @@ def change_language(request):
 
     # Redirigez l'utilisateur vers la page actuelle
     return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+
+
+from django.contrib.auth import login
+from .forms import SignUpForm
+
+def signup_view(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data.get('username')
+            # messages.success(request, f'Account created for {username}!')
+            return redirect('login') # Redirige vers la page de login
+    else:
+        form = SignUpForm()
+    return render(request, 'register/signup.html', {'form': form})
+
 
 
 

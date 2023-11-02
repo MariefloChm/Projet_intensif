@@ -1,0 +1,80 @@
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>Be linked</title>
+    <!-- ... -->
+    <style>
+        body {
+            background-color: #000000; /* Couleur d'arrière-plan douce */
+            font-family: 'Arial', sans-serif; /* police moderne */
+            margin-top: 100px;
+            padding-top: 80px;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+            font-family: 'Raleway', sans-serif;
+            color: #0097B2;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1); /* Ombre douce autour du formulaire */
+            max-width: 800px;
+            margin: 0 auto; /* Centrer le formulaire */
+        }
+        button.btn.btn-primary {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+        }
+        button.btn.btn-primary:hover {
+            background-color: #0056b3; /* Changement de couleur au survol */
+        }
+        .navbar-brand {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+    </style>
+    <!-- ... -->
+
+
+</head>
+
+{% block content %}
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <a class="navbar-brand" href="#">
+        <img src="{% static 'images/logo_bleu.ico' %}" width="100" height="100" class="d-inline-block align-top" alt="">
+
+    </a>
+    <div class="ml-auto">
+        <a href="{% url 'default' %}" class="navbar-text">
+            {% trans 'Home' %}
+        </a>
+    </div>
+
+
+</nav>
+<h1>{% trans 'Sign up here!' %}</h1>
+<form method="post" action="{% url 'mentor_signup' %}">
+    {% csrf_token %}
+    {{ form|crispy }}
+    <button class="btn btn-primary" type="submit" >{% trans "Subscribe" %}</button>
+</form>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+</body>
+{% endblock %}
+{% include 'footer.html' %}
