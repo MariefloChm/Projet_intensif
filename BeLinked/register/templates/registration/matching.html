@@ -22,13 +22,13 @@
                     <li>
                         {{ score }}:
                         <ul>
-                            <li>First Name: {{ mentor_info.First_name }}</li>
-                            <li>Last Name: {{ mentor_info.Last_name }}</li>
+                            <li>First Name: {{ mentor_info.FirstName }}</li>
+                            <li>Last Name: {{ mentor_info.LastName }}</li>
                             <li>Skills: {{ mentor_info.Skills }}</li>
-                            <li>Professions: {{ mentor_info.Professions }}</li>
+                            <li>Job: {{ mentor_info.Job }}</li>
                             <li>Rating: {{ mentor_info.Rating }}</li>
                         </ul>
-                        <button class="btn btn-primary" data-mentor-first-name="{{ mentor_info.First_name }}" data-mentor-last-name="{{ mentor_info.Last_name }}">{% trans 'Send a request' %}</button>
+                        <button class="btn btn-primary" data-mentor-id="{{ mentor_info.ID }}">{% trans 'Send a request' %}</button>
                     </li>
                 {% endfor %}
             </ul>
@@ -45,6 +45,7 @@
 <script>
     $(document).ready(function() {
         $(".btn-primary").click(function() {
+            var mentorId = $(this).data('mentor-id');
             var mentorFirstName = $(this).data("mentor-first-name");
             var mentorLastName = $(this).data("mentor-last-name");
 
@@ -60,6 +61,7 @@
                     csrfmiddlewaretoken: '{{ csrf_token }}',
                     mentor_first_name: mentorFirstName,
                     mentor_last_name: mentorLastName,
+                    mentor_id: mentorId,
                     mentore_id: '{{ user.id }}',
                     date: dateString,
                     time: timeString

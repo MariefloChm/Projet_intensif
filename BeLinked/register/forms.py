@@ -30,19 +30,19 @@ from .models import Matching
 class MatchingForm(forms.ModelForm):
     class Meta:
         model = Matching
-        fields = ['Domain', 'Diplomas', 'Skills', 'Career_objectives', 'Professions', 'Personality']
+        fields = ['Fields', 'Degree', 'Skills', 'Objectives', 'Job', 'PersonalityDescription']
 
 from .models import Mentor  # Assurez-vous d'importer le modèle Mentor
 
 class MentorForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Prénom'}))
     last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Nom'}))
-    Domain = forms.CharField(max_length=100)
-    Diplomas = forms.CharField(max_length=100)
+    Fields = forms.CharField(max_length=100)
+    Degree = forms.CharField(max_length=100)
     Skills = forms.CharField(max_length=100)
-    Career_objectives = forms.CharField(max_length=100)
-    Professions = forms.CharField(max_length=100)
-    Personality = forms.CharField(max_length=100)
+    Objectives = forms.CharField(max_length=100)
+    Job = forms.CharField(max_length=100)
+    PersonalityDescription = forms.CharField(max_length=100)
     email = forms.EmailField(max_length=254, required=True, widget=forms.EmailInput())
     accept_terms = forms.BooleanField(
         required=True,
@@ -52,7 +52,7 @@ class MentorForm(UserCreationForm):
 
     class Meta:
         model = Mentor  # Utilisez le modèle Mentor ici
-        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'Domain', 'Diplomas', 'Skills', 'Career_objectives', 'Professions', 'Personality', 'accept_terms']
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'Fields', 'Degree', 'Skills', 'Objectives', 'Job', 'PersonalityDescription', 'accept_terms']
 
 from .models import CoachingRequest
 

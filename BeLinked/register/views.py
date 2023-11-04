@@ -10,6 +10,36 @@ from .utils import calculate_matching_score
 
 
 # Create your views here.
+from .models import Disponibilite
+
+import json
+
+def convert_string_to_date(date_str):
+    try:
+        return datetime.strptime(date_str, "%Y-%m-%d").date()
+    except ValueError:
+        return None
+
+def manage_disponibilite(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return JsonResponse({"success": False, "message": "Utilisateur non authentifié"})
+
+        data = json.loads(request.body)
+        date = convert_string_to_date(data.get('date'))
+
+        if not date:
+            return JsonResponse({"success": False, "message": "Format de date incorrect"})
+
+        if Disponibilite.objects.filter(date=date, mentor=request.user).exists():
+            Disponibilite.objects.get(date=date, mentor=request.user).delete()
+            return JsonResponse({'status': 'deleted'}, status=200)
+        else:
+            Disponibilite.objects.create(date=date, mentor=request.user)
+            return JsonResponse({'status': 'created'}, status=200)
+
+    return HttpResponse(status=405)  # Méthode non autorisée
+
 
 
 def mentor_view(request):
@@ -24,18 +54,7 @@ def mentor_view(request):
 
             mentor_instance = form.save()  # Sauvegarde des données dans la base de données
 
-            # Accès aux données à partir de l'instance sauvegardée
-            username = mentor_instance.username
-            domains = mentor_instance.Domain
-            diplomas = mentor_instance.Diplomas
-            skills = mentor_instance.Skills
-            career = mentor_instance.Career_objectives
-            professions = mentor_instance.Professions
-            personality = mentor_instance.Personality
 
-
-            # Vous pouvez maintenant manipuler ces données comme vous le souhaitez
-            # Par exemple, envoyez-les par e-mail, traitez-les, etc.
 
             return redirect('/mentor_login')
         else:
@@ -55,25 +74,25 @@ def find_view(request):
 
         if form.is_valid():
             # Access the cleaned data
-            domains = form.cleaned_data['Domain']
-            diplomas = form.cleaned_data['Diplomas']
+            domains = form.cleaned_data['Fields']
+            diplomas = form.cleaned_data['Degree']
             skills = form.cleaned_data['Skills']
-            career = form.cleaned_data['Career_objectives']
-            professions = form.cleaned_data['Professions']
-            personality = form.cleaned_data['Personality']
+            career = form.cleaned_data['Objectives']
+            professions = form.cleaned_data['Job']
+            personality = form.cleaned_data['PersonalityDescription']
 
             user_input = {
-                'Domain': [domains],
-                'Diploma': [diplomas],
+                'Fields': [domains],
+                'Degree': [diplomas],
                 'Skills': [skills],
-                'Career_objectives': [career],
-                'Professions': [professions],
-                'Personality': [personality]
+                'Objectives': [career],
+                'Job': [professions],
+                'PersonalityDescription': [personality]
             }
             predicted_score = calculate_matching_score( user_input)
 
             # Create a new Matching object and save it
-            matching = Matching(Domain=domains, Diplomas=diplomas, Skills=skills, Career_objectives=career, Professions=professions,Personality=personality)
+            matching = Matching(Fields=domains, Degree=diplomas, Skills=skills, Objectives=career, Job=professions,PersonalityDescription=personality)
             matching.save()
             # Message de succès
             messages.success(request, 'Here are the best mentors for you:')
@@ -157,7 +176,7 @@ def custom_logout(request):
         return redirect('login')
 
 from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from datetime import datetime
 
 def send_notification_to_mentor(mentor_id, content):
@@ -169,17 +188,18 @@ def send_notification_to_mentor(mentor_id, content):
         return JsonResponse({"success": False, "error": "Mentor not found"})
 
 def send_request(request):
-    print("send_request called")
     if request.method == "POST":
-        mentor_first_name = request.POST.get('mentor_first_name')
-        mentor_last_name = request.POST.get('mentor_last_name')
+        print("send_request called")
         mentore_id = request.POST.get('mentore_id')
         date = request.POST.get('date')
         time = request.POST.get('time')
+        mentor_id = request.POST.get('mentor_id')
+        print("Mentor ID received:", mentor_id)  # Point de contrôle 1
 
         try:
-            # Get mentor using first name and last name
-            mentor = User.objects.get(first_name=mentor_first_name, last_name=mentor_last_name)
+
+            mentor = get_object_or_404(User, pk=mentor_id)
+            print("Mentor retrieved:", mentor.username)
             mentore = get_object_or_404(User, pk=mentore_id)
 
             # Convert the date and time strings to appropriate objects
@@ -201,7 +221,6 @@ def send_request(request):
 
             return JsonResponse({"success": True})
         except User.DoesNotExist:
-            print(f"Mentor with name {mentor_first_name} {mentor_last_name} not found!")
             return JsonResponse({"success": False, "error": "Mentor not found"})
     return JsonResponse({"success": False})
 
@@ -222,4 +241,36 @@ def clear_all_notifications(request):
     return JsonResponse({'status': 'error'})
 
 
+def save_dates(request):
+    if request.method == "POST":
+        if not request.user.is_authenticated:
+            return JsonResponse({"success": False, "message": "Utilisateur non authentifié"})
+
+        dates_to_add = request.POST.getlist('dates[]')
+        dates_to_delete = request.POST.getlist('delete_dates[]')
+
+        for date_str in dates_to_add:
+            date_obj = convert_string_to_date(date_str)
+            if date_obj:
+                Disponibilite.objects.create(date=date_obj, mentor=request.user)
+
+        for date_str in dates_to_delete:
+            date_obj = convert_string_to_date(date_str)
+            if date_obj:
+                Disponibilite.objects.filter(date=date_obj, mentor=request.user).delete()
+
+        return JsonResponse({"success": True, "message": "Dates enregistrées avec succès"})
+
+    return JsonResponse({"success": False, "message": "Erreur lors de l'enregistrement des dates"})
+
+
+from django.core.serializers import serialize
+
+def get_selected_dates(request):
+    if request.user.is_authenticated:
+        selected_dates = Disponibilite.objects.filter(mentor=request.user).order_by('date')
+        data = serialize('json', selected_dates)
+        return JsonResponse({'dates': data}, safe=False)
+    else:
+        return JsonResponse({'dates': []})
 

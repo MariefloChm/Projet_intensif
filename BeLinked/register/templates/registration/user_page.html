@@ -16,12 +16,12 @@
 
         <form method="post" action="{% url 'matching' %}">
             <div class="form-group">
-                <label for="id_Domains">Domain</label>
-                <input type="text" class="form-control" id="id_Domains" name="Domain" placeholder="Enter your domain">
+                <label for="id_Domains">Fields</label>
+                <input type="text" class="form-control" id="id_Domains" name="Fields" placeholder="Enter your field">
             </div>
             <div class="form-group">
-                <label for="id_Diplomas">Diplomas</label>
-                <input type="text" class="form-control" id="id_Diplomas" name="Diplomas" placeholder="Enter your diploma">
+                <label for="id_Diplomas">Degree</label>
+                <input type="text" class="form-control" id="id_Diplomas" name="Degree" placeholder="Enter your degree">
             </div>
             <div class="form-group">
                 <label for="id_Skills">Skills</label>
@@ -29,15 +29,15 @@
             </div>
             <div class="form-group">
                 <label for="id_Career_objectives">Career Objectives</label>
-                <input type="text" class="form-control" id="id_Career_objectives" name="Career_objectives" placeholder="Enter your career objectives">
+                <input type="text" class="form-control" id="id_Career_objectives" name="Objectives" placeholder="Enter your career objectives">
             </div>
             <div class="form-group">
-                <label for="id_Professions">Professions</label>
-                <input type="text" class="form-control" id="id_Professions" name="Professions" placeholder="Enter your professions">
+                <label for="id_Job">Job</label>
+                <input type="text" class="form-control" id="id_Job" name="Job" placeholder="Enter your job">
             </div>
             <div class="form-group">
-                <label for="id_Personality">Personality</label>
-                <input type="text" class="form-control" id="id_Personality" name="Personality" placeholder="Describe your personality">
+                <label for="id_Personality">PersonalityDescription</label>
+                <input type="text" class="form-control" id="id_Personality" name="PersonalityDescription" placeholder="Describe your personality">
             </div>
 
             {% csrf_token %}

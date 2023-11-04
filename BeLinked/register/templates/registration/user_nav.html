@@ -1,9 +1,17 @@
 {% load static %}
 {% load i18n %}
 
+<style>
+    .dropdown-toggle {
+        color: #0097B2 !important; /* Remplacez la couleur par celle de votre choix */
+    }
+    .custom-link {
+        color: #0097B2 !important; /* Remplacez la couleur par celle de votre choix */
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <img src="{% static 'images/logo_bleu.ico' %}" alt="Logo" class="navbar-logo img-fluid">
-{#    <a class="navbar-brand" href="{% url 'home' %}">Belinked</a>#}
+    <img src="{% static 'images/logo_bleu.png' %}" alt="Logo" class="navbar-logo img-fluid" style="width: 150px;">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
