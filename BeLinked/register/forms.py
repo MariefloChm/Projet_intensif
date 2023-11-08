@@ -30,5 +30,33 @@ from .models import Matching
 class MatchingForm(forms.ModelForm):
     class Meta:
         model = Matching
-        fields = ['Domain', 'Diplomas', 'Skills', 'Career_objectives', 'Professions', 'Personality']
+        fields = ['Fields', 'Degree', 'Skills', 'Objectives', 'Job', 'PersonalityDescription']
 
+from .models import Mentor  # Assurez-vous d'importer le modèle Mentor
+
+class MentorForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Prénom'}))
+    last_name = forms.CharField(max_length=30, required=True, widget=forms.TextInput(attrs={'placeholder': 'Nom'}))
+    Fields = forms.CharField(max_length=100)
+    Degree = forms.CharField(max_length=100)
+    Skills = forms.CharField(max_length=100)
+    Objectives = forms.CharField(max_length=100)
+    Job = forms.CharField(max_length=100)
+    PersonalityDescription = forms.CharField(max_length=100)
+    email = forms.EmailField(max_length=254, required=True, widget=forms.EmailInput())
+    accept_terms = forms.BooleanField(
+        required=True,
+        widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        label="I accept the conditions and terms of use"
+    )
+
+    class Meta:
+        model = Mentor  # Utilisez le modèle Mentor ici
+        fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'Fields', 'Degree', 'Skills', 'Objectives', 'Job', 'PersonalityDescription', 'accept_terms']
+
+from .models import CoachingRequest
+
+class CoachingRequestForm(forms.ModelForm):
+    class Meta:
+        model = CoachingRequest
+        fields = ['mentor', 'mentore', 'date', 'time']

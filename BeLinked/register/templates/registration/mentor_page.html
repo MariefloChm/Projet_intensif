@@ -1,0 +1,329 @@
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>{% block title %}{% trans 'Mentor Page' %}{% endblock %}</title>
+
+</head>
+
+<style>
+    .dropdown-menu {
+        max-height: 400px;  /* Ou une autre valeur qui vous convient */
+        overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+}
+    .calendar {
+    width: 500px;
+    margin: 50px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.days, .dates {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.days div, .dates div {
+    width: 14.28%; /* 100% / 7 */
+    text-align: center;
+    padding: 10px 0;
+}
+
+.dates div {
+    cursor: pointer;
+}
+
+.dates div:hover {
+    background-color: #f0f0f0;
+}
+/* Style pour les dates du calendrier */
+.date-cell {
+    cursor: pointer;       /* Change le curseur en main quand on survole une date */
+    transition: background-color 0.3s; /* Effet de transition lors du changement de couleur */
+}
+
+/* Style pour les dates sélectionnées */
+.available {
+    background-color: #4CAF50;   /* Changez ceci à votre couleur préférée */
+    color: white;                /* Couleur du texte pour une meilleure lisibilité */
+}
+
+
+
+#saveDatesBtn:hover {
+    background-color: #45a049;
+}
+
+.calendar {
+    position: relative;
+    /* Other styling for the container if needed */
+}
+
+#saveDatesBtn {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.selected-dates {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 50px; /* Ajustez selon l'espacement désiré */
+
+}
+
+.selected-dates h3 {
+    margin-bottom: 15px;
+}
+
+.selected-dates ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.selected-dates li {
+    background-color: #f0f0f0;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+}
+
+
+
+</style>
+
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <img src="{% static 'images/logo_bleu.ico' %}" width="130" height="130" alt="Logo">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell"></i> Notifications <span class="badge badge-light">{{ notifications.count }}</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="notificationDropdown">
+                    {% for notification in notifications %}
+                        <a class="dropdown-item {% if not notification.read %}font-weight-bold{% endif %} notification-link" href="{% url 'user_request' notification.id %}"
+                           data-notification-id="{{ notification.id }}">
+                            {{ notification.message }}
+                        </a>
+                    {% endfor %}
+                    {% if notifications.count == 0 %}
+                        <a class="dropdown-item" href="#">{% trans 'No notification' %}</a>
+                    {% endif %}
+                    {% if notifications.count > 0 %}
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item clear_all_notifications" href="{% url 'clear_all' %}">{% trans 'Clear All Notifications' %}</a>
+                        <a class="dropdown-item" href="{% url 'all_notifications' %}">{% trans 'View All Notifications' %}</a>
+                    {% endif %}
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% if user.is_authenticated %}
+                        {{ user.username }}
+                    {% else %}
+                        {% trans 'User' %}
+                    {% endif %}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="userDropdown">
+                    {% if user.is_authenticated %}
+                        <a class="dropdown-item" href="{% url 'user_settings' %}">{% trans 'Settings'%}</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{% url 'logout' %}">{%  trans 'Logout' %}</a>
+                    {% else %}
+                        <a class="dropdown-item" href="{% url 'login' %}">{% trans 'Login' %}</a>
+                    {% endif %}
+                </div>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+
+
+
+{% block content %}
+<h1>{% trans 'Welcome to the mentor page!'%} </h1>
+<h2>{% trans 'Availability calendar' %}</h2>
+<body>
+    <input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Colonne du calendrier -->
+            <div class="col-md-6">
+                <div class="calendar">
+                    <!-- En-tête du calendrier -->
+                    <div class="calendar-header">
+                        <button onclick="prevMonth()">Previous</button>
+                        <h2 id="monthYear"></h2>
+                        <button onclick="nextMonth()">Next</button>
+                    </div>
+                    <!-- Jours de la semaine -->
+                    <div class="days">
+                        <div>Sun</div>
+                        <div>Mon</div>
+                        <div>Tue</div>
+                        <div>Wed</div>
+                        <div>Thu</div>
+                        <div>Fri</div>
+                        <div>Sat</div>
+                    </div>
+                    <!-- Dates du calendrier -->
+                    <div id="dates" class="dates">
+                        <!-- Les dates seront générées ici -->
+                    </div>
+                    <button id="saveDatesBtn">{% trans 'Save dates' %}</button>
+                </div>
+            </div>
+
+            <!-- Colonne pour les dates sélectionnées -->
+            <div class="col-md-6">
+                <div id="selectedDatesContainer" class="selected-dates">
+                    <h3>{% trans 'Selected Dates' %}</h3>
+                    <ul id="selectedDatesList">
+                        <!-- Les dates sélectionnées seront ajoutées ici -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        const disponibiliteURL = "{% url 'disponibilite' %}";
+        const saveURL = "{% url 'save_dates' %}";
+    </script>
+
+
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+{% endblock %}
+{% include 'footer.html' %}
+<script>
+    $(".notification-link").click(function() {
+    const notificationId = $(this).data('notification-id');
+    $.ajax({
+        url: `/notification/read/${notificationId}/`,
+        method: 'GET',
+        success: function() {
+            // Changer l'apparence de la notification une fois qu'elle a été lue
+            $(`.notification-link[data-notification-id="${notificationId}"]`).removeClass("font-weight-bold");
+        }
+    });
+});
+
+$(".clear_all_notifications").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: `/notification/clear_all/?timestamp=${new Date().getTime()}`,
+        method: 'GET',
+        success: function() {
+            // Masquer toutes les notifications du menu déroulant
+            $(".notification-link").remove();
+            $(".dropdown-divider").remove();
+            $(".clear_all_notifications").before('<a class="dropdown-item" href="#">Aucune notification</a>');
+            // Mettre à jour le nombre de notifications à 0
+            $(".fas.fa-bell").next().text("0");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error:", textStatus, errorThrown);
+        }
+    });
+});
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchSelectedDates();
+});
+
+function fetchSelectedDates() {
+    fetch('/selected_dates') // Remplacez par le chemin correct
+        .then(response => response.json())
+        .then(data => {
+            updateSelectedDatesUI(data.dates);
+        });
+}
+
+function updateSelectedDatesUI(datesJson) {
+    var dates = JSON.parse(datesJson);
+    var listElement = document.getElementById('selectedDatesList');
+    //listElement.innerHTML = ''; // Retirez cette ligne si vous ne voulez pas effacer les dates déjà présentes
+
+    dates.forEach(function(dateObj) {
+        var li = document.createElement('li');
+        li.textContent = dateObj.fields.date; // Ajustez selon le format de votre JSON
+        listElement.appendChild(li); // Ajoute à la fin de la liste
+    });
+}
+
+
+
+
+</script>

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "app1",
     "register",
+    "import_export",
 ]
 
 MIDDLEWARE = [
@@ -141,5 +142,3 @@ STATIC_ROOT = BASE_DIR / 'static'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  # Utilisez le modèle Bootstrap 4
 CRISPY_ALLOWED_TEMPLATE_PACKS = 'bootstrap4'
-LOGIN_REDIRECT_URL='/user_page'
-LOGOUT_REDIRECT_URL='/login'

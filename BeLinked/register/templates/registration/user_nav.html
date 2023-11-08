@@ -1,42 +1,122 @@
 {% load static %}
+{% load i18n %}
+
+<style>
+    .dropdown-toggle {
+        color: #0097B2 !important; /* Remplacez la couleur par celle de votre choix */
+    }
+    .custom-link {
+        color: #0097B2 !important; /* Remplacez la couleur par celle de votre choix */
+    }
+
+    .dropdown-menu {
+        max-height: 400px;  /* Ou une autre valeur qui vous convient */
+        overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+    }
+</style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <img src="{% static 'images/logo_bleu.ico' %}" alt="Logo" class="navbar-logo img-fluid">
-{#    <a class="navbar-brand" href="{% url 'home' %}">Belinked</a>#}
+    <img src="{% static 'images/logo_bleu.png' %}" alt="Logo" class="navbar-logo img-fluid" style="width: 150px;">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
+            {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link custom-link" href="{% url 'home' %}">{% trans "Our Solutions" %}</a>
+                </li>
+            {% endif %}
+            <li class="nav-item dropdown">
+            {% if user.is_authenticated %}
+                <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell"></i> Notifications <span class="badge badge-light">{{ notifications.count }}</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="notificationDropdown">
+                    {% for notification in notifications %}
+                        <a class="dropdown-item {% if not notification.read %}font-weight-bold{% endif %} notification-link" href="{% url 'user_request' notification.id %}"
+                           data-notification-id="{{ notification.id }}">
+                            {{ notification.message }}
+                        </a>
+                    {% endfor %}
+                    {% if notifications.count == 0 %}
+                        <a class="dropdown-item" href="#">{% trans 'No notification' %}</a>
+                    {% endif %}
+                    {% if notifications.count > 0 %}
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item clear_all_notifications" href="{% url 'clear_all' %}">{% trans 'Clear All Notifications' %}</a>
+                        <a class="dropdown-item" href="{% url 'all_notifications' %}">{% trans 'View All Notifications' %}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% if user.is_authenticated %}
                         {{ user.username }}
                     {% else %}
-                        User
+                        {% trans 'User' %}
                     {% endif %}
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                     {% if user.is_authenticated %}
-                        <a class="dropdown-item" href="{% url 'user_settings' %}">Settings</a>
+                        <a class="dropdown-item" href="{% url 'user_settings' %}">{% trans 'Settings'%}</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="{% url 'logout' %}">Logout</a>
+                        <a class="dropdown-item" href="{% url 'logout' %}">{%  trans 'Logout' %}</a>
                     {% else %}
-                        <a class="dropdown-item" href="{% url 'login' %}">Login</a>
-                        <a class="dropdown-item" href="{% url 'register' %}">Sign Up</a>
+                        <a class="dropdown-item" href="{% url 'login' %}">{% trans 'Login' %}</a>
                     {% endif %}
                 </div>
             </li>
 
-{#            <li class="nav-item">#}
-{#                <form method="post" action="{% url 'change_language' %}">#}
-{#                    {% csrf_token %}#}
-{#                    <select name="language" id="language" class="form-control" onchange="this.form.submit()">#}
-{#                        <option value="en" {% if language == 'en' %}selected{% endif %}>English</option>#}
-{#                        <option value="fr" {% if language == 'fr' %}selected{% endif %}>Français</option>#}
-{#                    </select>#}
-{#                </form>#}
-{#            </li>#}
         </ul>
     </div>
 </nav>
+
+<script>
+    $(".notification-link").click(function() {
+        const notificationId = $(this).data('notification-id');
+        $.ajax({
+            url: `/notification/read/${notificationId}/`,
+            method: 'GET',
+            success: function() {
+                // Changer l'apparence de la notification une fois qu'elle a été lue
+                $(`.notification-link[data-notification-id="${notificationId}"]`).removeClass("font-weight-bold");
+            }
+        });
+    });
+
+    $(".clear_all_notifications").click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: `/notification/clear_all/?timestamp=${new Date().getTime()}`,
+            method: 'GET',
+            success: function() {
+                // Masquer toutes les notifications du menu déroulant
+                $(".notification-link").remove();
+                $(".dropdown-divider").remove();
+                $(".clear_all_notifications").before('<a class="dropdown-item" href="#">Aucune notification</a>');
+                // Mettre à jour le nombre de notifications à 0
+                $(".fas.fa-bell").next().text("0");
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error:", textStatus, errorThrown);
+            }
+        });
+    });
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+</script>

@@ -1,26 +1,27 @@
 {% load crispy_forms_tags %}
+{% load i18n %}
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <title>{% block title %}User Page{% endblock %}</title>
+    <title>{% block title %}{% trans 'User Page' %}{% endblock %}</title>
 </head>
 {% include 'registration/user_nav.html' %}
 <div class="wrapper">
     {% block content %}
 
-        <h1>You can now search for your future mentor ! </h1>
+        <h1>{% trans 'You can now search for your future mentor !' %} </h1>
 
         <form method="post" action="{% url 'matching' %}">
             <div class="form-group">
-                <label for="id_Domains">Domain</label>
-                <input type="text" class="form-control" id="id_Domains" name="Domain" placeholder="Enter your domain">
+                <label for="id_Domains">Fields</label>
+                <input type="text" class="form-control" id="id_Domains" name="Fields" placeholder="Enter your field">
             </div>
             <div class="form-group">
-                <label for="id_Diplomas">Diplomas</label>
-                <input type="text" class="form-control" id="id_Diplomas" name="Diplomas" placeholder="Enter your diploma">
+                <label for="id_Diplomas">Degree</label>
+                <input type="text" class="form-control" id="id_Diplomas" name="Degree" placeholder="Enter your degree">
             </div>
             <div class="form-group">
                 <label for="id_Skills">Skills</label>
@@ -28,15 +29,15 @@
             </div>
             <div class="form-group">
                 <label for="id_Career_objectives">Career Objectives</label>
-                <input type="text" class="form-control" id="id_Career_objectives" name="Career_objectives" placeholder="Enter your career objectives">
+                <input type="text" class="form-control" id="id_Career_objectives" name="Objectives" placeholder="Enter your career objectives">
             </div>
             <div class="form-group">
-                <label for="id_Professions">Professions</label>
-                <input type="text" class="form-control" id="id_Professions" name="Professions" placeholder="Enter your professions">
+                <label for="id_Job">Job</label>
+                <input type="text" class="form-control" id="id_Job" name="Job" placeholder="Enter your job">
             </div>
             <div class="form-group">
-                <label for="id_Personality">Personality</label>
-                <input type="text" class="form-control" id="id_Personality" name="Personality" placeholder="Describe your personality">
+                <label for="id_Personality">PersonalityDescription</label>
+                <input type="text" class="form-control" id="id_Personality" name="PersonalityDescription" placeholder="Describe your personality">
             </div>
 
             {% csrf_token %}

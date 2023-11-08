@@ -1,0 +1,56 @@
+{% include "registration/mentor_base.html" %}
+{% load i18n %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% trans 'All notifications' %}{% endblock %}</title>
+    <style>
+        /* Styling for the notification container */
+        .notification-container {
+            width: 100%; /* Full width */
+            max-width: 800px; /* Increase the maximum width */
+            margin: 30px auto; /* Center the container and increase spacing around */
+            padding: 20px; /* Increased padding */
+            border: 2px solid #e0e0e0; /* Thicker border */
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            overflow: auto;
+            font-size: 1.5em; /* Increase the base font size */
+        }
+
+        /* Styling for each notification item */
+        .notification-item {
+            padding: 20px 0; /* Increase spacing between notifications */
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .notification-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Styling for notification links */
+        .notification-item a {
+            text-decoration: none; /* Remove underline */
+            color: #0097B2; /* Dark text color */
+        }
+
+        /* Styling for bold notifications */
+        .font-weight-bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+{% block content %}
+    <body>
+    <!-- Notification Container -->
+    <div class="notification-container">
+        {% for notification in all_notifications %}
+            <div class="notification-item {% if not notification.read %}font-weight-bold{% endif %}">
+                <a href="{% url 'user_request' notification.id %}">{{ notification.message }}</a>
+            </div>
+        {% endfor %}
+    </div>
+    </body>
+{% endblock %}
+{% include 'footer.html' %}
