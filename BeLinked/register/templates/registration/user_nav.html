@@ -8,6 +8,17 @@
     .custom-link {
         color: #0097B2 !important; /* Remplacez la couleur par celle de votre choix */
     }
+
+    .dropdown-menu {
+        max-height: 400px;  /* Ou une autre valeur qui vous convient */
+        overflow-y: auto;
+    }
+
+    @media (max-width: 768px) {
+    .navbar-nav {
+        flex-direction: column;
+    }
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -22,6 +33,30 @@
                     <a class="nav-link custom-link" href="{% url 'home' %}">{% trans "Our Solutions" %}</a>
                 </li>
             {% endif %}
+            <li class="nav-item dropdown">
+            {% if user.is_authenticated %}
+                <a class="nav-link dropdown-toggle" href="#" id="notificationDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell"></i> Notifications <span class="badge badge-light">{{ notifications.count }}</span>
+                </a>
+                <div class="dropdown-menu" aria-labelledby="notificationDropdown">
+                    {% for notification in notifications %}
+                        <a class="dropdown-item {% if not notification.read %}font-weight-bold{% endif %} notification-link" href="{% url 'user_request' notification.id %}"
+                           data-notification-id="{{ notification.id }}">
+                            {{ notification.message }}
+                        </a>
+                    {% endfor %}
+                    {% if notifications.count == 0 %}
+                        <a class="dropdown-item" href="#">{% trans 'No notification' %}</a>
+                    {% endif %}
+                    {% if notifications.count > 0 %}
+                        <div class="dropdown-divider"></div>
+
+                        <a class="dropdown-item clear_all_notifications" href="{% url 'clear_all' %}">{% trans 'Clear All Notifications' %}</a>
+                        <a class="dropdown-item" href="{% url 'all_notifications' %}">{% trans 'View All Notifications' %}</a>
+                    {% endif %}
+                </div>
+            {% endif %}
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {% if user.is_authenticated %}
@@ -44,3 +79,44 @@
         </ul>
     </div>
 </nav>
+
+<script>
+    $(".notification-link").click(function() {
+        const notificationId = $(this).data('notification-id');
+        $.ajax({
+            url: `/notification/read/${notificationId}/`,
+            method: 'GET',
+            success: function() {
+                // Changer l'apparence de la notification une fois qu'elle a été lue
+                $(`.notification-link[data-notification-id="${notificationId}"]`).removeClass("font-weight-bold");
+            }
+        });
+    });
+
+    $(".clear_all_notifications").click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            url: `/notification/clear_all/?timestamp=${new Date().getTime()}`,
+            method: 'GET',
+            success: function() {
+                // Masquer toutes les notifications du menu déroulant
+                $(".notification-link").remove();
+                $(".dropdown-divider").remove();
+                $(".clear_all_notifications").before('<a class="dropdown-item" href="#">Aucune notification</a>');
+                // Mettre à jour le nombre de notifications à 0
+                $(".fas.fa-bell").next().text("0");
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error("Error:", textStatus, errorThrown);
+            }
+        });
+    });
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
+                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+            }
+        }
+    });
+</script>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-02 22:25+0100\n"
+"POT-Creation-Date: 2023-11-07 23:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: .\BeLinked\settings.py:117
+#: .\BeLinked\settings.py:118
 msgid "English"
 msgstr ""
 
-#: .\BeLinked\settings.py:118
+#: .\BeLinked\settings.py:119
 msgid "French"
 msgstr ""
 
@@ -69,7 +69,7 @@ msgid "Submitted with success!"
 msgstr "Soumis avec succès !"
 
 #: .\app1\templates\default_page.html:84
-#: .\register\templates\registration\user_nav.html:14
+#: .\register\templates\registration\user_nav.html:22
 msgid "Our Solutions"
 msgstr "Fonctionnalités"
 
@@ -197,15 +197,15 @@ msgid "Home"
 msgstr "Accueil"
 
 #: .\app1\templates\nav.html:26
-#: .\register\templates\registration\mentor_page.html:75
-#: .\register\templates\registration\user_nav.html:29
+#: .\register\templates\registration\mentor_page.html:168
+#: .\register\templates\registration\user_nav.html:37
 msgid "Logout"
 msgstr "Se déconnecter"
 
 #: .\app1\templates\nav.html:30 .\register\templates\registration\login.html:17
-#: .\register\templates\registration\mentor_login.html:17
-#: .\register\templates\registration\mentor_page.html:77
-#: .\register\templates\registration\user_nav.html:31
+#: .\register\templates\registration\mentor_login.html:18
+#: .\register\templates\registration\mentor_page.html:170
+#: .\register\templates\registration\user_nav.html:39
 msgid "Login"
 msgstr "Se connecter"
 
@@ -217,8 +217,6 @@ msgstr "S'inscrire ici"
 
 #: .\register\templates\register\mentor_signup.html:71
 #: .\register\templates\register\signup.html:19
-#: .\register\templates\registration\login.html:22
-#: .\register\templates\registration\mentor_login.html:22
 #, fuzzy
 msgid "Subscribe"
 msgstr "S'inscrire"
@@ -228,6 +226,8 @@ msgid "Sign Up Page"
 msgstr "Page d'inscription"
 
 #: .\register\templates\register\signup.html:15
+#: .\register\templates\registration\login.html:22
+#: .\register\templates\registration\mentor_login.html:23
 msgid "Sign up"
 msgstr "S'inscrire"
 
@@ -236,12 +236,12 @@ msgid "Log In Page"
 msgstr "Page de connexion"
 
 #: .\register\templates\registration\login.html:20
-#: .\register\templates\registration\mentor_login.html:20
+#: .\register\templates\registration\mentor_login.html:21
 msgid "Forgot your password?"
 msgstr "Mot de passe oublié?"
 
 #: .\register\templates\registration\login.html:22
-#: .\register\templates\registration\mentor_login.html:22
+#: .\register\templates\registration\mentor_login.html:23
 msgid "Do you have an account ?"
 msgstr "Créez un compte"
 
@@ -259,7 +259,7 @@ msgstr "Score prédit :"
 msgid "Send a request"
 msgstr "Envoyer une demande"
 
-#: .\register\templates\registration\mentor_login.html:9
+#: .\register\templates\registration\mentor_login.html:10
 msgid "Log In"
 msgstr "Page de connexion"
 
@@ -269,31 +269,43 @@ msgstr "Page de connexion"
 msgid "Mentor Page"
 msgstr "Page du Mentor"
 
-#: .\register\templates\registration\mentor_page.html:52
+#: .\register\templates\registration\mentor_page.html:145
 msgid "No notification"
 msgstr "Aucune notification"
 
-#: .\register\templates\registration\mentor_page.html:57
+#: .\register\templates\registration\mentor_page.html:150
 msgid "Clear All Notifications"
 msgstr "Effacer toutes les notifications"
 
-#: .\register\templates\registration\mentor_page.html:58
+#: .\register\templates\registration\mentor_page.html:151
 msgid "View All Notifications"
 msgstr "Voir toutes les notifications"
 
-#: .\register\templates\registration\mentor_page.html:68
-#: .\register\templates\registration\user_nav.html:22
+#: .\register\templates\registration\mentor_page.html:161
+#: .\register\templates\registration\user_nav.html:30
 msgid "User"
 msgstr "Utilisateur"
 
-#: .\register\templates\registration\mentor_page.html:73
-#: .\register\templates\registration\user_nav.html:27
+#: .\register\templates\registration\mentor_page.html:166
+#: .\register\templates\registration\user_nav.html:35
 msgid "Settings"
 msgstr "Paramètres"
 
-#: .\register\templates\registration\mentor_page.html:89
+#: .\register\templates\registration\mentor_page.html:182
 msgid "Welcome to the mentor page!"
 msgstr "Bienvenue sur la page des mentors !"
+
+#: .\register\templates\registration\mentor_page.html:183
+msgid "Availability calendar"
+msgstr "Calendrier des disponibilités"
+
+#: .\register\templates\registration\mentor_page.html:212
+msgid "Save dates"
+msgstr "Enregistrer"
+
+#: .\register\templates\registration\mentor_page.html:219
+msgid "Selected Dates"
+msgstr "Dates choisies"
 
 #: .\register\templates\registration\user_page.html:9
 #, fuzzy
@@ -305,76 +317,82 @@ msgstr "Espace Utilisateur"
 msgid "You can now search for your future mentor !"
 msgstr "Vous pouvez maintenant rechercher votre futur mentor !"
 
-#: .\register\templates\sessions\user_request.html:12
+#: .\register\templates\sessions\all_notifications.html:6
+#, fuzzy
+#| msgid "View All Notifications"
+msgid "All notifications"
+msgstr "Voir toutes les notifications"
+
+#: .\register\templates\sessions\user_request.html:13
 msgid "User request"
 msgstr "Demande de l'utilisateur"
 
-#: .\register\templates\sessions\user_request.html:18
+#: .\register\templates\sessions\user_request.html:19
 msgid "Managing coaching sessions"
 msgstr "Gérer les sessions de coaching"
 
-#: .\register\templates\sessions\user_request.html:19
+#: .\register\templates\sessions\user_request.html:20
 msgid "You can accept or decline coaching requests here:"
 msgstr "Vous pouvez accepter ou refuser les demandes de coaching ici :"
 
-#: .\register\templates\sessions\user_request.html:24
+#: .\register\templates\sessions\user_request.html:25
 #, fuzzy
 #| msgid "Mentor"
 msgid "Mentore"
 msgstr "Mentor"
 
-#: .\register\templates\sessions\user_request.html:25
+#: .\register\templates\sessions\user_request.html:26
 msgid "Date"
 msgstr "Date"
 
-#: .\register\templates\sessions\user_request.html:26
+#: .\register\templates\sessions\user_request.html:27
 msgid "Time"
 msgstr "Temps"
 
-#: .\register\templates\sessions\user_request.html:27
+#: .\register\templates\sessions\user_request.html:28
 msgid "Status"
 msgstr "Statut"
 
-#: .\register\templates\sessions\user_request.html:28
+#: .\register\templates\sessions\user_request.html:29
 msgid "Actions"
 msgstr "Actions"
 
-#: .\register\templates\sessions\user_request.html:42
-#: .\register\templates\sessions\user_request.html:72
+#: .\register\templates\sessions\user_request.html:43
+#: .\register\templates\sessions\user_request.html:73
 msgid "Accept"
 msgstr "Accepter"
 
-#: .\register\templates\sessions\user_request.html:44
-#: .\register\templates\sessions\user_request.html:93
+#: .\register\templates\sessions\user_request.html:45
+#: .\register\templates\sessions\user_request.html:94
 msgid "Deny"
 msgstr "Refuser"
 
-#: .\register\templates\sessions\user_request.html:50
+#: .\register\templates\sessions\user_request.html:51
 msgid "No applications pending at the moment."
 msgstr "Aucune demande n'est en cours pour le moment."
 
-#: .\register\templates\sessions\user_request.html:62
+#: .\register\templates\sessions\user_request.html:63
 #, fuzzy
 #| msgid "Send a request"
 msgid "Accept the request"
 msgstr "Envoyer une demande"
 
-#: .\register\templates\sessions\user_request.html:68
+#: .\register\templates\sessions\user_request.html:69
 msgid "Are you sure you want to accept this request?"
 msgstr "Êtes-vous sûr de vouloir accepter cette demande ?"
 
-#: .\register\templates\sessions\user_request.html:71
-#: .\register\templates\sessions\user_request.html:92
+#: .\register\templates\sessions\user_request.html:72
+#: .\register\templates\sessions\user_request.html:93
 msgid "Cancel"
 msgstr "Annuler"
 
-#: .\register\templates\sessions\user_request.html:83
+#: .\register\templates\sessions\user_request.html:84
 #, fuzzy
 #| msgid "Send a request"
 msgid "Deny the request"
 msgstr "Envoyer une demande"
 
-#: .\register\templates\sessions\user_request.html:89
+#: .\register\templates\sessions\user_request.html:90
 #, fuzzy
 #| msgid "Are you sure you want to accept this request?"
 msgid "Are you sure you want to deny this request?"

@@ -115,7 +115,8 @@ def user_settings(request):
     pass
 
 def user_page(request):
-    return render(request, 'registration/user_page.html')
+    notifications = Notification.objects.filter(user=request.user).order_by('-date_created')[:5]
+    return render(request, 'registration/user_page.html', {'notifications': notifications})
 
 def mentor_page(request):
     # notifications = Notification.objects.filter(user=request.user)
