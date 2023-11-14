@@ -12,6 +12,13 @@
 {% include 'registration/user_nav.html' %}
 <div class="wrapper">
     {% block content %}
+        {% if messages %}
+            <div class="alert alert-danger">
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            </div>
+        {% endif %}
         <form method="post">
             {% csrf_token %}
             {{ form|crispy }}

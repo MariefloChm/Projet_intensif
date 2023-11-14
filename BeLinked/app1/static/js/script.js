@@ -7,46 +7,83 @@ let monthYearElement = document.getElementById("monthYear");
 document.addEventListener("DOMContentLoaded", function() {
     showCalendar(currentMonth, currentYear);
 });
-
-document.getElementById("saveDatesBtn").addEventListener("click", function() {
-    var csrfToken = document.querySelector('input[name=csrfmiddlewaretoken]').value;
-    var selectedDates = document.querySelectorAll(".selected");
-    var datesToSave = [];
-    var datesToDelete = [];
-    for (var i = 0; i < selectedDates.length; i++) {
-        // datesToSave.push(selectedDates[i].textContent);
-        datesToSave.push(selectedDates[i].querySelector("span").textContent);
-    }
-
-    // Afficher les données avant l'envoi
-    console.log({
-        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
-        'dates': datesToSave,
-        'delete_dates': datesToDelete
-    });
-    console.log(selectedDates);
-
-
-    // Envoi des dates à l'application Django via AJAX
+$(".notification-link").click(function() {
+    const notificationId = $(this).data('notification-id');
     $.ajax({
-        url: saveURL,
-        type: "POST",
-        data: JSON.stringify({
-            'csrfmiddlewaretoken': csrfToken,
-            'dates': datesToSave
-        }),
-        success: function(response) {
-            if(response.success) {
-                alert(response.message);
-            } else {
-                alert("Erreur: " + response.message);
-            }
-        },
-        error: function(error) {
-            console.error("Erreur AJAX:", error);
+        url: `/notification/read/${notificationId}/`,
+        method: 'GET',
+        success: function() {
+            // Changer l'apparence de la notification une fois qu'elle a été lue
+            $(`.notification-link[data-notification-id="${notificationId}"]`).removeClass("font-weight-bold");
         }
     });
 });
+
+$(".clear_all_notifications").click(function(e) {
+    e.preventDefault();
+    $.ajax({
+        url: `/notification/clear_all/?timestamp=${new Date().getTime()}`,
+        method: 'GET',
+        success: function() {
+            // Masquer toutes les notifications du menu déroulant
+            $(".notification-link").remove();
+            $(".dropdown-divider").remove();
+            $(".clear_all_notifications").before('<a class="dropdown-item" href="#">Aucune notification</a>');
+            // Mettre à jour le nombre de notifications à 0
+            $(".fas.fa-bell").next().text("0");
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error("Error:", textStatus, errorThrown);
+        }
+    });
+});
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
+            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+        }
+    }
+});
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    fetchSelectedDates();
+});
+
+function fetchSelectedDates() {
+    fetch('/selected_dates') // Remplacez par le chemin correct
+        .then(response => response.json())
+        .then(data => {
+            updateSelectedDatesUI(data.dates);
+        });
+}
+
+function updateSelectedDatesUI(datesJson) {
+    var dates = JSON.parse(datesJson);
+    var listElement = document.getElementById('selectedDatesList');
+    //listElement.innerHTML = ''; // Retirez cette ligne si vous ne voulez pas effacer les dates déjà présentes
+
+    dates.forEach(function(dateObj) {
+        var li = document.createElement('li');
+        li.textContent = dateObj.fields.date; // Ajustez selon le format de votre JSON
+        listElement.appendChild(li); // Ajoute à la fin de la liste
+    });
+}
 
 
 function showCalendar(month, year) {

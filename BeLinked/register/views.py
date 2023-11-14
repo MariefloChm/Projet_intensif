@@ -1,6 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.urls import reverse_lazy, reverse
+from django.views.decorators.http import require_POST
 
 from .forms import MatchingForm, MentorForm, CoachingRequestForm
 from django.shortcuts import render, redirect, get_object_or_404
@@ -52,8 +53,9 @@ def mentor_view(request):
         if form.is_valid():
             print("Form is valid")
 
-            mentor_instance = form.save()  # Sauvegarde des données dans la base de données
-
+            user = form.save()  # Sauvegarde des données dans la base de données
+            group = Group.objects.get(name='Mentors')  # Assurez-vous que ce groupe existe
+            group.user_set.add(user)
 
 
             return redirect('/mentor_login')
@@ -119,7 +121,6 @@ def user_page(request):
     return render(request, 'registration/user_page.html', {'notifications': notifications})
 
 def mentor_page(request):
-    # notifications = Notification.objects.filter(user=request.user)
     notifications = Notification.objects.filter(user=request.user).order_by('-date_created')[:5]
     return render(request, 'registration/mentor_page.html', {'notifications': notifications})
 
@@ -157,24 +158,34 @@ from django.contrib.auth.views import LoginView
 
 class CustomLoginView(LoginView):
     def get_success_url(self):
-        # Vous pouvez utiliser n'importe quelle logique ici pour déterminer l'URL de redirection
-        # Par exemple, basé sur le groupe d'utilisateurs ou un autre attribut de l'utilisateur
-        if 'mentor_login' in self.request.path:  # ou tout autre attribut ou méthode que vous utilisez pour distinguer les utilisateurs
+        user = self.request.user
+        if user.groups.filter(name='Mentors').exists():
             return reverse_lazy('mentor_page')
-        else:
+        elif user.groups.filter(name='Mentorés').exists():
             return reverse_lazy('user_page')
+        else:
+            return reverse_lazy('mentor_login')
+    def form_invalid(self, form):
+        # Ajoutez un message d'erreur dans le système de messages de Django
+        messages.error(self.request, "Identifiant ou mot de passe incorrect.")
+        # Redirigez l'utilisateur vers la même page de connexion
+        return super().form_invalid(form)
 
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 
 def custom_logout(request):
-    # Vérifiez d'où provient la demande
-    if 'mentor_page' in request.META.get('HTTP_REFERER', ''):
+    user = request.user
+    if user.groups.filter(name='Mentors').exists():
         logout(request)
         return redirect('mentor_login')
+    elif user.groups.filter(name='Mentorés').exists():
+        logout(request)
+        return redirect('login')  # Ou l'URL de déconnexion de mentoré si différente
     else:
         logout(request)
-        return redirect('login')
+        return redirect('login')  # Ou une page par défaut
+
 
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse, HttpResponse
@@ -237,32 +248,75 @@ def clear_all_notifications(request):
         notifications = Notification.objects.filter(user=request.user)
         for notification in notifications:
             notification.read = True
-            notification.save()
+            notification.delete()
         return JsonResponse({'status': 'success'})
     return JsonResponse({'status': 'error'})
 
 
-def save_dates(request):
-    if request.method == "POST":
-        if not request.user.is_authenticated:
-            return JsonResponse({"success": False, "message": "Utilisateur non authentifié"})
+def display_dates(request):
+    user = request.user
+    dates = []
 
-        dates_to_add = request.POST.getlist('dates[]')
-        dates_to_delete = request.POST.getlist('delete_dates[]')
+    # Si l'utilisateur est un mentor, récupérez ses dates de disponibilité
+    if user.mentor_requests.exists():
+        sessions = Disponibilite.objects.filter(mentor=user)
+        dates = [session.date for session in sessions]
 
-        for date_str in dates_to_add:
-            date_obj = convert_string_to_date(date_str)
-            if date_obj:
-                Disponibilite.objects.create(date=date_obj, mentor=request.user)
+    # Si l'utilisateur est un mentore, récupérez les dates de disponibilité des mentors liés aux demandes de coaching acceptées
+    elif user.mentore_requests.exists():
+        coaching_requests = CoachingRequest.objects.filter(mentore=user, status='Acceptée')
+        for coaching_request in coaching_requests:
+            available_dates = coaching_request.mentor.mentor_requests.filter(date=coaching_request.date).values_list('available_dates__date', flat=True)
+            dates.extend(available_dates)
 
-        for date_str in dates_to_delete:
-            date_obj = convert_string_to_date(date_str)
-            if date_obj:
-                Disponibilite.objects.filter(date=date_obj, mentor=request.user).delete()
+    return render(request, 'registration/display_dates.html', {'dates': dates})
 
-        return JsonResponse({"success": True, "message": "Dates enregistrées avec succès"})
 
-    return JsonResponse({"success": False, "message": "Erreur lors de l'enregistrement des dates"})
+
+# def save_dates(request):
+#     if request.method == "POST":
+#         if not request.user.is_authenticated:
+#             return JsonResponse({"success": False, "message": "Utilisateur non authentifié"})
+#
+#         # Parsing du contenu JSON
+#         data = json.loads(request.body)
+#
+#         coaching_request_id = data.get('coaching_request_id')
+#         if not coaching_request_id:
+#             return JsonResponse({"success": False, "message": "ID de demande de coaching manquant"})
+#
+#         coaching_request = get_object_or_404(CoachingRequest, pk=coaching_request_id)
+#
+#         # Vérifiez si l'utilisateur est autorisé à modifier cette demande de coaching
+#         if request.user != coaching_request.mentor:
+#             return JsonResponse({"success": False, "message": "Action non autorisée"})
+#
+#         dates_to_add = data.get('dates', [])
+#         dates_to_delete = data.get('delete_dates', [])
+#
+#         for date_str in dates_to_add:
+#             date_obj = convert_string_to_date(date_str)
+#             if date_obj:
+#                 # Vérifier les conflits de date avant d'ajouter
+#                 if not Disponibilite.objects.filter(date=date_obj, mentor=request.user).exists():
+#                     new_availability = Disponibilite.objects.create(date=date_obj, mentor=request.user)
+#                     coaching_request.available_dates.add(new_availability)
+#
+#         for date_str in dates_to_delete:
+#             date_obj = convert_string_to_date(date_str)
+#             if date_obj:
+#                 availability_to_delete = Disponibilite.objects.filter(date=date_obj, mentor=request.user).first()
+#                 if availability_to_delete:
+#                     coaching_request.available_dates.remove(availability_to_delete)
+#                     # Vérifiez si l'objet Disponibilite doit être conservé pour d'autres demandes avant de le supprimer
+#                     if not availability_to_delete.coachingrequest_set.exists():
+#                         availability_to_delete.delete()
+#
+#         # Optionnel: Retourner la liste mise à jour des dates pour confirmation
+#         updated_dates = list(coaching_request.available_dates.values_list('date', flat=True))
+#         return JsonResponse({"success": True, "message": "Dates enregistrées avec succès", "updated_dates": updated_dates})
+#
+#     return JsonResponse({"success": False, "message": "Méthode non autorisée"})
 
 
 from django.core.serializers import serialize
@@ -271,7 +325,114 @@ def get_selected_dates(request):
     if request.user.is_authenticated:
         selected_dates = Disponibilite.objects.filter(mentor=request.user).order_by('date')
         data = serialize('json', selected_dates)
-        return JsonResponse({'dates': data}, safe=False)
+        # Passez 'data' au template après le désérialiser
+        dates_list = json.loads(data)
+        print(dates_list)
+        # Ajoutez d'autres contextes si nécessaire
+        context = {
+            'coaching_request': coaching_request,
+            'dates_list': dates_list,
+        }
+        return render(request, 'sessions/coaching_request.html', context)
     else:
-        return JsonResponse({'dates': []})
+        return JsonResponse({'error': 'Non autorisé'}, status=403)
 
+
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+def send_notification_to_mentore(mentore_id, message):
+    # Assuming there's a Notification model and a function to create a notification
+    try:
+        mentore = User.objects.get(pk=mentore_id)
+        # Code to create a notification for the mentore
+        Notification.objects.create(user=mentore, message=message)
+        return JsonResponse({'success': True})
+    except User.DoesNotExist:
+        # If the mentore doesn't exist, return an error
+        return JsonResponse({'success': False, 'error': 'Mentore not found'})
+
+@require_POST  # Assurez-vous que cette vue ne peut être appelée qu'avec une méthode POST
+def accept_request(request):
+    request_id = request.POST.get('coaching_request_id')
+    coaching_request = get_object_or_404(CoachingRequest, pk=request_id)
+
+    # Perform action here, e.g., change request status
+    coaching_request.status = 'Acceptée'
+    coaching_request.save()
+
+    # Send notification to mentore
+    Notification.objects.create(
+        user=coaching_request.mentore,
+        message=f"Coaching with {coaching_request.mentor.username}",
+        coaching_request=coaching_request,  # Cela établit la liaison avec la demande de coaching
+        url=reverse('coaching_request', args=[coaching_request.id]),
+    )
+
+    messages.success(request, 'La demande de coaching a été acceptée et le mentore notifié.')
+    return redirect('mentor_page')  # Redirigez vers une page appropriée
+
+@require_POST
+def reject_request(request):
+    request_id = request.POST.get('coaching_request_id')
+    coaching_request = get_object_or_404(CoachingRequest, pk=request_id)
+
+    # Perform action here, e.g., change request status
+    coaching_request.status = 'Refusée'
+    coaching_request.save()
+
+    # Send notification to mentore
+    Notification.objects.create(
+        user=coaching_request.mentore,
+        message=f"Coaching with {coaching_request.mentor.username}",
+        coaching_request=coaching_request,  # Cela établit la liaison avec la demande de coaching
+        url=reverse('coaching_request', args=[coaching_request.id]),
+    )
+
+    messages.error(request, 'La demande de coaching a été refusée et le mentore notifié.')
+    return redirect('mentor_page')  # Redirigez vers une page appropriée
+
+
+def coaching_request(request, request_id):
+    # Assurez-vous que l'utilisateur est authentifié et a le droit de voir cette demande
+    coaching_request = get_object_or_404(CoachingRequest, pk=request_id)
+    sessions = Disponibilite.objects.filter(mentor=coaching_request.mentor)
+    dates = [session.date for session in sessions]
+
+    # Vérifiez si l'utilisateur actuel est le mentoré concerné par la demande de coaching
+    if request.user == coaching_request.mentore:
+        # Si oui, récupérez les dates sélectionnées liées à cette demande de coaching
+        selected_dates = dates
+
+        context = {
+            'selected_dates': selected_dates,
+            'notification_id': request_id,
+            'mentor_usr': coaching_request.mentor.username,
+        }
+        return render(request, 'sessions/coaching_request.html', context)
+    else:
+        # Si non, redirigez l'utilisateur ou affichez un message d'erreur
+        # Vous pouvez utiliser messages framework pour afficher un message d'erreur
+        return render(request, 'error.html', {'message': 'You do not have permission to view this request.'})
+
+def notification_redirect(request, notification_id):
+    # Assurez-vous que l'utilisateur est connecté
+    if not request.user.is_authenticated:
+        # Redirigez vers la page de connexion ou affichez un message d'erreur
+        return redirect('login')
+
+    # Récupérez la notification et assurez-vous qu'elle appartient à l'utilisateur connecté
+    notification = get_object_or_404(Notification, pk=notification_id, user=request.user)
+
+    # Marquez la notification comme lue, si ce n'est pas déjà fait
+    if not notification.read:
+        notification.read = True
+        notification.save()
+
+    # Si la notification est liée à une demande de coaching, redirigez vers la vue de détail
+    if notification.coaching_request:
+        return redirect('coaching_request', request_id=notification.coaching_request.id)
+
+    # Si la notification n'est pas liée à une demande de coaching, redirigez vers une page par défaut
+    return redirect('default')

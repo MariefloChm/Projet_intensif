@@ -20,12 +20,7 @@ class Mentor(User):
     Objectives = models.CharField(max_length=100)
     Job = models.CharField(max_length=100)
     PersonalityDescription = models.CharField(max_length=100)
-
-class Notification(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
-    message = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
-    read = models.BooleanField(default=False)
+    Rating = models.IntegerField(default=0)
 
 class CoachingRequest(models.Model):
     # ForeignKey pour relier chaque demande à un mentor et un mentore.
@@ -46,10 +41,21 @@ class CoachingRequest(models.Model):
         ('Refusée', 'Refusée'),
     )
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='En attente')
+    available_dates = models.ManyToManyField('Disponibilite')
 
     def __str__(self):
         return f"{self.mentore} a demandé une séance avec {self.mentor} le {self.date} à {self.time}"
 
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    message = models.TextField()
+    date_created = models.DateTimeField(auto_now_add=True)
+    read = models.BooleanField(default=False)
+    url = models.URLField(null=True, blank=True)
+    #coaching_request = models.ForeignKey('CoachingRequest', on_delete=models.CASCADE, related_name='notifications', null=True, blank=True)
+    coaching_request = models.ForeignKey(CoachingRequest, on_delete=models.CASCADE, null=True, blank=True)
+    def __str__(self):
+        return f"Notification for {self.user.username}: {self.message}"
 class Disponibilite(models.Model):
     date = models.DateField()
     mentor = models.ForeignKey('auth.User', on_delete=models.CASCADE)

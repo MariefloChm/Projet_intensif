@@ -1,0 +1,59 @@
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <title>{% block title %}{% trans 'Availability Dates' %}{% endblock %}</title>
+
+    <style>
+        .selected-dates {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 50px; /* Ajustez selon l'espacement désiré */
+
+        }
+
+        .selected-dates h3 {
+            margin-bottom: 15px;
+        }
+
+        .selected-dates ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .selected-dates li {
+            background-color: #f0f0f0;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+{% include 'registration/user_nav.html' %}
+{% block content %}
+<body>
+
+<!-- Colonne pour les dates sélectionnées -->
+<div class="col-md-6">
+    <div id="selectedDatesContainer" class="selected-dates">
+        <h3>{% trans 'Selected Dates' %}</h3>
+        <ul id="selectedDatesList">
+            <!-- Les dates sélectionnées seront ajoutées ici -->
+            {% for date in dates %}
+                <p>{{ date }}</p>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<script src="{% static 'js/script.js' %}"></script>
+</body>
+{% endblock %}
+{% include 'footer.html' %}

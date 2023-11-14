@@ -40,7 +40,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="notificationDropdown">
                     {% for notification in notifications %}
-                        <a class="dropdown-item {% if not notification.read %}font-weight-bold{% endif %} notification-link" href="{% url 'user_request' notification.id %}"
+                        <a class="dropdown-item {% if not notification.read %}font-weight-bold{% endif %} notification-link" href="{% url 'notification_redirect' notification.id %}"
                            data-notification-id="{{ notification.id }}">
                             {{ notification.message }}
                         </a>

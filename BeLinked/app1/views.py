@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.models import Group
 
 from django.shortcuts import render, redirect
 
@@ -77,7 +78,9 @@ def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            group = Group.objects.get(name='Mentorés')  # Assurez-vous que ce groupe existe
+            group.user_set.add(user)
             username = form.cleaned_data.get('username')
             # messages.success(request, f'Account created for {username}!')
             return redirect('login') # Redirige vers la page de login
