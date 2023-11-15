@@ -74,7 +74,7 @@ def recommand_best_mentor(new_data):
     new_mentee_id=  new_data['ID'].iloc[-1]
     mtr_df, mte_df, mat = get_similarity_data(new_data,new_data.columns)
     res= get_full_matching_df(mtr_df,mte_df,mat)
-    top_n_mtr = res.query("mte_ID==@new_mentee_id").dropna(axis=1)
+    top_n_mtr = res.query("mte_ID==@new_mentee_id").nlargest(3,"Score")
     return top_n_mtr
     
 with st.sidebar:
