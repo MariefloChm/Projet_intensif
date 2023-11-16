@@ -1,5 +1,6 @@
 
 import pandas as pd
+from sklearn.metrics.cluster import silhouette_score
 from sklearn.preprocessing import OrdinalEncoder, OneHotEncoder
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.ensemble import GradientBoostingRegressor
@@ -7,32 +8,17 @@ from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_percentage_error
 from sklearn.metrics.pairwise import cosine_similarity
+from sklearn.cluster import KMeans, kmeans_plusplus
+from sklearn.feature_extraction.text import TfidfVectorizer
 import streamlit as st
+import pickle
 
 st.set_page_config("pi_poc",layout="wide", initial_sidebar_state="expanded")
 st.title("POC")
-df=pd.read_csv("full_dataset.csv")
+RAW_DATA=pd.read_csv("full_dataset.csv")
 with st.expander("Show data"):
-    st.dataframe(df)
-
-def get_similarity_data(data_arg, feature=["Domaines","Diplôme"]):
-    #Encodage one-hot des caractéristiques catégorielles
-    oH_encoder = OneHotEncoder(sparse=False, drop='first')
-    # encoder.get
-    oH_encoded_features = oH_encoder.fit_transform(data_arg[feature])
-    # scaler = MinMaxScaler()
-    # df_arg[num_feat] = scaler.fit_transform(df_work[num_feat])
-    # Créer un DataFrame avec les caractéristiques encodées
-    oH_encoded_df = pd.DataFrame(oH_encoded_features, columns=oH_encoder.get_feature_names_out(feature))
-    combined_data_encoded = pd.concat([data_arg,oH_encoded_df], axis=1)
-    mentors_data = combined_data_encoded.query("Profil=='Mentor'")
-    # mentors_data = mentors_data[features]
-    mentorees_data = combined_data_encoded.query("Profil=='Mentoré'")
-    mentors_features =mentors_data.drop(columns=data_arg.columns)
-    mentorees_features =mentorees_data.drop(columns=data_arg.columns)
-    similarity_score = cosine_similarity(mentors_features,mentorees_features, dense_output=True) 
-    return mentors_data, mentorees_data, similarity_score
-
+    st.dataframe(RAW_DATA)
+    
 # Définition des seuils pour l'évaluation
 def evaluate_score(score):
     if score > 0.7:
@@ -43,59 +29,100 @@ def evaluate_score(score):
         return 'Basse'
 
 
-    
-def get_full_matching_df(mtr_df, mte_df,mat_score,feature=["Domaines","Diplôme","Compétences","Objectifs","Métier","ID"]):
-    n_repeats = len(mte_df)
-    mtr_df_repeated = pd.concat([mtr_df[feature]] * n_repeats, ignore_index=True)
-    mte_df_repeated = pd.concat([mte_df[feature]] * len(mtr_df), ignore_index=True)
-    # Rename columns with prefixes
-    mtr_df_repeated.columns = ["mtr_" + col for col in mtr_df_repeated.columns]
-    mte_df_repeated.columns = ["mte_" + col for col in mte_df_repeated.columns]
-    scores = [mat_score[i][j] for i in range(len(mtr_df)) for j in range(len(mte_df))]
-    eval_score = [evaluate_score(score) for score in scores]
-    # Combine the two DataFrames
-    res_data = pd.concat([mtr_df_repeated, mte_df_repeated], axis=1)
-    res_data["Score"] = scores
-    res_data["eval_score"] = eval_score
-    return res_data.sort_values(by="Score",ascending=False)
-        
+def process_df(df:pd.DataFrame):
+    main_feat=["Domaines","Diplôme","Compétences","Objectifs","Métier","Description de la personnalité","Langue parlée"]
+    tfidf_vectorizer = TfidfVectorizer(stop_words=["french","english"])
+    df_work =df.copy()
+    df_work['combined_text'] = df_work[main_feat].apply(lambda x: ' '.join(x), axis=1)
+    df_work['combined_text'] =df_work["combined_text"].apply(lambda x:x.lower())
+    tfidf_matrix = tfidf_vectorizer.fit_transform(df_work['combined_text'])
+    return tfidf_matrix, tfidf_vectorizer
 
-def add_new_mentee_data(raw_df, domaine:str,diplome:str,compétences:str,objectifs:str,métier:str, profil="Mentoré"):
-    new_mentee_data =  pd.DataFrame({"Domaines":[domaine],"Diplôme":[diplome],"Compétences":[compétences],"Objectifs":[objectifs],"Métier":[métier],"Profil":[profil]})
-    # new_mentee_data.index[-1]= new_mentee_data.index[-1]+1
-    id_number  = int(raw_df.query("Profil=='Mentoré'")["ID"].iloc[-1].split("_")[1])+1
-    new_mentee_data["ID"]=["MTE_"+str(id_number)]
-    # new_mentee_data.reset_index(drop=True, inplace=True)
-    res_df =pd.concat([raw_df,new_mentee_data], axis=0)
-    res_df.reset_index(inplace=True, drop=True)
-    return res_df
+def find_optimal_k(data_matrix):
+    wcss = []
+    add_wcss = wcss.append
+    shs_score = []
+    add_shs = shs_score.append
+    K_range = range(2, 20) 
+    for k in K_range:
+        kmeans = KMeans(n_clusters=k, random_state=0)
+        cluster_labels = kmeans.fit_predict(data_matrix)
+        add_wcss(kmeans.inertia_)
+        silhouette_avg = silhouette_score(data_matrix, cluster_labels)
+        add_shs(silhouette_avg)
+    res = pd.DataFrame({"K":K_range,"WCSS":wcss,"Silhouette Score":shs_score})
+    return res
 
-def recommand_best_mentor(new_data):
-    new_mentee_id=  new_data['ID'].iloc[-1]
-    mtr_df, mte_df, mat = get_similarity_data(new_data,new_data.columns)
-    res= get_full_matching_df(mtr_df,mte_df,mat)
-    top_n_mtr = res.query("mte_ID==@new_mentee_id").nlargest(3,"Score")
-    return top_n_mtr
-    
-    
+def train_model(data_matrix,raw_df,n_optimal_cluster):
+    kmeans = KMeans(n_clusters=n_optimal_cluster)
+    prediction = kmeans.fit_predict(data_matrix)
+    raw_df["cluster"]=prediction
+    return raw_df, kmeans
+
+def get_user_input_df():
+    col1, col2 =st.columns(2)
+    with col1:
+        domain =st.text_input("domain", value="Mathématiques")
+        compétences =st.text_input("compétences", value="Analyse de données")
+        métier =st.text_input("métier",value="Scientifique des données")
+    with col2:
+        diplome =st.text_input("diplome", value="Master en mathématiques")
+        objectifs = st.text_input("objectifs",value="Devenir Data Scientist")
+        personalité =st.text_input("personalité",value="Ethousiaste, Sympathique et Patient")
+        feat=["Domaines","Diplôme","Compétences","Objectifs","Métier","ID"]
+    user_inp = {"Domaines":[domain],"Diplôme":[diplome],"Compétences":[compétences],"Objectifs":[objectifs],"Métier":[métier]}
+    user_input_df = pd.DataFrame(user_inp)
+    return user_input_df
+
+def recommend_mentors(mentee_profile,model:KMeans,transformer:TfidfVectorizer,raw_df:pd.DataFrame,data_matrix,top_n=3):
+    # Transform mentee profile text to TF-IDF
+    if mentee_profile is not None:
+        if isinstance(mentee_profile, pd.DataFrame):
+            corpus= mentee_profile.apply(lambda x:' '.join(x),axis=1)
+            # corpus = [col.lower() for col in corpus]
+            mentee_tfidf = transformer.transform(corpus)
+        else:
+            mentee_tfidf = transformer.transform([mentee_profile])
+    else:
+        st.warning("Pleaser enter your information")
+
+    # Predict the cluster for the mentee
+    mentee_cluster =model.predict(mentee_tfidf)
+    # Filter mentors in the same cluster
+    mentors_in_cluster = raw_df[raw_df['cluster'] == mentee_cluster[0]]
+
+    # Calculate similarity within the cluster
+    similarity_scores = cosine_similarity(data_matrix[mentors_in_cluster.index], mentee_tfidf)
+    # Sort mentors by similarity score
+    mentors_in_cluster['similarity'] = similarity_scores.flatten()
+    mentors_in_cluster["Evaluation"] = mentors_in_cluster['similarity'].apply(evaluate_score)
+    top_mentors = mentors_in_cluster.sort_values(by='similarity', ascending=False).head(top_n)
+    return top_mentors
+
+DATA_MATRIX, tfid=process_df(RAW_DATA)
+best_k_res = find_optimal_k(data_matrix=DATA_MATRIX)
+df,kmeans = train_model(DATA_MATRIX,RAW_DATA,10)
+
+import matplotlib.pyplot as plt 
 with st.sidebar:
     st.write("Settings")
     menu =st.radio("Select Menu",options=("Train","Recommandation"))
 
 if menu=="Train":
     st.write("You can train model here")
+    fig,(ax,ax2)= plt.subplots(nrows=2)
+    best_k_res.plot(x="K",y="WCSS", ax=ax)
+    best_k_res.plot(x="K",y="Silhouette Score", ax=ax2)
+    st.pyplot(fig)
 else:
-    with st.form("New mentee Data"):
-        col1, col2 =st.columns(2)
-        with col1:
-            domain =st.text_input("domain", value="Mathématiques")
-            compétences =st.text_input("compétences", value="Analyse de données")
-            métier =st.text_input("métier",value="Scientifique des données")
-        with col2:
-            diplome =st.text_input("diplome", value="Master en mathématiques")
-            objectifs = st.text_input("objectifs",value="Devenir Data Scientist")
-            personalité =st.text_input("personalité",value="Ethousiaste, Sympathique et Patient")
-        new_input_data =add_new_mentee_data(df,domaine=domain,diplome=diplome,compétences=compétences,objectifs=objectifs,métier=métier)
-        if st.form_submit_button("show matching mentors", use_container_width=True):
-            st.dataframe(recommand_best_mentor(new_input_data))
+    mentee_information = None
+    inp_option = st.radio("Select the input format",options=("Forumalaire","Text"))
+    # user_inp = st.text_input("Enter your description")
+    mentee_information= st.text_input("Enter your description") if inp_option=="Text" else get_user_input_df()
+    
+    top_n = recommend_mentors(mentee_information,model=kmeans,transformer=tfid,raw_df=RAW_DATA,data_matrix=DATA_MATRIX)
+    if st.button("Find mentors"):
+        st.dataframe(top_n)
+
             
+                
