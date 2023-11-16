@@ -12,8 +12,8 @@ import streamlit as st
 st.set_page_config("pi_poc",layout="wide", initial_sidebar_state="expanded")
 st.title("POC")
 df=pd.read_csv("full_dataset.csv")
-
-st.dataframe(df)
+with st.expander("Show data"):
+    st.dataframe(df)
 
 def get_similarity_data(data_arg, feature=["Domaines","Diplôme"]):
     #Encodage one-hot des caractéristiques catégorielles
@@ -77,19 +77,25 @@ def recommand_best_mentor(new_data):
     top_n_mtr = res.query("mte_ID==@new_mentee_id").nlargest(3,"Score")
     return top_n_mtr
     
+    
 with st.sidebar:
-    "test"
-with st.form("New mentee Data"):
-    col1, col2 =st.columns(2)
-    with col1:
-        domain =st.text_input("domain", value="Mathématiques")
-        compétences =st.text_input("compétences", value="Analyse de données")
-        métier =st.text_input("métier",value="Scientifique des données")
-    with col2:
-        diplome =st.text_input("diplome", value="Master en mathématiques")
-        objectifs = st.text_input("objectifs",value="Devenir Data Scientist")
-        personalité =st.text_input("personalité",value="Ethousiaste, Sympathique et Patient")
-    new_input_data =add_new_mentee_data(df,domaine=domain,diplome=diplome,compétences=compétences,objectifs=objectifs,métier=métier)
-    if st.form_submit_button("show matching mentors", use_container_width=True):
-        st.dataframe(recommand_best_mentor(new_input_data))
-        
+    st.write("Settings")
+    menu =st.radio("Select Menu",options=("Train","Recommandation"))
+
+if menu=="Train":
+    st.write("You can train model here")
+else:
+    with st.form("New mentee Data"):
+        col1, col2 =st.columns(2)
+        with col1:
+            domain =st.text_input("domain", value="Mathématiques")
+            compétences =st.text_input("compétences", value="Analyse de données")
+            métier =st.text_input("métier",value="Scientifique des données")
+        with col2:
+            diplome =st.text_input("diplome", value="Master en mathématiques")
+            objectifs = st.text_input("objectifs",value="Devenir Data Scientist")
+            personalité =st.text_input("personalité",value="Ethousiaste, Sympathique et Patient")
+        new_input_data =add_new_mentee_data(df,domaine=domain,diplome=diplome,compétences=compétences,objectifs=objectifs,métier=métier)
+        if st.form_submit_button("show matching mentors", use_container_width=True):
+            st.dataframe(recommand_best_mentor(new_input_data))
+            
