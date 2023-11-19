@@ -139,7 +139,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                     {% if user.is_authenticated %}
-                        <a class="dropdown-item" href="{% url 'user_settings' %}">{% trans 'Settings'%}</a>
+                        <a class="dropdown-item" href="{% url 'mentor_settings' %}">{% trans 'Settings'%}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}">{%  trans 'Logout' %}</a>
                     {% else %}
@@ -153,11 +153,10 @@
 </nav>
 
 
-
+<body class="{% if request.session.theme == 'dark-mode' %}dark-mode{% else %}light-mode{% endif %}">
 {% block content %}
 <h1>{% trans 'Welcome to the mentor page!'%} </h1>
 <h2>{% trans 'Availability calendar' %}</h2>
-<body>
 
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -198,22 +197,17 @@
         </div>
     </div>
 
-
-
-</body>
-
-
-
-
     <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 
     <script>
         const disponibiliteURL = "{% url 'disponibilite' %}";
-        const saveURL = "{% url 'save_dates' %}";
+        {#const saveURL = "{% url 'save_dates' %}";#}
     </script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
 {% include 'footer.html' %}
+</body>
+
 

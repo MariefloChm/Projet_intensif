@@ -1,9 +1,8 @@
 {% include "registration/mentor_base.html" %}
 {% load i18n %}
+{% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>{% block title %}{% trans 'All notifications' %}{% endblock %}</title>
+{% block extra_styles %}
     <style>
         /* Styling for the notification container */
         .notification-container {
@@ -39,11 +38,27 @@
             font-weight: bold;
         }
     </style>
-</head>
+{% endblock %}
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <img src="{% static 'images/logo_bleu.ico' %}" width="130" height="130" alt="Logo">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="page-item"><a class="page-link" href="{% url 'mentor_page' %}">{% trans 'Home' %}</a></li>
+            </ul>
+
+        </div>
+    </nav>
+{% endblock %}
 
 {% block content %}
-    <body>
-    <!-- Notification Container -->
+{#    {% block title %}{% trans 'All notifications' %}{% endblock %}#}
     <div class="notification-container">
         {% for notification in all_notifications %}
             <div class="notification-item {% if not notification.read %}font-weight-bold{% endif %}">
@@ -51,6 +66,8 @@
             </div>
         {% endfor %}
     </div>
-    </body>
+
 {% endblock %}
-{% include 'footer.html' %}
+{% block footer %}
+{% include 'fixed_footer.html' %}
+{% endblock %}

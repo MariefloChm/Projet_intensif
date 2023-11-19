@@ -1,23 +1,13 @@
+{% extends 'base_site.html' %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
 {% get_available_languages as LANGUAGES %}
 {% get_language_info_list for LANGUAGES as languages %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="mentorat,mentoring,mentor,mentoré,connexion">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway&display=swap" rel="stylesheet">
-{#    <link rel="icon" href="{% static 'images/favicon_io/favicon.ico' %}" type="image/x-icon">#}
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon_io/apple-touch-icon.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon_io/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon_io/favicon-16x16.png' %}">
-    <link rel="manifest" href="{% static 'images/favicon_io/site.webmanifest' %}">
-    <title>Be linked</title>
+{% block title %}Be linked{% endblock %}
+
+{% block navbar %}
     <style>
         body {
             font-family: 'Open Sans', sans-serif;
@@ -25,7 +15,7 @@
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='88' height='88' viewBox='0 0 88 88'%3E%3Cg fill='%234e3772' fill-opacity='0.4'%3E%3Cpath fill-rule='evenodd' d='M29.42 29.41c.36-.36.58-.85.58-1.4V0h-4v26H0v4h28c.55 0 1.05-.22 1.41-.58h.01zm0 29.18c.36.36.58.86.58 1.4V88h-4V62H0v-4h28c.56 0 1.05.22 1.41.58zm29.16 0c-.36.36-.58.85-.58 1.4V88h4V62h26v-4H60c-.55 0-1.05.22-1.41.58h-.01zM62 26V0h-4v28c0 .55.22 1.05.58 1.41.37.37.86.59 1.41.59H88v-4H62zM18 36c0-1.1.9-2 2-2h10a2 2 0 1 1 0 4H20a2 2 0 0 1-2-2zm0 16c0-1.1.9-2 2-2h10a2 2 0 1 1 0 4H20a2 2 0 0 1-2-2zm16-26a2 2 0 0 1 2-2 2 2 0 0 1 2 2v4a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-4zm16 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v4a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-4zM34 58a2 2 0 0 1 2-2 2 2 0 0 1 2 2v4a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-4zm16 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v4a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-4zM34 78a2 2 0 0 1 2-2 2 2 0 0 1 2 2v6a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-6zm16 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v6a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-6zM34 4a2 2 0 0 1 2-2 2 2 0 0 1 2 2v6a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4zm16 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v6a2 2 0 0 1-2 2 2 2 0 0 1-2-2V4zm-8 82a2 2 0 1 1 4 0v2h-4v-2zm0-68a2 2 0 1 1 4 0v10a2 2 0 1 1-4 0V18zM66 4a2 2 0 1 1 4 0v8a2 2 0 1 1-4 0V4zm0 72a2 2 0 1 1 4 0v8a2 2 0 1 1-4 0v-8zm-48 0a2 2 0 1 1 4 0v8a2 2 0 1 1-4 0v-8zm0-72a2 2 0 1 1 4 0v8a2 2 0 1 1-4 0V4zm24-4h4v2a2 2 0 1 1-4 0V0zm0 60a2 2 0 1 1 4 0v10a2 2 0 1 1-4 0V60zm14-24c0-1.1.9-2 2-2h10a2 2 0 1 1 0 4H58a2 2 0 0 1-2-2zm0 16c0-1.1.9-2 2-2h10a2 2 0 1 1 0 4H58a2 2 0 0 1-2-2zm-28-6a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm8 26a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm16 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM36 20a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm16 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm-8-8a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 68a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm16-34a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm16-12a2 2 0 1 0 0 4 6 6 0 1 1 0 12 2 2 0 1 0 0 4 10 10 0 1 0 0-20zm-64 0a2 2 0 1 1 0 4 6 6 0 1 0 0 12 2 2 0 1 1 0 4 10 10 0 1 1 0-20zm56-12a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0 48a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm-48 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0-48a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm24 32a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-4a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm36-36a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM10 44c0-1.1.9-2 2-2h8a2 2 0 1 1 0 4h-8a2 2 0 0 1-2-2zm56 0c0-1.1.9-2 2-2h8a2 2 0 1 1 0 4h-8a2 2 0 0 1-2-2zm8 24c0-1.1.9-2 2-2h8a2 2 0 1 1 0 4h-8a2 2 0 0 1-2-2zM3 68c0-1.1.9-2 2-2h8a2 2 0 1 1 0 4H5a2 2 0 0 1-2-2zm0-48c0-1.1.9-2 2-2h8a2 2 0 1 1 0 4H5a2 2 0 0 1-2-2zm71 0c0-1.1.9-2 2-2h8a2 2 0 1 1 0 4h-8a2 2 0 0 1-2-2zm6 66a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM8 86a6 6 0 1 1 0-12 6 6 0 0 1 0 12zm0-4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm0-68A6 6 0 1 1 8 2a6 6 0 0 1 0 12zm0-4a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm36 36a2 2 0 1 0 0-4 2 2 0 0 0 0 4z'/%3E%3C/g%3E%3C/svg%3E");
         }
         .navbar {
-            {#background-color: #0097B2;#}
+        {#background-color: #0097B2;#}
             background: linear-gradient(to bottom, #AEDFF7, #0077B6);
         }
         h1, h2, h3 {
@@ -54,8 +44,9 @@
         }
         p {
             margin-bottom: 20px;
-            font-family: 'Lato', sans-serif;
+            font-family: 'Raleway', sans-serif;
             font-size: 18px;
+            color: #0097B2;
         }
         /* Style pour l'image */
         .text-center img {
@@ -69,10 +60,8 @@
         }
 
     </style>
-</head>
 
-<body>
-<nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
     <a class="navbar-brand" href="#">
         Be linked
     </a>
@@ -91,48 +80,57 @@
                     <a class="dropdown-item" href="{% url 'mentor_login' %}">{% trans 'Mentor' %}</a>
                 </div>
             </li>
-            <div class="dropdown">
-                <button class="btn btn-secondary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
-                    {% trans 'Langages' %}
-                </button>
-                <div class="dropdown-menu">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownLanguages" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {% trans 'Languages' %}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownLanguages">
                     {% for language in languages %}
                         <a class="dropdown-item" href="/{{ language.code }}">{{ language.name_local }}</a>
                     {% endfor %}
                 </div>
-            </div>
+            </li>
+
         </ul>
     </div>
 </nav>
+{% endblock %}
 
-<div class="container">
-    <h1>{% trans 'Welcome to Be linked!' %}</h1>
-    <h2>{%  trans 'Connect to the future with the power of mentoring.' %}</h2>
-    <h3>{% trans 'Please start by visiting the user space' %}</h3>
 
-    <div class="text-center">
-        <img src="{% static 'images/sharing.png' %}" width="300px" height="300px" class="img-fluid" loading="lazy">
+{% block content %}
+
+    <div class="container">
+
+        <h1>{% trans 'Welcome to Be linked!' %}</h1>
+        <h2>{%  trans 'Connect to the future with the power of mentoring.' %}</h2>
+        <h3>{% trans 'Please start by visiting the user space' %}</h3>
+
+        <div class="text-center">
+            <img src="{% static 'images/sharing.png' %}" width="300px" height="300px" class="img-fluid" loading="lazy">
+        </div>
+
+        <!-- Texte suggéré ajouté ici -->
+        <div class="mt-4 mb-4">
+            <p>{% trans 'On the "Be linked" platform, we believe that every individual holds unique potential. By connecting experienced mentors with passionate mentees, we create a collaborative learning space where sharing, growth and self-fulfilment are at the forefront.'%}</p>
+            <p>{% trans "Whether you're looking to acquire new skills, share your expertise or simply make meaningful connections in your field, Be linked is your gateway to a rewarding mentoring experience."%}</p>
+        </div>
+
+        <figure class="figure">
+            <img src="{% static 'images/logo_bleu.png' %}" loading="lazy" alt="description" width="300px" class="figure-img img-fluid rounded" alt="">
+            <figcaption class="figure-caption text-center" style="color: #0097b2">{% trans 'Create your world by weaving timely links'%}</figcaption>
+        </figure>
     </div>
 
-    <!-- Texte suggéré ajouté ici -->
-    <div class="mt-4 mb-4">
-        <p>{% trans 'On the "Be linked" platform, we believe that every individual holds unique potential. By connecting experienced mentors with passionate mentees, we create a collaborative learning space where sharing, growth and self-fulfilment are at the forefront.'%}</p>
-        <p>{% trans "Whether you're looking to acquire new skills, share your expertise or simply make meaningful connections in your field, Be linked is your gateway to a rewarding mentoring experience."%}</p>
-    </div>
 
-    <figure class="figure">
-        <img src="{% static 'images/logo_bleu.png' %}" width="300px" class="figure-img img-fluid rounded" alt="">
-        <figcaption class="figure-caption text-center">{% trans 'Create your world by weaving timely links'%}</figcaption>
-    </figure>
-</div>
+{% endblock %}
 
 
+{% block footer %}
+    {% include 'footer.html' %} {% endblock %}
 
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
-
-
-{% include 'footer.html' %}
-</body>
+{% block extra_scripts %}
+{#    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>#}
+{% endblock %}

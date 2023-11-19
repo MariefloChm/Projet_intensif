@@ -1,0 +1,173 @@
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Settings" %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+    <style>
+        .custom-link{
+            color: #0097B2;
+        }
+        /* La structure de base du bouton */
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 60px; /* Largeur du bouton */
+            height: 34px; /* Hauteur du bouton */
+        }
+
+        /* Cache l'input */
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        input:checked + .slider {
+            background-color: #2196F3; /* Couleur de fond quand il est ON */
+        }
+
+        input:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+
+        .theme-switch-title {
+            display: inline-block;
+            margin-left: 10px;
+            vertical-align: middle;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+    </style>
+</head>
+<body class="theme-content {{ request.session.theme }}">
+
+<nav class="navbar navbar-dark bg-dark">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <img src="{% static 'images/logo_bleu.png' %}" alt="Logo" class="navbar-logo" style="width: 150px;">
+    <div class="wrapper">
+        <ul class="nav justify-content-end">
+            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'mentor_page' %}">{% trans "Home" %}</a></li>
+            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+
+        </ul>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+</nav>
+<h1>{% trans "Preferences" %}</h1>
+<div class="container h-100">
+    <div class="row justify-content-center align-items-center h-100">
+        <div class="col col-sm-6">
+            <div class="preferences-panel bg-light p-4 border rounded">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <div class="custom-control custom-switch">
+                            <input type="checkbox" id="displayPanel" class="custom-control-input">
+                            <label class="custom-control-label" for="displayPanel">
+{#                                <span class="slider round"></span>#}
+                            </label>
+                            <span class="theme-switch-title">{% trans "Mode Sombre:" %}</span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Initialize the toggle switch based on the current theme
+        var isDarkMode = $('body').hasClass('dark-mode');
+        $('#displayPanel').prop('checked', isDarkMode);
+
+        $('#displayPanel').change(function() {
+            toggleDarkLight();
+        });
+    });
+
+    function toggleDarkLight() {
+        var isChecked = $('#displayPanel').is(':checked');
+
+        $.ajax({
+            type: 'POST',
+            url: '{% url "change_theme" %}',
+            data: {
+                'displayPanel': isChecked ? 'dark' : 'light',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                console.log(response); // Debugging line
+                if(response.theme === "dark-mode") {
+                    $('body').addClass('dark-mode').removeClass('light-mode');
+                } else {
+                    $('body').addClass('light-mode').removeClass('dark-mode');
+                }
+                // Update the state of the switch to reflect the current theme
+                $('#displayPanel').prop('checked', response.theme === "dark-mode");
+            }
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+
+</script>
+{% include 'fixed_footer.html' %}
+
+</body>
+</html>

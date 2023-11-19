@@ -3,10 +3,10 @@ from django.contrib.auth.models import User, Group
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.http import require_POST
 
-from .forms import MatchingForm, MentorForm, CoachingRequestForm
+from .forms import MatchingForm, MentorForm, CoachingRequestForm, PreferencesForm
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import Matching, Notification, CoachingRequest
+from .models import Matching, Notification, CoachingRequest, Preferences
 from .utils import calculate_matching_score
 
 
@@ -112,9 +112,44 @@ def find_view(request):
 
     return render(request,'registration/matching.html',{'form':form, 'predicted_score': predicted_score})
 
+from django.http import JsonResponse
+
+def change_theme(request):
+    if request.method == 'POST':
+        # Ajustez les valeurs pour correspondre à ce que la fonction JavaScript envoie
+        theme = request.POST.get('displayPanel', 'light')
+        if theme == 'dark':
+            request.session['theme'] = 'dark-mode'
+            print(request.session['theme'])
+        else:
+            request.session['theme'] = 'light-mode'
+            print(request.session['theme'])
+
+        return JsonResponse({"theme": request.session['theme']})
+    else:
+        return JsonResponse({"error": "Invalid request"}, status=400)
 
 def user_settings(request):
-    pass
+    if request.method == 'POST':
+        form = PreferencesForm(request.POST)
+        print(form)
+        if form.is_valid():
+            form.save()
+            return redirect('change_theme')
+    else:
+        form = PreferencesForm()
+    return render(request, 'registration/user_settings.html', {'form': form})
+
+def mentor_settings(request):
+    if request.method == 'POST':
+        form = PreferencesForm(request.POST)
+        print(form)
+        if form.is_valid():
+            form.save()
+            return redirect('change_theme')
+    else:
+        form = PreferencesForm()
+    return render(request, 'registration/mentor_settings.html', {'form': form})
 
 def user_page(request):
     notifications = Notification.objects.filter(user=request.user).order_by('-date_created')[:5]
@@ -327,7 +362,7 @@ def get_selected_dates(request):
         data = serialize('json', selected_dates)
         # Passez 'data' au template après le désérialiser
         dates_list = json.loads(data)
-        print(dates_list)
+        #print(dates_list)
         # Ajoutez d'autres contextes si nécessaire
         context = {
             'coaching_request': coaching_request,

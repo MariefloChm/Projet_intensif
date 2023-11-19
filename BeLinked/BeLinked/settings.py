@@ -11,13 +11,6 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import os
-from openai import OpenAI
-
-# client = OpenAI(
-#     api_key=os.getenv('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'),  # this is also the default, it can be omitted
-# )
-#OPENAI_API_KEY = os.getenv('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')
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -77,6 +70,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'app1.context_processors.theme_processor',
             ],
         },
     },

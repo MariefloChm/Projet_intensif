@@ -1,0 +1,115 @@
+{% load i18n %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Settings" %}</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/settings.css' %}">
+    <style>
+        .custom-link{
+            color: #0097B2;
+        }
+    </style>
+</head>
+<body class="theme-content {{ request.session.theme }}">
+{% load static %}
+{% load i18n %}
+
+<nav class="navbar navbar-dark bg-dark">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <img src="{% static 'images/logo_bleu.png' %}" alt="Logo" class="navbar-logo" style="width: 150px;">
+    <div class="wrapper">
+        <ul class="nav justify-content-end">
+            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'user_page' %}">{% trans "Home" %}</a></li>
+            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'logout' %}">{% trans "Logout" %}</a></li>
+
+        </ul>
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+</nav>
+<div class="container my-4">
+    <div class="preferences-panel">
+        <h1>{% trans "Preferences" %}</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="mb-3 d-flex justify-content-between align-items-center form-switch">
+                <label class="form-check-label" for="displayPanel">{% trans "Change Theme: Switching from light to dark mode" %}</label>
+                <div>
+                    <input class="form-check-input" type="checkbox" id="displayPanel" name="displayPanel">
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary" onclick="toggleDarkLight()">{% trans "Save" %}</button>
+
+        </form>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    function toggleDarkLight() {
+        var isChecked = $('#displayPanel').is(':checked');
+        $.ajax({
+            type: 'POST',
+            url: '{% url "change_theme" %}',
+            data: {
+                'displayPanel': isChecked ? 'dark' : 'light',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            success: function(response) {
+                $('body').toggleClass('dark-mode light-mode');
+                location.reload(); // Rechargez la page pour appliquer le thème à l'interface utilisateur
+            }
+        });
+    }
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    const csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+        beforeSend: function(xhr, settings) {
+            if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            }
+        }
+    });
+
+
+</script>
+{% include 'fixed_footer.html' %}
+
+</body>
+</html>

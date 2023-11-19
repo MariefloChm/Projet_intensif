@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
 
-    <title>Chat with Assistant</title>
+    <title>{% trans 'Chat with Assistant' %}</title>
 
     <style>
         body {
@@ -115,6 +115,13 @@
             background-color: var(--button-bg-color);
             color: var(--button-text-color);
         }
+        body {
+            background-image: url('{% static 'images/banc.png' %} '); /* Remplacez avec le chemin réel de votre image */
+            background-size: cover; /* Couvre toute la page, peut être ajusté selon les besoins */
+            background-position: center; /* Centrer l'image dans la page */
+            background-repeat: no-repeat; /* Pour ne pas répéter l'image */
+            background-attachment: fixed; /* Fixe l'image, elle ne défile pas avec le contenu */
+        }
 
     </style>
 
@@ -138,7 +145,7 @@
     <div id="chat-box" style="height:300px; overflow:auto; border:1px solid #ccc; padding:10px;">
         <!-- Chat messages will appear here -->
     </div>
-    <input type="text" id="user-input" placeholder="Type your message...">
+    <input type="text" id="user-input" placeholder="I need to solve the equation 3x + 11 = 14. Can you help me?...">
     <button onclick="sendMessage()">{% trans 'Send' %}</button>
 </div>
 

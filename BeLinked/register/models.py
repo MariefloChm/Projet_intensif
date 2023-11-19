@@ -62,3 +62,10 @@ class Disponibilite(models.Model):
 
     def __str__(self):
         return f"{self.date} - {self.mentor.username}"
+
+class Preferences(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    display_panel = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.user}'s preferences"

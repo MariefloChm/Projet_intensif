@@ -60,3 +60,10 @@ class CoachingRequestForm(forms.ModelForm):
     class Meta:
         model = CoachingRequest
         fields = ['mentor', 'mentore', 'date', 'time']
+
+from .models import Preferences
+
+class PreferencesForm(forms.ModelForm):
+    class Meta:
+        model = Preferences
+        fields = [ 'display_panel']
