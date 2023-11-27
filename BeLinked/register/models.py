@@ -1,3 +1,4 @@
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 
 class Matching(models.Model):
@@ -21,6 +22,10 @@ class Mentor(User):
     Job = models.CharField(max_length=100)
     PersonalityDescription = models.CharField(max_length=100)
     Rating = models.IntegerField(default=0)
+
+    def is_mentor(self):
+        return True
+
 
 class CoachingRequest(models.Model):
     # ForeignKey pour relier chaque demande à un mentor et un mentore.
@@ -69,3 +74,15 @@ class Preferences(models.Model):
 
     def __str__(self):
         return f"{self.user}'s preferences"
+
+class UserProfile(models.Model):
+    mentor = models.OneToOneField(Mentor, on_delete=models.CASCADE, null=True, related_name='profile')
+    avatar = models.ImageField(upload_to='avatars/', null=True, blank=True)
+    phone = models.CharField(max_length=20, null=True, blank=True)
+    address = models.TextField(max_length=180, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        if self.mentor:
+            return self.mentor.username
+        return "Mentoré"

@@ -1,0 +1,94 @@
+{% extends 'base_site.html' %}
+{% load crispy_forms_tags %}
+{% load i18n %}
+{% load static %}
+{% block title %}{% trans 'User Page' %}{% endblock %}
+{% block extra_styles %}
+    <style>
+        .card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Card shadow for depth */
+        }
+
+        .btn-info {
+            margin-bottom: 1rem; /* Spacing below the button */
+        }
+    </style>
+
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #444444;">
+
+        <img src="{% static 'images/logo_bleu.ico' %}" width="130" height="130" alt="Logo">
+
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="page-item"><a class="page-link" href="{% url 'user_page' %}">{% trans 'Home' %}</a></li>
+            </ul>
+
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="text-center mb-4">
+                    <h3>{% trans 'Find your future mentor faster !' %}</h3>
+                    <p>{% trans 'Fill in this form to start !' %}</p>
+                </div>
+
+                <div class="card p-4">
+                    <form method="post" action="{% url 'matching_optim' %}">
+                        <div class="form-group">
+                            <label for="id_Domains">Fields</label>
+                            <input type="text" class="form-control" id="id_Domains" name="Fields" placeholder="Enter your field">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_Diplomas">Degree</label>
+                            <input type="text" class="form-control" id="id_Diplomas" name="Degree" placeholder="Enter your degree">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_Skills">Skills</label>
+                            <input type="text" class="form-control" id="id_Skills" name="Skills" placeholder="Enter your skills">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_Career_objectives">Career Objectives</label>
+                            <input type="text" class="form-control" id="id_Career_objectives" name="Objectives" placeholder="Enter your career objectives">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_Job">Job</label>
+                            <input type="text" class="form-control" id="id_Job" name="Job" placeholder="Enter your job">
+                        </div>
+                        <div class="form-group">
+                            <label for="id_Personality">PersonalityDescription</label>
+                            <input type="text" class="form-control" id="id_Personality" name="PersonalityDescription" placeholder="Describe your personality">
+                        </div>
+
+                        {% csrf_token %}
+                        {{ form|crispy }}
+                        <button type="submit" class="btn btn-primary">Find</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block footer %}
+    {% include 'footer.html' %}
+{% endblock %}
+
+{% block extra_scripts %}
+    {#    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>#}
+    {#    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>#}
+    {#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>#}
+{% endblock %}

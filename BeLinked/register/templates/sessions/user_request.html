@@ -1,8 +1,8 @@
-{% include "registration/mentor_base.html" %}
+{% extends "registration/mentor_base.html" %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-{#{% block title %}{% trans 'User request' %}{% endblock %}</title>#}
+{% block title %}{% trans 'User request' %}{% endblock %}
 {% block extra_styles %}
     <style>
         .content-text-color {
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block navbar %}
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #444444;">
 
         <img src="{% static 'images/logo_bleu.ico' %}" width="130" height="130" alt="Logo">
 

@@ -57,6 +57,9 @@ MIDDLEWARE = [
     "django.middleware.locale.LocaleMiddleware"
 ]
 
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+
 ROOT_URLCONF = "BeLinked.urls"
 
 TEMPLATES = [
@@ -126,7 +129,7 @@ LOCALE_PATHS= (
 )
 LANGUAGE_CODE = "en"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = 'Europe/Paris'
 
 USE_I18N = True
 
@@ -138,6 +141,8 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / 'static'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

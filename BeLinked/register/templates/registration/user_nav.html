@@ -113,11 +113,11 @@
         });
     });
 
-    $.ajaxSetup({
-        beforeSend: function(xhr, settings) {
-            if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
-                xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
-            }
-        }
-    });
+    {#$.ajaxSetup({#}
+    {#    beforeSend: function(xhr, settings) {#}
+    {#        if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {#}
+    {#            xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));#}
+    {#        }#}
+    {#    }#}
+    {#});#}
 </script>

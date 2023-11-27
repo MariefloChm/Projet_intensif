@@ -1,12 +1,9 @@
-{% include 'nav.html' %}
+{% extends 'base_site.html' %}
 {% load static %}
 {% load i18n %}
 
-<head>
-    <title>{% block title %}Belinked home page{% endblock %}</title>
-</head>
-
-{% block content %}
+{% block title %}{% trans 'Belinked home page' %}{% endblock %}
+{% block extra_styles %}
     <style>
         .features {
             display: flex;
@@ -60,7 +57,13 @@
 
 
     </style>
+{% endblock %}
 
+{% block navbar %}
+    {% include 'nav.html' %}
+{% endblock %}
+
+{% block content %}
     <h1>{% trans "Belinked Features" %}</h1>
     <h2>{% trans "All the tools to find your optimal mentoring" %}</h2>
     <div class="features">
@@ -84,4 +87,7 @@
     </div>
 
 {% endblock %}
+
+{% block footer %}
 {% include 'fixed_footer.html' %}
+{% endblock %}

@@ -1,3 +1,4 @@
+from crispy_forms.layout import Layout, Field
 from django.contrib import messages
 from django.contrib.auth.models import User, Group
 from django.urls import reverse_lazy, reverse
@@ -7,8 +8,7 @@ from .forms import MatchingForm, MentorForm, CoachingRequestForm, PreferencesFor
 from django.shortcuts import render, redirect, get_object_or_404
 
 from .models import Matching, Notification, CoachingRequest, Preferences
-from .utils import calculate_matching_score
-
+from .utils import calculate_matching_score, calculate_matching_score_optimized
 
 # Create your views here.
 from .models import Disponibilite
@@ -40,8 +40,6 @@ def manage_disponibilite(request):
             return JsonResponse({'status': 'created'}, status=200)
 
     return HttpResponse(status=405)  # Méthode non autorisée
-
-
 
 def mentor_view(request):
     if request.method == 'POST':
@@ -97,7 +95,7 @@ def find_view(request):
             matching = Matching(Fields=domains, Degree=diplomas, Skills=skills, Objectives=career, Job=professions,PersonalityDescription=personality)
             matching.save()
             # Message de succès
-            messages.success(request, 'Here are the best mentors for you:')
+            #messages.success(request, 'Here are the best mentors for you:')
 
             # Stocker le score dans la session pour une utilisation ultérieure
             request.session['predicted_score'] = predicted_score
@@ -111,9 +109,50 @@ def find_view(request):
     predicted_score = request.session.get('predicted_score', None)
 
     return render(request,'registration/matching.html',{'form':form, 'predicted_score': predicted_score})
+def optim_find(request):
+    if request.method == 'POST':
+        form = MatchingForm(request.POST)
 
-from django.http import JsonResponse
+        if form.is_valid():
+            # Access the cleaned data
+            domains = form.cleaned_data['Fields']
+            diplomas = form.cleaned_data['Degree']
+            skills = form.cleaned_data['Skills']
+            career = form.cleaned_data['Objectives']
+            professions = form.cleaned_data['Job']
+            personality = form.cleaned_data['PersonalityDescription']
 
+            user_input = {
+                'Fields': [domains],
+                'Degree': [diplomas],
+                'Skills': [skills],
+                'Objectives': [career],
+                'Job': [professions],
+                'PersonalityDescription': [personality]
+            }
+            predicted_score_optim = calculate_matching_score_optimized(user_input)
+
+            # Create a new Matching object and save it
+            matching = Matching(Fields=domains, Degree=diplomas, Skills=skills, Objectives=career, Job=professions,PersonalityDescription=personality)
+            matching.save()
+            # Message de succès
+            #messages.success(request, 'Here are the best mentors for you:')
+
+            # Stocker le score dans la session pour une utilisation ultérieure
+            request.session['predicted_score_optim'] = predicted_score_optim
+
+            # Rediriger ou rendre la page comme souhaité
+            return redirect('matching_optim')
+    else:
+        form = MatchingForm()
+
+    # Vérifier si le score est déjà stocké en session et l'utiliser s'il est disponible
+    predicted_score_optim = request.session.get('predicted_score_optim', None)
+
+    return render(request,'registration/matching.html',{'form':form, 'predicted_score_optim': predicted_score_optim})
+
+def optim(request):
+    return render(request, 'sessions/optim_find.html')
 def change_theme(request):
     if request.method == 'POST':
         # Ajustez les valeurs pour correspondre à ce que la fonction JavaScript envoie
@@ -195,7 +234,7 @@ class CustomLoginView(LoginView):
     def get_success_url(self):
         user = self.request.user
         if user.groups.filter(name='Mentors').exists():
-            return reverse_lazy('mentor_page')
+            return reverse_lazy('create_profile')
         elif user.groups.filter(name='Mentorés').exists():
             return reverse_lazy('user_page')
         else:
@@ -236,17 +275,17 @@ def send_notification_to_mentor(mentor_id, content):
 
 def send_request(request):
     if request.method == "POST":
-        print("send_request called")
+        # print("send_request called")
         mentore_id = request.POST.get('mentore_id')
         date = request.POST.get('date')
         time = request.POST.get('time')
         mentor_id = request.POST.get('mentor_id')
-        print("Mentor ID received:", mentor_id)  # Point de contrôle 1
+        # print("Mentor ID received:", mentor_id)  # Point de contrôle 1
 
         try:
 
             mentor = get_object_or_404(User, pk=mentor_id)
-            print("Mentor retrieved:", mentor.username)
+            # print("Mentor retrieved:", mentor.username)
             mentore = get_object_or_404(User, pk=mentore_id)
 
             # Convert the date and time strings to appropriate objects
@@ -275,17 +314,27 @@ def mark_as_read(request, notification_id):
     notification = get_object_or_404(Notification, id=notification_id, user=request.user)
     notification.read = True
     notification.save()
-    return redirect(reverse('all_notifications'))  # Remplacez 'nom_de_votre_vue' par la vue vers laquelle vous voulez rediriger après avoir marqué la notification comme lue.
+    return redirect(reverse('all_notifications'))
 
+# def clear_all_notifications(request):
+#     if request.user.is_authenticated:
+#         # Marquer toutes les notifications de cet utilisateur comme lues
+#         notifications = Notification.objects.filter(user=request.user)
+#         for notification in notifications:
+#             notification.read = True
+#             notification.delete()
+#         return JsonResponse({'status': 'success'})
+#     return JsonResponse({'status': 'error'})
+from django.views.decorators.http import require_http_methods
+
+@require_http_methods(["GET", "POST"])  # Autoriser GET et POST, mais POST est préférable
 def clear_all_notifications(request):
     if request.user.is_authenticated:
-        # Marquer toutes les notifications de cet utilisateur comme lues
-        notifications = Notification.objects.filter(user=request.user)
-        for notification in notifications:
-            notification.read = True
-            notification.delete()
+        # Marquer toutes les notifications de cet utilisateur comme lues et les supprimer
+        Notification.objects.filter(user=request.user).delete()
         return JsonResponse({'status': 'success'})
-    return JsonResponse({'status': 'error'})
+    return JsonResponse({'status': 'error'}, status=401)
+
 
 
 def display_dates(request):
@@ -408,6 +457,16 @@ def accept_request(request):
     messages.success(request, 'La demande de coaching a été acceptée et le mentore notifié.')
     return redirect('mentor_page')  # Redirigez vers une page appropriée
 
+def not_available(request,request_id):
+    coaching_request = get_object_or_404(CoachingRequest, pk=request_id)
+
+    # Vérifiez si l'utilisateur actuel est le mentoré concerné par la demande de coaching
+    if request.user == coaching_request.mentore:
+
+        context = {
+            'mentor_usr': coaching_request.mentor.username,
+        }
+    return render(request, 'sessions/reject.html',context)
 @require_POST
 def reject_request(request):
     request_id = request.POST.get('coaching_request_id')
@@ -465,9 +524,50 @@ def notification_redirect(request, notification_id):
         notification.read = True
         notification.save()
 
-    # Si la notification est liée à une demande de coaching, redirigez vers la vue de détail
+    # Si la notification est liée à une demande de coaching, vérifiez le statut et redirigez en conséquence
     if notification.coaching_request:
-        return redirect('coaching_request', request_id=notification.coaching_request.id)
+        request_status = notification.coaching_request.status
+        if request_status == 'Acceptée':
+            # Redirigez vers la vue de la demande de coaching si acceptée
+            return redirect('coaching_request', request_id=notification.coaching_request.id)
+        elif request_status == 'Refusée':
+            # Redirigez vers la vue 'unavailable' si refusée
+            return redirect('unavailable', request_id=notification.coaching_request.id)
+        else:
+            # Vous pouvez également gérer le cas 'En attente' si nécessaire
+            pass
 
-    # Si la notification n'est pas liée à une demande de coaching, redirigez vers une page par défaut
+    # Si la notification n'est pas liée à une demande de coaching ou est en attente, redirigez vers une page par défaut
     return redirect('default')
+
+from .forms import UserProfileForm
+
+def create_profile(request):
+    mentor = request.user.mentor
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST or None, request.FILES or None, instance=mentor.profile if hasattr(mentor, 'profile') else None)
+        form.helper.layout = Layout(
+            Field('phone'),
+            Field('address'),
+            Field('description'),
+        )
+        if form.is_valid():
+            profile = form.save(commit=False)
+            profile.mentor = mentor  # Assurez-vous que cette ligne est présente
+            profile.save()
+            messages.success(request, "Votre profil a été créé avec succès.")
+            return redirect('mentor_page')
+        else:
+            messages.error(request, "Une erreur s'est produite.")
+    else:
+        form = UserProfileForm(instance=mentor.profile if hasattr(mentor, 'profile') else None)
+
+    return render(request, 'register/create_profile.html', {'form': form})
+
+from .models import Mentor
+
+def view_mentor_profile(request, mentor_id):
+    mentor = get_object_or_404(Mentor, pk=mentor_id)
+    is_mentor = isinstance(request.user, Mentor)
+
+    return render(request, 'register/view_mentor_profile.html', {'mentor': mentor,'is_mentor': is_mentor})

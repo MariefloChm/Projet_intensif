@@ -58,13 +58,11 @@ def calculate_matching_score(mentore):
     # Sélectionnez les 3 meilleurs scores et leurs informations associées
     top_scores = top_scores[:3]
     top_mentors = {score: top_mentors[score] for score in top_scores}
+    #print(top_mentors)
 
     return top_mentors
 
-# Initialisez le vectorizer une seule fois et réutilisez-le
-vectorizer = TfidfVectorizer()
-
-def calculate_matching_score_optimized(mentore, vectorizer):
+def calculate_matching_score_optimized(mentore):
     weights = {
         'Fields': 0.9,
         'Degree': 0.9,
@@ -76,6 +74,8 @@ def calculate_matching_score_optimized(mentore, vectorizer):
 
     # Préparez les textes des mentores pour la vectorisation
     mentore_texts = [str(mentore[col]) for col in weights.keys()]
+    # Initialisez le vectorizer une seule fois et réutilisez-le
+    vectorizer = TfidfVectorizer()
     vectorizer.fit(mentore_texts)  # Fit une seule fois sur les textes du mentore
     mentore_vectors = vectorizer.transform(mentore_texts)
 

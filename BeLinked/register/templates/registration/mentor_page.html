@@ -1,17 +1,10 @@
+{% extends "registration/mentor_base.html" %}
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+{% block title %}{% trans 'Mentor Page' %}{% endblock %}
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
-    <title>{% block title %}{% trans 'Mentor Page' %}{% endblock %}</title>
-
-</head>
-
+{% block extra_styles %}
 <style>
     .dropdown-menu {
         max-height: 400px;  /* Ou une autre valeur qui vous convient */
@@ -21,82 +14,73 @@
     @media (max-width: 768px) {
     .navbar-nav {
         flex-direction: column;
+        }
     }
-}
     .calendar {
-    width: 500px;
-    margin: 50px auto;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
-}
+        width: 500px;
+        margin: 50px auto;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0px 0px 5px rgba(0,0,0,0.3);
+    }
 
-.calendar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-}
+    .calendar-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 20px;
+    }
 
-.days, .dates {
-    display: flex;
-    flex-wrap: wrap;
-}
+    .days, .dates {
+        display: flex;
+        flex-wrap: wrap;
+    }
 
-.days div, .dates div {
-    width: 14.28%; /* 100% / 7 */
-    text-align: center;
-    padding: 10px 0;
-}
+    .days div, .dates div {
+        width: 14.28%; /* 100% / 7 */
+        text-align: center;
+        padding: 10px 0;
+    }
 
-.dates div {
-    cursor: pointer;
-}
+    .dates div {
+        cursor: pointer;
+    }
 
-.dates div:hover {
-    background-color: #f0f0f0;
-}
-/* Style pour les dates du calendrier */
-.date-cell {
-    cursor: pointer;       /* Change le curseur en main quand on survole une date */
-    transition: background-color 0.3s; /* Effet de transition lors du changement de couleur */
-}
-
-/* Style pour les dates sélectionnées */
-.available {
-    background-color: #4CAF50;   /* Changez ceci à votre couleur préférée */
-    color: white;                /* Couleur du texte pour une meilleure lisibilité */
-}
+    .dates div:hover {
+        background-color: #f0f0f0;
+    }
 
 
+    #saveDatesBtn:hover {
+        background-color: #45a049;
+    }
 
-#saveDatesBtn:hover {
-    background-color: #45a049;
-}
+    .calendar {
+        position: relative;
+        /* Other styling for the container if needed */
+    }
 
-.calendar {
-    position: relative;
-    /* Other styling for the container if needed */
-}
+    #saveDatesBtn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        padding: 10px 20px;
+        background-color: #4CAF50;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-#saveDatesBtn {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    padding: 10px 20px;
-    background-color: #4CAF50;
-    color: #ffffff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-
-
+    .nav-link {
+        color: #0097b2 !important;
+    }
 </style>
+{% endblock %}
 
+{% block navbar %}
 <!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #444444;">
 
         <img src="{% static 'images/logo_bleu.ico' %}" width="130" height="130" alt="Logo">
 
@@ -139,6 +123,7 @@
                 </a>
                 <div class="dropdown-menu" aria-labelledby="userDropdown">
                     {% if user.is_authenticated %}
+                        <a class="dropdown-item" href="{% url 'create_profile' %}">{% trans 'My profile' %}</a>
                         <a class="dropdown-item" href="{% url 'mentor_settings' %}">{% trans 'Settings'%}</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="{% url 'logout' %}">{%  trans 'Logout' %}</a>
@@ -151,12 +136,11 @@
 
     </div>
 </nav>
+{% endblock %}
 
-
-<body class="{% if request.session.theme == 'dark-mode' %}dark-mode{% else %}light-mode{% endif %}">
 {% block content %}
-<h1>{% trans 'Welcome to the mentor page!'%} </h1>
-<h2>{% trans 'Availability calendar' %}</h2>
+    <h1 class="text-center">{% trans 'Welcome to the mentor page!' %}</h1>
+    <h2 class="text-center">{% trans 'Manage your availability with your calendar' %}</h2>
 
     <div class="container-fluid">
         <div class="row justify-content-center">
@@ -185,8 +169,14 @@
                     </div>
                     <form action="{% url 'display' %}" method="post">
                         {% csrf_token %}
-                        <!-- Vos éléments de date ici -->
-                        <!-- ... -->
+                        <!-- Champs pour les horaires de disponibilité -->
+                        <div class="availability-times">
+                            <label for="startTime">{% trans 'Start time :' %}</label>
+                            <input type="time" id="startTime" name="start_time">
+
+                            <label for="endTime">{% trans 'End time :' %}</label>
+                            <input type="time" id="endTime" name="end_time">
+                        </div>
                         <button type="submit" id="saveDatesBtn">{% trans 'Save dates' %}</button>
                     </form>
 
@@ -197,17 +187,22 @@
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+{% endblock %}
+
+{% block extra_scripts %}
+{#    <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>#}
+{#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>#}
 
     <script>
         const disponibiliteURL = "{% url 'disponibilite' %}";
-        {#const saveURL = "{% url 'save_dates' %}";#}
     </script>
     <script src="{% static 'js/script.js' %}"></script>
 {% endblock %}
+
+{% block footer %}
 {% include 'footer.html' %}
-</body>
+{% endblock %}
+
 
 

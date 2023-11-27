@@ -67,3 +67,24 @@ class PreferencesForm(forms.ModelForm):
     class Meta:
         model = Preferences
         fields = [ 'display_panel']
+
+
+from .models import UserProfile
+
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['avatar', 'phone', 'address', 'description']
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper()
+        self.helper.layout = Layout(
+            'avatar',
+            'phone',
+            'address',
+            'description',
+        )
