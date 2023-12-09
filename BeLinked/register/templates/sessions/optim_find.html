@@ -47,33 +47,33 @@
                 <div class="card p-4">
                     <form method="post" action="{% url 'matching_optim' %}">
                         <div class="form-group">
-                            <label for="id_Domains">Fields</label>
-                            <input type="text" class="form-control" id="id_Domains" name="Fields" placeholder="Enter your field">
+                            <label for="id_Domains">{% trans 'Fields' %}</label>
+                            <input type="text" class="form-control" id="id_Domains" name="Fields" placeholder={% trans "Enter your field"%}>
                         </div>
                         <div class="form-group">
-                            <label for="id_Diplomas">Degree</label>
-                            <input type="text" class="form-control" id="id_Diplomas" name="Degree" placeholder="Enter your degree">
+                            <label for="id_Diplomas">{% trans 'Degree' %}</label>
+                            <input type="text" class="form-control" id="id_Diplomas" name="Degree" placeholder={% trans "Enter your degree"%}>
                         </div>
                         <div class="form-group">
-                            <label for="id_Skills">Skills</label>
-                            <input type="text" class="form-control" id="id_Skills" name="Skills" placeholder="Enter your skills">
+                            <label for="id_Skills">{% trans 'Skills' %}</label>
+                            <input type="text" class="form-control" id="id_Skills" name="Skills" placeholder={% trans "Enter your skills"%}>
                         </div>
                         <div class="form-group">
-                            <label for="id_Career_objectives">Career Objectives</label>
-                            <input type="text" class="form-control" id="id_Career_objectives" name="Objectives" placeholder="Enter your career objectives">
+                            <label for="id_Career_objectives">{% trans 'Career Objectives' %}</label>
+                            <input type="text" class="form-control" id="id_Career_objectives" name="Objectives" placeholder={% trans "Enter your career objectives"%}>
                         </div>
                         <div class="form-group">
-                            <label for="id_Job">Job</label>
-                            <input type="text" class="form-control" id="id_Job" name="Job" placeholder="Enter your job">
+                            <label for="id_Job">{% trans 'Job' %}</label>
+                            <input type="text" class="form-control" id="id_Job" name="Job" placeholder={% trans "Enter your job"%}>
                         </div>
                         <div class="form-group">
-                            <label for="id_Personality">PersonalityDescription</label>
-                            <input type="text" class="form-control" id="id_Personality" name="PersonalityDescription" placeholder="Describe your personality">
+                            <label for="id_Personality">{% trans 'Personality Description' %}</label>
+                            <input type="text" class="form-control" id="id_Personality" name="PersonalityDescription" placeholder={% trans "Describe your personality"%}>
                         </div>
 
                         {% csrf_token %}
                         {{ form|crispy }}
-                        <button type="submit" class="btn btn-primary">Find</button>
+                        <button type="submit" class="btn btn-primary">{% trans 'Find' %}</button>
                     </form>
                 </div>
             </div>

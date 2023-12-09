@@ -20,6 +20,7 @@ urlpatterns = [
                   path('matching/', views.find_view, name='matching'),
                   path('matching_optimized/', views.optim_find, name='matching_optim'),
                   path('find/', views.optim, name='optim_find'),
+                  path('reverse_mentoring/', views.reverse_mentoring, name='reverse_mentoring'),
                   path('disponibilite/', views.manage_disponibilite, name='disponibilite'),
                   path('send_request/', views.send_request, name='send_request'),
                   path('selected_dates/', views.get_selected_dates, name='selected_dates'),
@@ -39,4 +40,6 @@ urlpatterns = [
                   path('password_reset/done/', auth_views.PasswordResetDoneView.as_view(), name='password_reset_done'),
                   path('reset/<uidb64>/<token>/', auth_views.PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
                   path('reset/done/', auth_views.PasswordResetCompleteView.as_view(), name='password_reset_complete'),
+                  path('send_message/', views.send_message, name='send_message'),
+                  path('send_reply/', views.send_reply, name='send_reply'),
               ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

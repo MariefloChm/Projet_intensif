@@ -3,7 +3,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group
 
 # Register your models here.
-from .models import Mentor, CoachingRequest, Disponibilite, Notification, UserProfile
+from .models import Mentor, CoachingRequest, Disponibilite, Notification, UserProfile, Message
 from import_export.admin import ImportExportModelAdmin
 
 from import_export import resources
@@ -38,3 +38,4 @@ admin.site.register(CoachingRequest)
 admin.site.register(Disponibilite)
 admin.site.register(Notification)
 admin.site.register(UserProfile)
+admin.site.register(Message)

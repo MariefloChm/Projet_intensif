@@ -86,3 +86,25 @@ class UserProfile(models.Model):
         if self.mentor:
             return self.mentor.username
         return "Mentoré"
+
+from django.conf import settings
+
+class Message(models.Model):
+    sender = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='sent_messages',
+        on_delete=models.CASCADE
+    )
+    recipient = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name='received_messages',
+        on_delete=models.CASCADE
+    )
+    subject = models.CharField(max_length=255)
+    body = models.TextField()
+    date_sent = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
+    reply_to = models.ForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='replies')
+
+    def __str__(self):
+        return f"Message from {self.sender} to {self.recipient} sent on {self.date_sent}"

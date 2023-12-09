@@ -11,6 +11,71 @@
     .btn-info {
         margin-bottom: 1rem; /* Spacing below the button */
     }
+
+    .messages-box {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        width: 300px;
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        z-index: 1000;
+        max-height: 300px;
+        overflow: auto;
+        display: none; /* Caché par défaut */
+    }
+
+    .messages-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    .messages-header h4 {
+        margin: 0;
+    }
+
+    .messages-header button {
+        background: none;
+        border: none;
+        color: white;
+        cursor: pointer;
+    }
+
+    .message-item {
+        padding: 10px;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .message-item.read {
+        background-color: #e9ecef;
+    }
+
+    .message-item p {
+        margin: 0;
+    }
+
+    .reply-form {
+        margin-top: 10px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+
+    .reply-form textarea {
+        margin-bottom: 10px;
+    }
+
+    .btn-reply {
+        margin-top: 10px;
+    }
 </style>
 
 {% endblock %}
@@ -31,6 +96,9 @@
         <a href="{% url 'math_tutor' %}" class="btn btn-info">
             {% trans 'Try our math mentor AI' %}
         </a>
+{#        <a href="{% url 'recommend' %}" class="btn btn-info">#}
+{#            {% trans 'Try our AI search' %}#}
+{#        </a>#}
         <h3>{% trans 'Find your future mentor !' %}</h3>
         <p>{% trans 'Fill in this form to start !' %}</p>
     </div>
@@ -38,40 +106,75 @@
     <div class="card p-4">
     <form method="post" action="{% url 'matching' %}">
         <div class="form-group">
-            <label for="id_Domains">Fields</label>
-            <input type="text" class="form-control" id="id_Domains" name="Fields" placeholder="Enter your field">
+            <label for="id_Domains">{% trans 'Fields' %}</label>
+            <input type="text" class="form-control" id="id_Domains" name="Fields" placeholder={% trans "Enter your field"%}>
         </div>
         <div class="form-group">
-            <label for="id_Diplomas">Degree</label>
-            <input type="text" class="form-control" id="id_Diplomas" name="Degree" placeholder="Enter your degree">
+            <label for="id_Diplomas">{% trans 'Degree' %}</label>
+            <input type="text" class="form-control" id="id_Diplomas" name="Degree" placeholder={% trans "Enter your degree"%}>
         </div>
         <div class="form-group">
-            <label for="id_Skills">Skills</label>
-            <input type="text" class="form-control" id="id_Skills" name="Skills" placeholder="Enter your skills">
+            <label for="id_Skills">{% trans 'Skills' %}</label>
+            <input type="text" class="form-control" id="id_Skills" name="Skills" placeholder={% trans "Enter your skills"%}>
         </div>
         <div class="form-group">
-            <label for="id_Career_objectives">Career Objectives</label>
-            <input type="text" class="form-control" id="id_Career_objectives" name="Objectives" placeholder="Enter your career objectives">
+            <label for="id_Career_objectives">{% trans 'Career Objectives' %}</label>
+            <input type="text" class="form-control" id="id_Career_objectives" name="Objectives" placeholder={% trans "Enter your career objectives"%}>
         </div>
         <div class="form-group">
-            <label for="id_Job">Job</label>
-            <input type="text" class="form-control" id="id_Job" name="Job" placeholder="Enter your job">
+            <label for="id_Job">{% trans 'Job' %}</label>
+            <input type="text" class="form-control" id="id_Job" name="Job" placeholder={% trans "Enter your job"%}>
         </div>
         <div class="form-group">
-            <label for="id_Personality">PersonalityDescription</label>
-            <input type="text" class="form-control" id="id_Personality" name="PersonalityDescription" placeholder="Describe your personality">
+            <label for="id_Personality">{% trans 'Personality Description' %}</label>
+            <input type="text" class="form-control" id="id_Personality" name="PersonalityDescription" placeholder={% trans "Describe your personality"%}>
         </div>
 
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">Find</button>
+        <button type="submit" class="btn btn-primary">{% trans 'Find' %}</button>
     </form>
     </div>
     </div>
     </div>
     </div>
 
+    <div id="messagesBox" class="messages-box">
+        <div class="messages-header">
+            <h4>{% trans 'Messages' %}</h4>
+            <button id="closeMessagesBox" class="btn btn-light">X</button>
+        </div>
+        <div class="messages-list">
+            {% for message in received_messages %}
+                <div class="message-item {% if message.is_read %}read{% else %}unread{% endif %}">
+                    <p><strong>From:</strong> {{ message.sender.username }}</p>
+                    <p><strong>Subject:</strong> {{ message.subject }}</p>
+                    <p>{{ message.body }}</p>
 
+                    <!-- Bouton pour afficher le formulaire de réponse -->
+                    <button class="btn btn-reply" data-message-id="{{ message.id }}">{% trans 'Reply' %}</button>
+
+                    <!-- Formulaire de réponse, caché initialement -->
+                    <div class="reply-form" id="reply-form-{{ message.id }}" style="display: none;">
+                        <textarea class="form-control" id="reply-text-{{ message.id }}"></textarea>
+                        <button class="btn btn-primary" onclick="sendReply('{{ message.id }}', document.getElementById('reply-text-{{ message.id }}').value)">
+                            {% trans 'Send Reply' %}
+                        </button>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="message-item">
+                    <p>{% trans 'No messages' %}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <!-- Placez ceci où vous souhaitez que le bouton apparaisse dans votre code HTML -->
+    <div class="d-flex justify-content-end">
+        <button id="openMessagesBox" class="btn btn-primary">{% trans 'Show Messages' %}</button>
+    </div>
 {% endblock %}
 
 {% block footer %}
@@ -79,6 +182,82 @@
 {% endblock %}
 
 {% block extra_scripts %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sélectionner la boîte de messages
+            var messagesBox = document.getElementById('messagesBox');
+            // Pour ouvrir la boîte de messages
+            var openMessagesBtn = document.getElementById('openMessagesBox');
+            if (openMessagesBtn) {
+                openMessagesBtn.addEventListener('click', function() {
+                    document.getElementById('messagesBox').style.display = 'block';
+                });
+            }
+
+            // Pour fermer la boîte de messages
+            var closeMessagesBox = document.getElementById('closeMessagesBox');
+            if (closeMessagesBox) {
+                closeMessagesBox.addEventListener('click', function() {
+                    document.getElementById('messagesBox').style.display = 'none';
+                });
+            }
+        });
+
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ajouter des écouteurs d'événement pour les boutons de réponse et d'envoi de réponse
+            document.querySelectorAll('.btn-reply, .btn-send-reply').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var messageId = this.getAttribute('data-message-id');
+                    if (this.classList.contains('btn-reply')) {
+                        // Afficher le formulaire de réponse
+                        document.getElementById('reply-form-' + messageId).style.display = 'block';
+                    } else {
+                        // Envoyer la réponse
+                        var recipientId = this.getAttribute('data-recipient-id');
+                        var subject = this.getAttribute('data-subject');
+                        var replyText = document.getElementById('reply-text-' + messageId).value;
+                        sendReply(recipientId, subject, messageId, replyText);
+                    }
+                });
+            });
+        });
+
+        function sendReply(originalMessageId, replyText) {
+            fetch('{% url 'send_reply' %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: `original_message_id=${encodeURIComponent(originalMessageId)}&body=${encodeURIComponent(replyText)}`
+            })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Reply sent!');
+                    // Logique supplémentaire pour gérer la réponse
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+    </script>
 {#    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>#}
 {#    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>#}
 {#    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>#}

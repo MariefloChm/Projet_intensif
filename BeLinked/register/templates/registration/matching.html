@@ -1,6 +1,8 @@
 {% load crispy_forms_tags %}
 {% load i18n %}
 {% load static %}
+{% load custom_filters %}
+
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -37,18 +39,25 @@
         <ul>
             {% for score, mentor_info in predicted_score.items %}
                 <li>
-                    {{ score }}:
+                    {% trans 'Compatible with' %} {{ score|floatformat:2|multiply:100 }}%:
                     <ul>
-                        <li>First Name: {{ mentor_info.FirstName }}</li>
-                        <li>Last Name: {{ mentor_info.LastName }}</li>
-                        <li>Skills: {{ mentor_info.Skills }}</li>
-                        <li>Job: {{ mentor_info.Job }}</li>
-                        <li>Rating: {{ mentor_info.Rating }}</li>
+                        <li>{% trans 'First Name: ' %} {{ mentor_info.FirstName }}</li>
+                        <li>{% trans 'Name:' %}{{ mentor_info.LastName }}</li>
+                        <li>{% trans 'Skills:' %} {{ mentor_info.Skills }}</li>
+                        <li>{% trans 'Job:' %}{{ mentor_info.Job }}</li>
+                        <li>{% trans 'Rating:' %} {{ mentor_info.Rating }}/5</li>
                     </ul>
-                    <button class="btn btn-primary" data-mentor-id="{{ mentor_info.ID }}">{% trans 'Send a request' %}</button>
+                    <button class="btn btn-primary" data-mentor-id="{{ mentor_info.ID }}">
+                        {% trans 'Send a request' %}
+                    </button>
                 </li>
-                <h1><a class="btn btn-link" href="{% url 'view_mentor_profile' mentor_info.ID %}">{% trans 'View full profile' %}</a></h1>
+                <h1>
+                    <a class="btn btn-link" href="{% url 'view_mentor_profile' mentor_info.ID %}">
+                        {% trans 'View full profile' %}
+                    </a>
+                </h1>
             {% endfor %}
+
         </ul>
     {% endif %}
 
@@ -57,13 +66,13 @@
         <ul>
             {% for mentor_info in predicted_score_optim %}
                 <li>
-                    {{ mentor_info.Score }}:
+                    {% trans 'Matching with' %} {{ mentor_info.Score|floatformat:2|multiply:100 }}%:
                     <ul>
-                        <li>First Name: {{ mentor_info.FirstName }}</li>
-                        <li>Last Name: {{ mentor_info.LastName }}</li>
-                        <li>Skills: {{ mentor_info.Skills }}</li>
-                        <li>Job: {{ mentor_info.Job }}</li>
-                        <li>Rating: {{ mentor_info.Rating }}</li>
+                        <li>{% trans 'First Name: ' %}{{ mentor_info.FirstName }}</li>
+                        <li>{% trans 'Name:' %}{{ mentor_info.LastName }}</li>
+                        <li>{% trans 'Skills:'%} {{ mentor_info.Skills }}</li>
+                        <li>{% trans 'Job:' %}{{ mentor_info.Job }}</li>
+                        <li>{% trans 'Rating: ' %}{{ mentor_info.Rating }}/5</li>
                     </ul>
                     <button class="btn btn-primary" data-mentor-id="{{ mentor_info.ID }}">{% trans 'Send a request' %}</button>
                 </li>

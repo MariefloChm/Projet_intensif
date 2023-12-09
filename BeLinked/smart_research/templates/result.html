@@ -1,0 +1,35 @@
+{% extends 'base_site.html' %}
+{% load static %}
+{% load i18n %}
+
+{% block navbar %}
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #444444;">
+
+    <img src="{% static 'images/logo_bleu.ico' %}" width="130" height="130" alt="Logo">
+
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item"><a class="nav-link custom-link" href="{% url 'recommend' %}">{% trans "Previous" %}</a></li>
+        </ul>
+
+    </div>
+
+</nav>
+{% endblock %}
+
+{% block content %}
+    {% if message %}
+        <p>{{ message }}</p>
+    {% endif %}
+
+    {% if top_n %}
+        <!-- Affichez les résultats ici -->
+        {% for mentor in top_n %}
+            <p>{{ mentor.name }}</p> <!-- Personnalisez selon votre structure de données -->
+        {% endfor %}
+    {% endif %}
+{% endblock %}

@@ -115,17 +115,36 @@
             background-color: var(--button-bg-color);
             color: var(--button-text-color);
         }
-        {#body {#}
-        {#    background-image: url('{% static 'images/banc.png' %} '); /* Remplacez avec le chemin réel de votre image */#}
-        {#    background-size: cover; /* Couvre toute la page, peut être ajusté selon les besoins */#}
-        {#    background-position: center; /* Centrer l'image dans la page */#}
-        {#    background-repeat: no-repeat; /* Pour ne pas répéter l'image */#}
-        {#    background-attachment: fixed; /* Fixe l'image, elle ne défile pas avec le contenu */#}
-        {#}#}
+        body {
+            background-image: url('{% static 'images/banc.png' %} '); /* Remplacez avec le chemin réel de votre image */
+            background-size: cover; /* Couvre toute la page, peut être ajusté selon les besoins */
+            background-position: center; /* Centrer l'image dans la page */
+            background-repeat: no-repeat; /* Pour ne pas répéter l'image */
+            background-attachment: fixed; /* Fixe l'image, elle ne défile pas avec le contenu */
+        }
 
         h1, h2 {
             color: #0097b2;
         }
+
+        .message-user {
+            background-color: #d1e8ff; /* Couleur de fond pour les messages de l'utilisateur */
+            color: #333; /* Couleur du texte */
+            text-align: left;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+        }
+
+        .message-assistant {
+            background-color: #fde8cd; /* Couleur de fond pour les messages de l'assistant */
+            color: #333; /* Couleur du texte */
+            text-align: right;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 10px;
+        }
+
 
     </style>
 
@@ -149,7 +168,7 @@
     <div id="chat-box" style="height:300px; overflow:auto; border:1px solid #ccc; padding:10px;">
         <!-- Chat messages will appear here -->
     </div>
-    <input type="text" id="user-input" placeholder="I need to solve the equation 3x + 11 = 14. Can you help me?...">
+    <input type="text" id="user-input" placeholder="I need to solve the equation 3x + 11 = 14. Can you help me?..." onkeypress="handleKeyPress(event)">
     <button onclick="sendMessage()">{% trans 'Send' %}</button>
 </div>
 
@@ -164,7 +183,7 @@
         var chatBox = document.getElementById('chat-box');
 
         // Add the user's message to the chat box
-        chatBox.innerHTML += '<div class="message">User: ' + userInput + '</div>';
+        chatBox.innerHTML += '<div class="message message-user">User: ' + userInput + '</div>';
 
         // Send the message to the Django backend using AJAX
         var xhr = new XMLHttpRequest();
@@ -172,7 +191,7 @@
         xhr.onreadystatechange = function() {
             if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
                 var response = JSON.parse(this.responseText);
-                chatBox.innerHTML += '<div class="message">Assistant: ' + response.reply + '</div>';
+                chatBox.innerHTML += '<div class="message message-assistant">Assistant: ' + response.reply + '</div>';
                 chatBox.scrollTop = chatBox.scrollHeight;
             }
         };
@@ -182,6 +201,13 @@
         // Clear the input field
         document.getElementById('user-input').value = '';
     }
+
+    function handleKeyPress(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    }
+
 
     function toggleDarkLight() {
         var body = document.getElementById("body");

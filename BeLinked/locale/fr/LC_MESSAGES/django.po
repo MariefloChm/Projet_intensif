@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-11-27 23:02+0100\n"
+"POT-Creation-Date: 2023-12-04 10:18+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,52 +17,51 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-
-#: .\BeLinked\settings.py:124
+#: .\BeLinked\settings.py:126
 msgid "English"
 msgstr ""
 
-#: .\BeLinked\settings.py:125
+#: .\BeLinked\settings.py:127
 msgid "French"
 msgstr ""
 
 #: .\app1\templates\contact.html:5
 msgid "Contact Us"
-msgstr "Nous Contacter"
+msgstr "Nous contacter"
 
 #: .\app1\templates\contact.html:10
 msgid "How to contact us"
-msgstr "Comment nous contacter?"
+msgstr "Comment nous contacter"
 
 #: .\app1\templates\contact.html:12
 msgid "Get immediate information about BeLinked by filling in the form below."
-msgstr ""
-"Obtenez des informations immédiates sur BeLinked en remplissant le "
-"formulaire ci-dessous."
+msgstr "Obtenez des informations immédiates sur BeLinked en remplissant le formulaire ci-dessous."
 
 #: .\app1\templates\contact.html:18
+#: .\register\templates\registration\matching.html:45
+#: .\register\templates\registration\matching.html:72
 msgid "Name:"
-msgstr "Nom:"
+msgstr "Nom :"
 
 #: .\app1\templates\contact.html:22
 msgid " Email:"
-msgstr " Email:"
+msgstr "Email:"
 
 #: .\app1\templates\contact.html:26
 msgid " Phone Number:"
-msgstr " Numéro de téléphone:"
+msgstr " Numéro de téléphone :"
 
 #: .\app1\templates\contact.html:30
 msgid " Company Name:"
-msgstr " Nom d'entreprise:"
+msgstr " Nom de l'entreprise :"
 
 #: .\app1\templates\contact.html:34
 msgid " Position:"
-msgstr " Poste"
+msgstr " Poste :"
 
 #: .\app1\templates\contact.html:41
 msgid " Submit"
-msgstr " Envoyer"
+msgstr " Soumettre"
 
 #: .\app1\templates\contact.html:43
 msgid "Submitted with success!"
@@ -77,9 +76,7 @@ msgstr "Créez votre profil"
 #: .\register\templates\register\create_profile.html:47
 msgid ""
 "All fields are optional. Add as much or as little information as you like."
-msgstr ""
-"Tous les champs sont facultatifs. Ajoutez autant d'informations que vous le "
-"souhaitez."
+msgstr "Tous les champs sont facultatifs. Ajoutez autant d'informations que vous le souhaitez."
 
 #: .\app1\templates\create_mentee_profile.html:65
 #: .\register\templates\register\create_profile.html:65
@@ -98,15 +95,13 @@ msgstr "Fonctionnalités"
 
 #: .\app1\templates\default_page.html:76
 msgid "User Space"
-msgstr "Espace Utilisateur"
+msgstr "Espace utilisateur"
 
 #: .\app1\templates\default_page.html:79 .\app1\templates\nav.html:34
-#: .\register\templates\sessions\coaching_request.html:135
 msgid "Mentee"
 msgstr "Mentoré"
 
 #: .\app1\templates\default_page.html:80 .\app1\templates\nav.html:35
-#: .\register\templates\sessions\coaching_request.html:136
 msgid "Mentor"
 msgstr "Mentor"
 
@@ -116,7 +111,7 @@ msgstr "Langues"
 
 #: .\app1\templates\default_page.html:104
 msgid "Welcome to Be linked!"
-msgstr "Bienvenue chez Be linked!"
+msgstr "Bienvenue chez Be linked !"
 
 #: .\app1\templates\default_page.html:105
 msgid "Connect to the future with the power of mentoring."
@@ -134,9 +129,9 @@ msgid ""
 "fulfilment are at the forefront."
 msgstr ""
 "Sur la plateforme \"Be linked\", nous pensons que chaque individu a un "
-"potentiel unique.En mettant en relation des mentors expérimentés avec des "
-"mentorés passionnés, nous créons un espace d'apprentissage collaboratif où "
-"le partage, la croissance et l'innovation sont les maîtres mots."
+ "potentiel unique.En mettant en relation des mentors expérimentés avec des "
+ "mentorés passionnés, nous créons un espace d'apprentissage collaboratif où "
+ "le partage, la croissance et l'innovation sont les maîtres mots."
 
 #: .\app1\templates\default_page.html:115
 msgid ""
@@ -154,10 +149,8 @@ msgid "Create your world by weaving timely links"
 msgstr "Créez votre monde en tissant des liens opportuns"
 
 #: .\app1\templates\home.html:5
-#, fuzzy
-#| msgid "Belinked Features"
 msgid "Belinked home page"
-msgstr "Fonctionnalités de Belinked"
+msgstr "Page d'accueil Belinked"
 
 #: .\app1\templates\home.html:67
 msgid "Belinked Features"
@@ -169,7 +162,7 @@ msgstr "Tous les outils pour trouver votre mentorat optimal"
 
 #: .\app1\templates\home.html:71
 msgid "Personalized Mentor Search:"
-msgstr "Recherche personnalisée d'un mentor :"
+msgstr "Recherche personnalisée de mentors :"
 
 #: .\app1\templates\home.html:73
 msgid ""
@@ -187,7 +180,7 @@ msgstr ""
 
 #: .\app1\templates\home.html:76
 msgid "Access to Detailed Mentor Profiles:"
-msgstr "Accès aux profils détaillés des mentors:"
+msgstr "Accès aux profils détaillés des mentors :"
 
 #: .\app1\templates\home.html:78
 msgid ""
@@ -206,7 +199,7 @@ msgstr ""
 
 #: .\app1\templates\home.html:82
 msgid "Session management:"
-msgstr "Gestion de séances:"
+msgstr "Gestion de séances"
 
 #: .\app1\templates\home.html:84
 msgid ""
@@ -227,31 +220,31 @@ msgstr ""
 #: .\register\templates\register\signup.html:35
 #: .\register\templates\register\view_mentor_profile.html:35
 #: .\register\templates\registration\display_dates.html:54
-#: .\register\templates\registration\matching.html:21
+#: .\register\templates\registration\matching.html:23
 #: .\register\templates\registration\mentor_settings.html:68
 #: .\register\templates\registration\user_settings.html:33
 #: .\register\templates\sessions\all_notifications.html:53
-#: .\register\templates\sessions\coaching_request.html:126
+#: .\register\templates\sessions\coaching_request.html:239
 #: .\register\templates\sessions\optim_find.html:30
 #: .\register\templates\sessions\reject.html:33
+#: .\register\templates\sessions\reverse_mentoring.html:30
 #: .\register\templates\sessions\user_request.html:25
+#: .\smart_research\templates\recommend.html:19
 msgid "Home"
 msgstr "Accueil"
 
 #: .\app1\templates\nav.html:26
-#: .\register\templates\registration\mentor_page.html:129
+#: .\register\templates\registration\mentor_page.html:199
 #: .\register\templates\registration\mentor_settings.html:69
 #: .\register\templates\registration\user_nav.html:73
 #: .\register\templates\registration\user_settings.html:34
-#: .\register\templates\sessions\coaching_request.html:128
 msgid "Logout"
 msgstr "Se déconnecter"
 
 #: .\app1\templates\nav.html:31 .\register\templates\registration\login.html:73
 #: .\register\templates\registration\mentor_login.html:73
-#: .\register\templates\registration\mentor_page.html:131
+#: .\register\templates\registration\mentor_page.html:201
 #: .\register\templates\registration\user_nav.html:75
-#: .\register\templates\sessions\coaching_request.html:132
 msgid "Login"
 msgstr "Se connecter"
 
@@ -275,12 +268,13 @@ msgid "Ask me any question about maths !"
 msgstr "Quel problème souhaitiez-vous résoudre ?"
 
 #: .\math_tutor\templates\tutor.html:153
+#: .\register\templates\sessions\coaching_request.html:278
 msgid "Send"
 msgstr "Envoyer"
 
 #: .\register\templates\register\mentor_signup.html:67
 msgid "Sign up here!"
-msgstr "S'inscrire ici!"
+msgstr "Inscrivez-vous ici !"
 
 #: .\register\templates\register\mentor_signup.html:71
 #: .\register\templates\register\signup.html:46
@@ -297,34 +291,38 @@ msgstr "Photo de profil"
 
 #: .\register\templates\register\view_mentor_profile.html:55
 msgid "Phone:"
-msgstr "téléphone:"
+msgstr "Téléphone :"
 
 #: .\register\templates\register\view_mentor_profile.html:56
 msgid "Address:"
-msgstr "Adresse:"
+msgstr "Adresse :"
 
 #: .\register\templates\register\view_mentor_profile.html:57
+#: .\register\templates\registration\matching.html:46
+#: .\register\templates\registration\matching.html:73
 msgid "Skills:"
-msgstr "Compétences:"
+msgstr "Compétences :"
 
 #: .\register\templates\register\view_mentor_profile.html:58
 msgid "Objectives:"
 msgstr "Objectifs:"
 
 #: .\register\templates\register\view_mentor_profile.html:59
+#: .\register\templates\registration\matching.html:47
+#: .\register\templates\registration\matching.html:74
 msgid "Job:"
-msgstr "Métier:"
+msgstr "Métier :"
 
 #: .\register\templates\register\view_mentor_profile.html:66
-#: .\register\templates\registration\matching.html:48
-#: .\register\templates\registration\matching.html:68
+#: .\register\templates\registration\matching.html:51
+#: .\register\templates\registration\matching.html:77
 msgid "Send a request"
 msgstr "Envoyer une demande"
 
 #: .\register\templates\registration\display_dates.html:6
 #: .\register\templates\registration\display_dates.html:68
 msgid "Availability Dates"
-msgstr "Calendrier des disponibilités"
+msgstr "Dates de disponibilité"
 
 #: .\register\templates\registration\login.html:4
 #: .\register\templates\registration\mentor_login.html:4
@@ -334,91 +332,142 @@ msgstr "Page de connexion"
 #: .\register\templates\registration\login.html:71
 #: .\register\templates\registration\mentor_login.html:71
 msgid "Welcome Back!"
-msgstr "Bienvenue chez Be linked!"
+msgstr "Bienvenue !"
 
 #: .\register\templates\registration\login.html:76
 #: .\register\templates\registration\mentor_login.html:76
 msgid "Forgot your password?"
-msgstr "Mot de passe oublié?"
+msgstr "Vous avez oublié votre mot de passe ?"
 
 #: .\register\templates\registration\login.html:77
 #: .\register\templates\registration\mentor_login.html:77
 msgid "Do you have an account ?"
-msgstr "Créez un compte"
+msgstr "Avez-vous un compte ?"
 
 #: .\register\templates\registration\login.html:77
 #: .\register\templates\registration\mentor_login.html:77
 msgid "Sign up"
 msgstr "S'inscrire"
 
-#: .\register\templates\registration\matching.html:9
+#: .\register\templates\registration\matching.html:11
 msgid "My Mentor"
-msgstr "Mon mentor"
+msgstr "Mon Mentor"
 
-#: .\register\templates\registration\matching.html:36
-#: .\register\templates\registration\matching.html:56
+#: .\register\templates\registration\matching.html:38
+#: .\register\templates\registration\matching.html:65
 msgid "Predicted Score:"
-msgstr "Probabilité de matching:"
+msgstr "Pourcentage de compatibilité:"
 
-#: .\register\templates\registration\matching.html:50
-#: .\register\templates\registration\matching.html:70
+#: .\register\templates\registration\matching.html:42
+msgid "Compatible with"
+msgstr "Compatible avec"
+
+#: .\register\templates\registration\matching.html:44
+#: .\register\templates\registration\matching.html:71
+msgid "First Name: "
+msgstr "Prénom :"
+
+#: .\register\templates\registration\matching.html:48
+msgid "Rating:"
+msgstr "Evaluation :"
+
+#: .\register\templates\registration\matching.html:56
+#: .\register\templates\registration\matching.html:79
 msgid "View full profile"
 msgstr "Voir le profil complet"
 
-#: .\register\templates\registration\mentor_page.html:5
+#: .\register\templates\registration\matching.html:69
+msgid "Matching with"
+msgstr "Correspondance avec"
+
+#: .\register\templates\registration\matching.html:75
+msgid "Rating: "
+msgstr "Evaluation :"
+
+#: .\register\templates\registration\mentor_page.html:6
+#: .\register\templates\sessions\reverse_mentoring.html:5
 msgid "Mentor Page"
 msgstr "Page du mentor"
 
-#: .\register\templates\registration\mentor_page.html:105
+#: .\register\templates\registration\mentor_page.html:162
+msgid "Reverse mentoring"
+msgstr "Mentorat inversé"
+
+#: .\register\templates\registration\mentor_page.html:175
 #: .\register\templates\registration\user_nav.html:50
 msgid "No notification"
-msgstr "Aucune notification"
+msgstr "Pas de notification"
 
-#: .\register\templates\registration\mentor_page.html:110
+#: .\register\templates\registration\mentor_page.html:180
 #: .\register\templates\registration\user_nav.html:55
 msgid "Clear All Notifications"
 msgstr "Effacer toutes les notifications"
 
-#: .\register\templates\registration\mentor_page.html:111
+#: .\register\templates\registration\mentor_page.html:181
 #: .\register\templates\registration\user_nav.html:56
 msgid "View All Notifications"
 msgstr "Voir toutes les notifications"
 
-#: .\register\templates\registration\mentor_page.html:121
+#: .\register\templates\registration\mentor_page.html:191
 #: .\register\templates\registration\user_nav.html:66
 msgid "User"
 msgstr "Utilisateur"
 
-#: .\register\templates\registration\mentor_page.html:126
+#: .\register\templates\registration\mentor_page.html:196
 msgid "My profile"
 msgstr "Mon profil"
 
-#: .\register\templates\registration\mentor_page.html:127
+#: .\register\templates\registration\mentor_page.html:197
 #: .\register\templates\registration\mentor_settings.html:9
 #: .\register\templates\registration\user_nav.html:71
 #: .\register\templates\registration\user_settings.html:9
 msgid "Settings"
 msgstr "Paramètres"
 
-#: .\register\templates\registration\mentor_page.html:142
+#: .\register\templates\registration\mentor_page.html:212
 msgid "Welcome to the mentor page!"
-msgstr "Bienvenue sur la page des mentors!"
+msgstr "Bienvenue sur la page des mentors !"
 
-#: .\register\templates\registration\mentor_page.html:143
+#: .\register\templates\registration\mentor_page.html:213
 msgid "Manage your availability with your calendar"
 msgstr "Gérez vos disponibilités avec votre calendrier"
 
-#: .\register\templates\registration\mentor_page.html:174
+#: .\register\templates\registration\mentor_page.html:244
 msgid "Start time :"
-msgstr "Début:"
+msgstr "Début :"
 
-#: .\register\templates\registration\mentor_page.html:177
+#: .\register\templates\registration\mentor_page.html:247
 msgid "End time :"
-msgstr "Fin:"
+msgstr "Fin :"
 
-#: .\register\templates\registration\mentor_page.html:180
+#: .\register\templates\registration\mentor_page.html:250
 msgid "Save dates"
-msgstr "Sauvegarder"
+msgstr "Enregistrer dates"
+
+#: .\register\templates\registration\mentor_page.html:262
+#: .\register\templates\registration\user_page.html:144
+msgid "Messages"
+msgstr "Messages"
+
+#: .\register\templates\registration\mentor_page.html:277
+#: .\register\templates\registration\user_page.html:155
+msgid "Reply"
+msgstr "Répondre"
+
+#: .\register\templates\registration\mentor_page.html:284
+#: .\register\templates\registration\user_page.html:161
+msgid "Send Reply"
+msgstr "Envoyer votre réponse"
+
+#: .\register\templates\registration\mentor_page.html:300
+#: .\register\templates\registration\user_page.html:167
+msgid "No messages"
+msgstr "Aucun message"
+
+#: .\register\templates\registration\mentor_page.html:309
+#: .\register\templates\registration\user_page.html:176
+msgid "Show Messages"
+msgstr "Afficher les messages"
 
 #: .\register\templates\registration\mentor_settings.html:78
 #: .\register\templates\registration\user_settings.html:45
@@ -427,66 +476,185 @@ msgstr "Préférences"
 
 #: .\register\templates\registration\mentor_settings.html:91
 msgid "Dark Mode:"
-msgstr "Mode sombre:"
+msgstr "Mode sombre :"
 
-#: .\register\templates\registration\user_page.html:29
+#: .\register\templates\registration\user_page.html:94
 msgid "Optimized research (find your mentor faster)"
 msgstr "Recherche optimisée (trouvez votre mentor plus rapidement)"
 
-#: .\register\templates\registration\user_page.html:32
+#: .\register\templates\registration\user_page.html:97
 msgid "Try our math mentor AI"
 msgstr "Mentor IA en maths"
 
-#: .\register\templates\registration\user_page.html:34
+#: .\register\templates\registration\user_page.html:102
+#: .\register\templates\sessions\reverse_mentoring.html:43
 msgid "Find your future mentor !"
-msgstr "Trouvez votre mentor idéal !"
+msgstr "Trouvez votre futur mentor !"
 
-#: .\register\templates\registration\user_page.html:35
+#: .\register\templates\registration\user_page.html:103
 #: .\register\templates\sessions\optim_find.html:44
+#: .\register\templates\sessions\reverse_mentoring.html:44
 msgid "Fill in this form to start !"
-msgstr "Complètez ce formulaire pour commencer !"
+msgstr "Remplir ce formulaire pour commencer !"
+
+#: .\register\templates\registration\user_page.html:109
+#: .\register\templates\sessions\optim_find.html:50
+#: .\register\templates\sessions\reverse_mentoring.html:50
+#: .\smart_research\templates\recommend.html:31
+msgid "Fields"
+msgstr "Domaines"
+
+#: .\register\templates\registration\user_page.html:110
+#: .\register\templates\sessions\optim_find.html:51
+#: .\register\templates\sessions\reverse_mentoring.html:51
+#: .\smart_research\templates\recommend.html:32
+msgid "Enter your field"
+msgstr "Entrez votre domaine"
+
+#: .\register\templates\registration\user_page.html:113
+#: .\register\templates\sessions\optim_find.html:54
+#: .\register\templates\sessions\reverse_mentoring.html:54
+#: .\smart_research\templates\recommend.html:35
+msgid "Degree"
+msgstr "Diplôme"
+
+#: .\register\templates\registration\user_page.html:114
+#: .\register\templates\sessions\optim_find.html:55
+#: .\register\templates\sessions\reverse_mentoring.html:55
+#: .\smart_research\templates\recommend.html:36
+msgid "Enter your degree"
+msgstr "Entrez votre diplôme"
+
+#: .\register\templates\registration\user_page.html:117
+#: .\register\templates\sessions\optim_find.html:58
+#: .\register\templates\sessions\reverse_mentoring.html:58
+#: .\smart_research\templates\recommend.html:39
+msgid "Skills"
+msgstr "Compétences"
+
+#: .\register\templates\registration\user_page.html:118
+#: .\register\templates\sessions\optim_find.html:59
+#: .\register\templates\sessions\reverse_mentoring.html:59
+#: .\smart_research\templates\recommend.html:40
+msgid "Enter your skills"
+msgstr "Entrez vos compétences"
+
+#: .\register\templates\registration\user_page.html:121
+#: .\register\templates\sessions\optim_find.html:62
+#: .\register\templates\sessions\reverse_mentoring.html:62
+#: .\smart_research\templates\recommend.html:43
+msgid "Career Objectives"
+msgstr "Objectifs de carrière"
+
+#: .\register\templates\registration\user_page.html:122
+#: .\register\templates\sessions\optim_find.html:63
+#: .\register\templates\sessions\reverse_mentoring.html:63
+#: .\smart_research\templates\recommend.html:44
+msgid "Enter your career objectives"
+msgstr "Saisissez vos objectifs de carrière"
+
+#: .\register\templates\registration\user_page.html:125
+#: .\register\templates\sessions\optim_find.html:66
+#: .\register\templates\sessions\reverse_mentoring.html:66
+#: .\smart_research\templates\recommend.html:47
+msgid "Job"
+msgstr "Métier"
+
+#: .\register\templates\registration\user_page.html:126
+#: .\register\templates\sessions\optim_find.html:67
+#: .\register\templates\sessions\reverse_mentoring.html:67
+#: .\smart_research\templates\recommend.html:48
+msgid "Enter your job"
+msgstr "Saisissez votre emploi"
+
+#: .\register\templates\registration\user_page.html:129
+#: .\register\templates\sessions\optim_find.html:70
+#: .\register\templates\sessions\reverse_mentoring.html:70
+#: .\smart_research\templates\recommend.html:51
+msgid "Personality Description"
+msgstr "Description de la personnalité"
+
+#: .\register\templates\registration\user_page.html:130
+#: .\register\templates\sessions\optim_find.html:71
+#: .\register\templates\sessions\reverse_mentoring.html:71
+#: .\smart_research\templates\recommend.html:52
+msgid "Describe your personality"
+msgstr "Décrivez votre personnalité"
+
+#: .\register\templates\registration\user_page.html:135
+#: .\register\templates\sessions\optim_find.html:76
+#: .\register\templates\sessions\reverse_mentoring.html:76
+#: .\smart_research\templates\recommend.html:56
+msgid "Find"
+msgstr "Trouver"
 
 #: .\register\templates\registration\user_settings.html:49
 msgid "Change Theme: Switching from light to dark mode"
-msgstr "Changer de thème : Passer du mode clair au mode sombre"
+msgstr "Changer de thème : Passer du mode clair au mode foncé"
 
 #: .\register\templates\registration\user_settings.html:54
 msgid "Save"
-msgstr "Enregistrer"
+msgstr "Sauvegarder"
 
-#: .\register\templates\sessions\coaching_request.html:11
+#: .\register\templates\sessions\coaching_request.html:6
 msgid "Mentee coaching"
 msgstr "Coaching des mentorés"
 
-#: .\register\templates\sessions\coaching_request.html:147
+#: .\register\templates\sessions\coaching_request.html:262
 msgid "This is the availability dates for "
-msgstr "Dates de disponibilité pour"
+msgstr "Il s'agit des dates de disponibilité pour "
+
+#: .\register\templates\sessions\coaching_request.html:272
+msgid "Send a message"
+msgstr "Envoyer un message"
+
+#: .\register\templates\sessions\coaching_request.html:276
+msgid "Subject here..."
+msgstr "Sujet ici..."
+
+#: .\register\templates\sessions\coaching_request.html:277
+msgid "Type your message here..."
+msgstr "Tapez votre message ici..."
+
+#: .\register\templates\sessions\coaching_request.html:282
+msgid "It might take some time to get a response"
+msgstr "La réponse peut prendre un certain temps"
+
+#: .\register\templates\sessions\coaching_request.html:287
+msgid "Message sent!"
+msgstr "Message envoyé!"
+
+#: .\register\templates\sessions\coaching_request.html:288
+msgid "An email will be sent once they reply."
+msgstr "Un courriel sera envoyé dès qu'ils auront répondu."
+
+#: .\register\templates\sessions\coaching_request.html:289
+msgid "Got it"
+msgstr "Ok"
+
+#: .\register\templates\sessions\coaching_request.html:290
+msgid "View message"
+msgstr "Voir le message"
 
 #: .\register\templates\sessions\mentore_notifications.html:6
 msgid "All notifications"
-msgstr "Voir toutes les notifications"
+msgstr "Toutes les notifications"
 
 #: .\register\templates\sessions\optim_find.html:43
-#, fuzzy
-#| msgid "Find your future mentor !"
 msgid "Find your future mentor faster !"
-msgstr "Trouvez votre mentor idéal en un clic !"
+msgstr "Trouvez plus rapidement votre futur mentor !"
 
 #: .\register\templates\sessions\reject.html:41
-#, fuzzy
-#| msgid "This is the availability dates for "
 msgid " is not available for now !"
-msgstr "Dates de disponibilité pour"
+msgstr " n'est pas disponible pour l'instant !"
 
 #: .\register\templates\sessions\reject.html:43
-#, fuzzy
-#| msgid "Find your future mentor !"
 msgid "Find your mentor "
-msgstr "Trouvez votre mentor idéal !"
+msgstr "Trouvez votre mentor "
 
 #: .\register\templates\sessions\user_request.html:5
 msgid "User request"
-msgstr "Demande utilisateur"
+msgstr "Demande de l'utilisateur"
 
 #: .\register\templates\sessions\user_request.html:35
 msgid "Managing coaching sessions"
@@ -494,7 +662,7 @@ msgstr "Gérer les sessions de coaching"
 
 #: .\register\templates\sessions\user_request.html:36
 msgid "You can accept or decline coaching requests here:"
-msgstr "Vous pouvez accepter ou refuser les demandes de coaching ici:"
+msgstr "Vous pouvez accepter ou refuser les demandes de coaching ici :"
 
 #: .\register\templates\sessions\user_request.html:41
 msgid "Mentore"
@@ -527,3 +695,11 @@ msgstr "Refuser"
 #: .\register\templates\sessions\user_request.html:73
 msgid "No applications pending at the moment."
 msgstr "Aucune demande n'est en cours pour le moment."
+
+#: .\smart_research\templates\recommend.html:6
+msgid "Smart Research"
+msgstr "Recherche intelligente"
+
+#: .\smart_research\templates\result.html:16
+msgid "Previous"
+msgstr "Précédent"

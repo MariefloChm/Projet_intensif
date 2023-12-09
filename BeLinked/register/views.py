@@ -1,7 +1,9 @@
 from crispy_forms.layout import Layout, Field
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User, Group
 from django.urls import reverse_lazy, reverse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
 
 from .forms import MatchingForm, MentorForm, CoachingRequestForm, PreferencesForm
@@ -89,6 +91,7 @@ def find_view(request):
                 'Job': [professions],
                 'PersonalityDescription': [personality]
             }
+
             predicted_score = calculate_matching_score( user_input)
 
             # Create a new Matching object and save it
@@ -153,6 +156,93 @@ def optim_find(request):
 
 def optim(request):
     return render(request, 'sessions/optim_find.html')
+
+def reverse_mentoring(request):
+    return render(request, 'sessions/reverse_mentoring.html')
+
+from .models import Message, User
+from django.db.models import Max
+
+@login_required
+def get_grouped_messages(request):
+    # Obtenez les messages reçus par l'utilisateur connecté, regroupés par expéditeur
+    grouped_messages = (
+        Message.objects.filter(recipient=request.user)
+        .values('sender__username', 'sender__id')  # Groupement par sender
+        .annotate(last_received=Max('date_sent'))  # La dernière date de réception pour chaque groupe
+        .order_by('-last_received')  # Trier par la date de réception la plus récente
+    )
+
+    # Récupérez les messages individuels pour chaque groupe
+    messages_by_sender = {}
+    for group in grouped_messages:
+        messages = Message.objects.filter(sender__id=group['sender__id'], recipient=request.user).order_by('-date_sent')
+        messages_by_sender[group['sender__username']] = list(messages)
+
+    return messages_by_sender
+
+@login_required
+def send_message(request):
+    if request.method == 'POST':
+        recipient_username = request.POST.get('recipient')
+        subject = request.POST.get('subject')
+        body = request.POST.get('body')
+        reply_to_id = request.POST.get('reply_to_id', None)  # ID du message de réponse
+
+        if not subject or not body:
+            return JsonResponse({'status': 'error', 'message': 'Subject and body are required.'}, status=400)
+
+        try:
+            recipient = User.objects.get(username=recipient_username)
+            reply_to_message = None
+            if reply_to_id:
+                reply_to_message = get_object_or_404(Message, pk=reply_to_id, recipient=request.user)
+
+            message = Message.objects.create(
+                sender=request.user,
+                recipient=recipient,
+                subject=subject,
+                body=body,
+                reply_to=reply_to_message  # Ajout de la référence de réponse
+            )
+
+            return JsonResponse({'status': 'success', 'message': 'Votre message a été envoyé.'})
+        except User.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Destinataire introuvable.'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Méthode non autorisée.'}, status=405)
+
+@login_required
+def send_reply(request):
+    if request.method == 'POST':
+        body = request.POST.get('body')
+        original_message_id = request.POST.get('original_message_id')
+
+        # Valider les données
+        if not body or not original_message_id:
+            return JsonResponse({'status': 'error', 'message': 'Body and original message ID are required.'}, status=400)
+
+        # Trouver le message original et le destinataire
+        original_message = get_object_or_404(Message, pk=original_message_id)
+        recipient = original_message.sender
+
+        # Créer une réponse
+        reply_message = Message.objects.create(
+            sender=request.user,
+            recipient=recipient,
+            body=body,
+            subject='Re: ' + original_message.subject,
+            reply_to=original_message
+        )
+
+        return JsonResponse({'status': 'success', 'message': 'Reply sent successfully.'})
+
+    else:
+        return JsonResponse({'status': 'error', 'message': 'Method not allowed.'}, status=405)
+
+
 def change_theme(request):
     if request.method == 'POST':
         # Ajustez les valeurs pour correspondre à ce que la fonction JavaScript envoie
@@ -192,11 +282,15 @@ def mentor_settings(request):
 
 def user_page(request):
     notifications = Notification.objects.filter(user=request.user).order_by('-date_created')[:5]
-    return render(request, 'registration/user_page.html', {'notifications': notifications})
+    received_messages = Message.objects.filter(recipient=request.user).order_by('-date_sent')
+    return render(request, 'registration/user_page.html', {'notifications': notifications, 'received_messages':received_messages})
 
 def mentor_page(request):
     notifications = Notification.objects.filter(user=request.user).order_by('-date_created')[:5]
-    return render(request, 'registration/mentor_page.html', {'notifications': notifications})
+    received_messages = Message.objects.filter(recipient=request.user).order_by('-date_sent')
+
+    grouped_messages = get_grouped_messages(request)
+    return render(request, 'registration/mentor_page.html', {'notifications': notifications, 'received_messages':received_messages,'grouped_messages':grouped_messages})
 
 def all_notifications(request):
     all_notifications = Notification.objects.filter(user=request.user).order_by('-date_created')
