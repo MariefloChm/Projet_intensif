@@ -11,7 +11,38 @@
 <div class="wrapper">
     {% block content %}
 
-        <p>You are logged in ! </p>
+        <h1>You can now search for your future mentor ! </h1>
+
+        <form method="post" action="{% url 'matching' %}">
+            <div class="form-group">
+                <label for="id_Domains">Domain</label>
+                <input type="text" class="form-control" id="id_Domains" name="Domain" placeholder="Enter your domain">
+            </div>
+            <div class="form-group">
+                <label for="id_Diplomas">Diplomas</label>
+                <input type="text" class="form-control" id="id_Diplomas" name="Diplomas" placeholder="Enter your diploma">
+            </div>
+            <div class="form-group">
+                <label for="id_Skills">Skills</label>
+                <input type="text" class="form-control" id="id_Skills" name="Skills" placeholder="Enter your skills">
+            </div>
+            <div class="form-group">
+                <label for="id_Career_objectives">Career Objectives</label>
+                <input type="text" class="form-control" id="id_Career_objectives" name="Career_objectives" placeholder="Enter your career objectives">
+            </div>
+            <div class="form-group">
+                <label for="id_Professions">Professions</label>
+                <input type="text" class="form-control" id="id_Professions" name="Professions" placeholder="Enter your professions">
+            </div>
+            <div class="form-group">
+                <label for="id_Personality">Personality</label>
+                <input type="text" class="form-control" id="id_Personality" name="Personality" placeholder="Describe your personality">
+            </div>
+
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-primary">Find</button>
+        </form>
 
         <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
